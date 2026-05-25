@@ -1500,9 +1500,16 @@
 
 <script>
   // Bad Bunny — DtMF (Official Audio)
+  // ╔═══════════════════════════════════════════════════════════════════╗
+  // ║  🔒 LOCKED TIMING — DO NOT CHANGE WITHOUT EXPLICIT USER REQUEST 🔒 ║
+  // ║  Music START = 02:40 (160s)                                       ║
+  // ║  JACKPOT reveal = 03:20 (200s)                                    ║
+  // ║  Watcher fires `.jackpot` class when ytPlayer.getCurrentTime() ≥ 200║
+  // ║  Reel 3 stops at animation t=40s (19s delay + 21s spin) = 03:20    ║
+  // ╚═══════════════════════════════════════════════════════════════════╝
   const YT_VIDEO_ID = "rMcvHSaQISU";
-  // Start at 02:40 — drop at 03:21 hits at animation t=41s (jackpot moment)
-  const START_SECONDS = 160;
+  const START_SECONDS = 160;          // 🔒 02:40
+  const JACKPOT_AT_SONG_TIME = 200;   // 🔒 03:20
 
   let ytPlayer = null;
   let ytReady = false;
