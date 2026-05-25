@@ -152,12 +152,12 @@
 </div>
 
 <div class="url-display">
-  <strong>URL:</strong> <span id="urlText">http://192.168.0.114:3010</span>
+  <strong>URL:</strong> <span id="urlText">https://filiplovejustyna.vercel.app</span>
 </div>
 
 <div class="notice">
   <h2>⚠ Aby działało na telefonie znajomego</h2>
-  <p>Powyższy QR wskazuje na <code>http://192.168.0.114:3010</code> — Twój lokalny adres LAN. Zadziała <strong>tylko gdy telefon znajomego jest na Twojej domowej sieci WiFi</strong>.</p>
+  <p>Powyższy QR wskazuje na <code>https://filiplovejustyna.vercel.app</code> — Twój lokalny adres LAN. Zadziała <strong>tylko gdy telefon znajomego jest na Twojej domowej sieci WiFi</strong>.</p>
   <p style="margin-top:0.6em">Do faktycznego użytku na weselu (gdy znajomy nie jest na Twojej sieci) musisz wdrożyć stronę publicznie. Polecam:</p>
   <ul>
     <li><strong>Vercel</strong> — <code>vercel deploy</code> w folderze, dostajesz publiczny URL w ~30 sekund</li>
@@ -171,7 +171,7 @@
 <div class="alt-input">
   <label>Inny URL?</label>
   <div class="row">
-    <input id="customUrl" type="url" placeholder="https://twoj-projekt.vercel.app" value="http://192.168.0.114:3010"/>
+    <input id="customUrl" type="url" placeholder="https://twoj-projekt.vercel.app" value="https://filiplovejustyna.vercel.app"/>
     <button onclick="regenerate()">Generuj QR</button>
   </div>
   <div class="small">Wpisz publiczny URL po wdrożeniu — QR się przeładuje</div>
@@ -197,7 +197,7 @@
     const v = document.getElementById('customUrl').value.trim();
     if (v) makeQR(v);
   }
-  makeQR('http://192.168.0.114:3010');
+  makeQR('https://filiplovejustyna.vercel.app');
 </script>
 
 </body>
