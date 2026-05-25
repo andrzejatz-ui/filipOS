@@ -418,13 +418,13 @@
   /* Bunny journey: lying sideways on towel → stands up → walks to slot → plays */
   .rabbit {
     position: absolute;
-    right: 11%; bottom: 15%;
+    right: 13%; bottom: 13%;
     width: clamp(96px, 22vmin, 180px);
     aspect-ratio: 200/250;
     z-index: 5;
     filter: drop-shadow(0 6px 14px rgba(0,0,0,0.28));
-    transform-origin: 50% 50%;
-    transform: rotate(-90deg) scale(0.78) translate(35%, -15%);
+    transform-origin: 50% 100%;
+    transform: rotate(-90deg) scale(0.75);
     animation:
       rab-stand 1.1s cubic-bezier(.34,1.5,.4,1) 7.0s forwards,
       rab-walk  4.5s cubic-bezier(.45,.05,.45,1) 9.0s forwards,
@@ -432,9 +432,10 @@
       rab-celebrate 0.5s cubic-bezier(.4,1.6,.4,1) 41.0s 8;
   }
   @keyframes rab-stand {
-    0%   { transform: rotate(-90deg) scale(0.78) translate(35%, -15%); }
-    40%  { transform: rotate(-45deg) scale(0.9) translate(15%, -5%); }
-    70%  { transform: rotate(0deg) scale(1.06) translateY(-5px); }
+    0%   { transform: rotate(-90deg) scale(0.75); }
+    35%  { transform: rotate(-55deg) scale(0.85); }
+    65%  { transform: rotate(-15deg) scale(1.04); }
+    85%  { transform: rotate(0deg) scale(1.05) translateY(-4px); }
     100% { transform: rotate(0deg) scale(1) translateY(0); }
   }
   @keyframes rab-walk {
