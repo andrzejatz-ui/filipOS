@@ -1900,9 +1900,12 @@
     });
   };
 
-  function playMusic() {
+  // Start playback MUTED immediately within the tap gesture (iOS requirement),
+  // then unmute when the bunny presses the boombox.
+  function startMutedNow() {
     if (ytReady && ytPlayer && ytPlayer.playVideo) {
       try {
+        ytPlayer.mute();
         ytPlayer.seekTo(START_SECONDS, true);
         ytPlayer.playVideo();
       } catch (e) {}
@@ -1910,6 +1913,17 @@
       queuedPlay = true;
     }
   }
+  function unmuteMusic() {
+    if (ytPlayer && ytPlayer.unMute) {
+      try {
+        ytPlayer.unMute();
+        ytPlayer.seekTo(START_SECONDS, true);
+        ytPlayer.playVideo();
+      } catch (e) {}
+    }
+  }
+  // Legacy alias used by queued playback path
+  function playMusic() { unmuteMusic(); }
 
   const start    = document.getElementById('start');
   const stage    = document.getElementById('stage');
@@ -1918,6 +1932,8 @@
   function begin() {
     start.classList.add('hide');
     stage.classList.add('on');
+    // Mobile autoplay: must fire play() synchronously inside the tap handler.
+    startMutedNow();
 
     // ── TIMELINE ──
     // 0.5s   stage fully fades in
