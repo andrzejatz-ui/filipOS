@@ -278,20 +278,38 @@
   }
   /* Bunny on jackpot — slight bounce, stays visible */
 
-  /* ────────────────  BEACH TOWEL  ──────────────── */
-  .towel {
+  /* ────────────────  BEACH SPOT (towel + lying bunny wrapper) ────────────────
+     Wrapping them ensures bunny is ALWAYS positioned relative to the towel,
+     consistent across iOS Safari / Chrome / desktop, no math-on-viewport-units shenanigans. */
+  .beach-spot {
     position: absolute;
-    right: 10%;
-    bottom: 15%;
+    right: 5%;
+    bottom: 13%;
     width: clamp(160px, 36vmin, 280px);
-    aspect-ratio: 5/2;
-    z-index: 3;
-    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.22));
-    /* Towel rolls up / fades when bunny stands and leaves */
-    animation: towel-stay 1s linear infinite;
+    aspect-ratio: 5/3.4;  /* tall enough to fit towel + bunny sitting on it */
+    z-index: 5;
+    pointer-events: none;
   }
-  @keyframes towel-stay { 0%, 100% { opacity: 1; } }
-  .towel svg { width: 100%; height: 100%; display: block; }
+  .beach-spot .towel {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    width: 100%;
+    aspect-ratio: 5/2;
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.22));
+  }
+  .beach-spot .towel svg { width: 100%; height: 100%; display: block; }
+  .beach-spot .rabbit {
+    position: absolute;
+    left: 18%;
+    right: auto;
+    bottom: 12%;
+    width: 64%;
+    aspect-ratio: 200/250;
+    transform-origin: 50% 88%;
+    transform: rotate(-90deg) scale(0.7);
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.25));
+    z-index: 1;
+  }
 
   /* ────────────────  SLOT MACHINE — hidden until t=4s  ──────────────── */
   .slot {
@@ -1024,7 +1042,8 @@
     </g>
   </svg>
 
-  <!-- ───────────  BEACH TOWEL (bunny chills on it at start) ─────────── -->
+  <!-- ───────────  BEACH SPOT (towel + lying bunny wrapper) ─────────── -->
+  <div class="beach-spot" id="beachSpot">
   <svg class="towel" viewBox="0 0 250 100" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="towelShade" x1="0" y1="0" x2="0" y2="1">
@@ -1061,6 +1080,7 @@
     </g>
     <rect x="6" y="12" width="238" height="7" fill="url(#towelShade)"/>
   </svg>
+  </div><!-- /.beach-spot — bunny gets appended here via JS at page load -->
 
   <!-- ───────────  SLOT MACHINE  ─────────── -->
   <div class="slot">
@@ -1680,6 +1700,26 @@
   if (typeof YT !== 'undefined' && YT.Player) {
     window.onYouTubeIframeAPIReady();
   }
+
+  // ───── Bunny on towel: DOM move ─────
+  // 1. At page load: move bunny INTO .beach-spot so lying CSS applies (relative to wrapper).
+  // 2. At t=7s (just before walk): move bunny OUT to .stage-inner with standing/walking position.
+  (function bunnyOnTowel() {
+    const bunny = document.querySelector('.rabbit');
+    const beachSpot = document.getElementById('beachSpot');
+    const stageInnerEl = document.getElementById('stageInner');
+    if (!bunny || !beachSpot || !stageInnerEl) return;
+
+    // Move bunny INTO beach-spot for lying phase
+    beachSpot.appendChild(bunny);
+
+    // At t=7.0s — JUST as rab-stand animation triggers, move bunny back to stage-inner.
+    // The .walking class swaps positioning to viewport-absolute so walk anim can animate `right`.
+    setTimeout(() => {
+      stageInnerEl.appendChild(bunny);
+      bunny.classList.add('walking');
+    }, 7000);
+  })();
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 
