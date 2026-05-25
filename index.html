@@ -92,13 +92,26 @@
     overflow: hidden;
     background: var(--sky-top);
     opacity: 0;
-    animation: stage-in 0.8s cubic-bezier(.4,0,.2,1) 0.1s forwards;
+    animation: stage-in 1.2s cubic-bezier(.4,0,.2,1) 0.1s forwards;
   }
   @keyframes stage-in {
     0%   { opacity: 0; }
     100% { opacity: 1; }
   }
-  .stage-inner { position: absolute; inset: 0; }
+  .stage-inner {
+    position: absolute; inset: 0;
+    animation: cam-shake 0.7s cubic-bezier(.36,.07,.19,.97) 13.2s;
+  }
+  @keyframes cam-shake {
+    0%, 100% { transform: translate(0); }
+    10%      { transform: translate(-9px, 5px); }
+    20%      { transform: translate(7px, -4px); }
+    30%      { transform: translate(-6px, 3px); }
+    40%      { transform: translate(5px, -2px); }
+    55%      { transform: translate(-4px, 1px); }
+    70%      { transform: translate(3px, -1px); }
+    85%      { transform: translate(-1px, 0); }
+  }
 
   /* SKY */
   .sky {
@@ -266,7 +279,7 @@
     opacity: 0;
     pointer-events: none;
     filter: drop-shadow(0 6px 14px rgba(0,0,0,0.15));
-    animation: stadium-fade 2.0s cubic-bezier(.3,0,.2,1) 7.5s forwards;
+    animation: stadium-fade 2.4s cubic-bezier(.3,0,.2,1) 13.5s forwards;
   }
   @keyframes stadium-fade {
     0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.92); }
@@ -288,7 +301,7 @@
       rgba(255,180,80,0.1) 55%,
       transparent 75%);
     mix-blend-mode: screen;
-    animation: glow-rise 1.4s cubic-bezier(.3,0,.2,1) 2.6s forwards;
+    animation: glow-rise 2.4s cubic-bezier(.3,0,.2,1) 5.0s forwards;
   }
   @keyframes glow-rise {
     0%   { opacity: 0; transform: translate(-50%, -50%) scale(0); }
@@ -307,11 +320,11 @@
     text-shadow: 0 0 8px rgba(255,235,140,0.6);
     animation: spark-pop 0.9s ease-out forwards;
   }
-  .spark-1 { left: 38%; top: 60%; animation-delay: 2.3s; }
-  .spark-2 { left: 62%; top: 55%; animation-delay: 2.5s; }
-  .spark-3 { left: 30%; top: 50%; animation-delay: 2.7s; }
-  .spark-4 { left: 70%; top: 50%; animation-delay: 2.9s; }
-  .spark-5 { left: 50%; top: 44%; animation-delay: 3.1s; }
+  .spark-1 { left: 38%; top: 60%; animation-delay: 4.2s; animation-duration: 1.4s; }
+  .spark-2 { left: 62%; top: 55%; animation-delay: 4.6s; animation-duration: 1.4s; }
+  .spark-3 { left: 30%; top: 50%; animation-delay: 5.0s; animation-duration: 1.4s; }
+  .spark-4 { left: 70%; top: 50%; animation-delay: 5.4s; animation-duration: 1.4s; }
+  .spark-5 { left: 50%; top: 44%; animation-delay: 5.8s; animation-duration: 1.4s; }
   @keyframes spark-pop {
     0%   { opacity: 0; transform: scale(0) rotate(0deg); }
     40%  { opacity: 1; transform: scale(1.4) rotate(20deg); }
@@ -329,7 +342,7 @@
     pointer-events: none;
     opacity: 0;
     mix-blend-mode: screen;
-    animation: rays-in 1.6s cubic-bezier(.3,1.3,.3,1) 4.0s forwards;
+    animation: rays-in 2.0s cubic-bezier(.3,1.3,.3,1) 8.5s forwards;
   }
   @keyframes rays-in {
     0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
@@ -375,7 +388,7 @@
     50%      { transform: translateX(-50%) translateY(-2px) scaleY(1.025); }
   }
   /* Reaction: bunny notices + looks up at glow */
-  .rabbit { animation: rab-breathe 3s ease-in-out infinite, rab-notice 0.5s ease 2.2s forwards, rab-look-up 0.8s ease 2.8s forwards, rab-bounce 0.5s cubic-bezier(.4,1.6,.4,1) 6.4s 2; }
+  .rabbit { animation: rab-breathe 3s ease-in-out infinite, rab-notice 0.7s ease 4.0s forwards, rab-look-up 1.0s ease 4.8s forwards, rab-bounce 0.6s cubic-bezier(.4,1.6,.4,1) 12.8s 3; }
   @keyframes rab-notice {
     0%   { transform: translateX(-50%) translateY(0) scale(1); }
     40%  { transform: translateX(-50%) translateY(-5px) scale(1.02); }
@@ -398,7 +411,7 @@
     50%      { transform: rotate(0deg) translateY(-1px); }
   }
   /* During notice: head tilts up */
-  .b-head { animation: head-idle 4s ease-in-out infinite, head-up 0.7s cubic-bezier(.4,0,.3,1.2) 2.6s forwards; }
+  .b-head { animation: head-idle 4s ease-in-out infinite, head-up 1.0s cubic-bezier(.4,0,.3,1.2) 4.6s forwards; }
   @keyframes head-up {
     0%   { transform: rotate(0deg); }
     60%  { transform: rotate(-12deg) translateY(-4px); }
@@ -408,8 +421,8 @@
   .b-ear-l { transform-box: view-box; transform-origin: 78px 70px; }
   .b-ear-r { transform-box: view-box; transform-origin: 122px 70px; }
   /* Ears: idle wiggle then perked up on notice */
-  .b-ear-l { animation: ear-l-idle 4s ease-in-out infinite, ear-l-perk 0.4s cubic-bezier(.4,1.6,.4,1) 2.3s forwards; }
-  .b-ear-r { animation: ear-r-idle 4s ease-in-out infinite 0.3s, ear-r-perk 0.4s cubic-bezier(.4,1.6,.4,1) 2.4s forwards; }
+  .b-ear-l { animation: ear-l-idle 4s ease-in-out infinite, ear-l-perk 0.5s cubic-bezier(.4,1.6,.4,1) 4.0s forwards; }
+  .b-ear-r { animation: ear-r-idle 4s ease-in-out infinite 0.3s, ear-r-perk 0.5s cubic-bezier(.4,1.6,.4,1) 4.2s forwards; }
   @keyframes ear-l-idle {
     0%, 100% { transform: rotate(0deg); }
     50%      { transform: rotate(-3deg); }
@@ -446,8 +459,8 @@
     pointer-events: none;
     opacity: 0;
     animation:
-      heart-in 1.1s cubic-bezier(.3,1.4,.3,1) 4.5s forwards,
-      heart-float 4s ease-in-out 5.6s infinite;
+      heart-in 1.4s cubic-bezier(.3,1.4,.3,1) 9.0s forwards,
+      heart-float 4s ease-in-out 10.4s infinite;
   }
   @keyframes heart-in {
     0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(-12deg); filter: blur(8px); }
@@ -468,7 +481,7 @@
   .heart-outline path.heart-draw {
     stroke-dasharray: 800;
     stroke-dashoffset: 800;
-    animation: heart-draw 1.4s cubic-bezier(.4,0,.3,1) 4.6s forwards;
+    animation: heart-draw 2.0s cubic-bezier(.4,0,.3,1) 9.2s forwards;
   }
   @keyframes heart-draw {
     to { stroke-dashoffset: 0; }
@@ -510,14 +523,14 @@
     left: 4%; top: 4%;
     transform: rotate(-30deg) translateY(80px) scale(0.4);
     transform-origin: 100% 100%;
-    animation: t-fly-l 1.2s cubic-bezier(.3,1.3,.3,1) 5.0s forwards;
+    animation: t-fly-l 1.5s cubic-bezier(.3,1.3,.3,1) 10.0s forwards;
   }
   .ticket-filip::after { right: -8px; }
   .ticket-justyna {
     right: 4%; top: 4%;
     transform: rotate(30deg) translateY(80px) scale(0.4);
     transform-origin: 0% 100%;
-    animation: t-fly-r 1.2s cubic-bezier(.3,1.3,.3,1) 5.2s forwards;
+    animation: t-fly-r 1.5s cubic-bezier(.3,1.3,.3,1) 10.4s forwards;
   }
   .ticket-justyna::after { left: -8px; }
   @keyframes t-fly-l {
@@ -610,7 +623,7 @@
       0 0 0 3px white,
       0 0 0 5px var(--pink-deep);
     margin-bottom: 0.6em;
-    animation: burst-pop 0.6s cubic-bezier(.34,1.6,.4,1) 6.2s forwards, burst-wiggle 1.8s ease-in-out 6.8s infinite;
+    animation: burst-pop 0.7s cubic-bezier(.34,1.6,.4,1) 13.0s forwards, burst-wiggle 1.8s ease-in-out 13.7s infinite;
   }
   @keyframes burst-pop {
     0%   { opacity: 0; transform: scale(0) rotate(-25deg); }
@@ -633,7 +646,7 @@
     line-height: 1;
     color: var(--pink-deep);
     text-shadow: 2px 2px 0 white, -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white;
-    animation: rp-in 0.6s cubic-bezier(.3,1.2,.3,1) 7.0s forwards;
+    animation: rp-in 0.8s cubic-bezier(.3,1.2,.3,1) 14.2s forwards;
   }
   .rp-names .amp { color: var(--gold); font-style: italic; padding: 0 0.15em; }
   .rp-going {
@@ -644,7 +657,7 @@
     text-shadow: 1px 1px 0 white;
     line-height: 1;
     margin-bottom: 0.1em;
-    animation: rp-in 0.6s cubic-bezier(.3,1.2,.3,1) 7.3s forwards;
+    animation: rp-in 0.8s cubic-bezier(.3,1.2,.3,1) 15.0s forwards;
   }
   .rp-title {
     font-family: var(--font-disp);
@@ -660,7 +673,7 @@
       -2px 2px 0 white,
       0 6px 0 rgba(0,0,0,0.15),
       0 10px 28px rgba(255,90,122,0.35);
-    animation: rp-pop 0.7s cubic-bezier(.34,1.6,.4,1) 7.6s forwards;
+    animation: rp-pop 0.9s cubic-bezier(.34,1.6,.4,1) 15.8s forwards;
   }
   @keyframes rp-pop {
     0%   { opacity: 0; transform: scale(0.5); }
@@ -673,7 +686,7 @@
     margin: 0.7em auto;
     border-radius: 2px;
     opacity: 0;
-    animation: rp-in 0.5s ease 8.2s forwards;
+    animation: rp-in 0.6s ease 16.8s forwards;
   }
   .rp-meta {
     font-family: var(--font-disp);
@@ -683,7 +696,7 @@
     line-height: 1.25;
     text-shadow: 1.5px 1.5px 0 white;
     font-weight: 700;
-    animation: rp-in 0.5s ease 8.4s forwards;
+    animation: rp-in 0.6s ease 17.2s forwards;
   }
   .rp-meta strong { color: var(--pink-deep); font-weight: 800; }
   .rp-venue {
@@ -694,7 +707,7 @@
     text-shadow: 1px 1px 0 white;
     font-weight: 600;
     margin-top: 0.1em;
-    animation: rp-in 0.5s ease 8.6s forwards;
+    animation: rp-in 0.6s ease 17.6s forwards;
   }
   .rp-venue strong { color: var(--text); font-weight: 700; }
   .rp-cta {
@@ -705,7 +718,7 @@
     color: var(--text);
     text-shadow: 1px 1px 0 white;
     line-height: 1.1;
-    animation: rp-in 0.6s cubic-bezier(.3,1.2,.3,1) 9.0s forwards;
+    animation: rp-in 0.8s cubic-bezier(.3,1.2,.3,1) 18.4s forwards;
   }
   .rp-cta span { color: var(--pink-deep); }
   @keyframes rp-in {
@@ -1208,7 +1221,7 @@
 <script>
   // ───── Music (YouTube IFrame API) — auto-play attempt ─────
   const YT_VIDEO_ID = "rMcvHSaQISU";
-  const START_SECONDS = 200; // jump straight to 03:20 of the song — matches the reveal moment
+  const START_SECONDS = 187; // 03:07 — so the song drop at 03:20 lands exactly when NIESPODZIANKA pops (animation t=13s)
 
   let ytPlayer = null;
   let ytReady = false;
@@ -1298,7 +1311,7 @@
       const x = Math.random() * 100;
       const drift = Math.random() * 80 - 40;
       const dur = 3 + Math.random() * 3;
-      const delay = 6.2 + Math.random() * 1.4;
+      const delay = 13.0 + Math.random() * 1.8;
       const size = 6 + Math.random() * 9;
       const spin = (Math.random()*720+360) * (Math.random()<0.5?1:-1);
       const shape = shapes[Math.floor(Math.random()*shapes.length)];
