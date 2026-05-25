@@ -415,26 +415,27 @@
   }
 
   /* ────────────────  BUNNY MASCOT  ──────────────── */
-  /* Bunny journey: sitting on towel → stands up → walks to slot → plays */
+  /* Bunny journey: lying sideways on towel → stands up → walks to slot → plays */
   .rabbit {
     position: absolute;
-    right: 12%; bottom: 17%;
+    right: 11%; bottom: 15%;
     width: clamp(96px, 22vmin, 180px);
     aspect-ratio: 200/250;
     z-index: 5;
     filter: drop-shadow(0 6px 14px rgba(0,0,0,0.28));
-    transform-origin: 50% 95%;
-    transform: scaleY(0.78) translateY(12%);
+    transform-origin: 50% 50%;
+    transform: rotate(-90deg) scale(0.78) translate(35%, -15%);
     animation:
-      rab-stand 1.0s cubic-bezier(.34,1.5,.4,1) 7.0s forwards,
+      rab-stand 1.1s cubic-bezier(.34,1.5,.4,1) 7.0s forwards,
       rab-walk  4.5s cubic-bezier(.45,.05,.45,1) 9.0s forwards,
       rab-pull  1.0s ease 17.0s forwards,
       rab-celebrate 0.5s cubic-bezier(.4,1.6,.4,1) 41.0s 8;
   }
   @keyframes rab-stand {
-    0%   { transform: scaleY(0.78) translateY(12%); }
-    60%  { transform: scaleY(1.05) translateY(-4px); }
-    100% { transform: scaleY(1) translateY(0); }
+    0%   { transform: rotate(-90deg) scale(0.78) translate(35%, -15%); }
+    40%  { transform: rotate(-45deg) scale(0.9) translate(15%, -5%); }
+    70%  { transform: rotate(0deg) scale(1.06) translateY(-5px); }
+    100% { transform: rotate(0deg) scale(1) translateY(0); }
   }
   @keyframes rab-walk {
     0%   { right: 12%; transform: translateY(0); }
