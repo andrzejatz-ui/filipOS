@@ -433,17 +433,18 @@
     20%, 60%      { opacity: 0.85; }
   }
 
-  /* ────────────────  BUNNY MASCOT  ──────────────── */
+  /* ════════════════════════════════════════════════════════════════════
+     BUNNY MASCOT — cutout-puppet animation
+     Design (shape/colors/proportions/face/chain/position) is LOCKED.
+     Only motion is choreographed here, using independent body-part groups:
+       .b-body / .b-foot-l/r / .b-arm-l/r / .b-head / .b-ear-l/r / .b-chain / .b-eyes
+     Each part has its own transform-origin + animations layered by phase:
+       (always) idle  →  .prep  →  .standing  →  .walking  →  .watching
+       (stage-inner)  →  .pulling  →  .spinning  →  .jackpot
+     Sub-animations cascade by selector specificity / declaration order.
+     ════════════════════════════════════════════════════════════════════ */
+
   /* Bunny journey: lying sideways on towel → stands up → walks to slot → plays */
-  /* Bunny locked to towel using vmin offset.
-     Towel:  right: 10%; bottom: 15%; height 14.4vmin → surface (top) at bottom: 15% + 14.4vmin.
-     Bunny element layout center y = bottom + height/2 = bottom + 13.75vmin.
-     For element center ~ towel surface: bunny bottom ≈ 15% + 0.65vmin (basically same as towel bottom). */
-  /* Bunny lying on towel — element center aligns EXACTLY with towel surface center.
-     Towel:  bottom 15% + height/2 (7.2vmin) → center at 15% + 7.2vmin from viewport bottom.
-     Bunny:  element height 27.5vmin → center at bottom + 13.75vmin.
-     For bunny center = towel center: bunny bottom = 15% + 7.2vmin - 13.75vmin = 15% - 6.55vmin.
-     Then when bunny stands at 17%, transition to upright walking position. */
   .rabbit {
     position: absolute;
     right: calc(10% + 7vmin);
@@ -455,94 +456,338 @@
     transform-origin: 50% 50%;
     transform: rotate(-90deg) scale(0.72);
     animation:
-      rab-stand 1.1s cubic-bezier(.34,1.5,.4,1) 7.0s forwards,
-      rab-walk  4.5s cubic-bezier(.45,.05,.45,1) 9.0s forwards,
-      rab-pull  1.0s ease 17.0s forwards,
-      rab-celebrate 0.5s cubic-bezier(.4,1.6,.4,1) 41.0s 8;
+      rab-stand 1.2s cubic-bezier(.34,1.6,.42,1) 7.0s forwards,
+      rab-walk  4.5s ease-in-out 9.0s forwards,
+      rab-pull  1.0s cubic-bezier(.4,1.2,.4,1) 17.0s forwards;
   }
+
+  /* Stand-up: coil down (anticipation) → push off → overshoot → settle back */
   @keyframes rab-stand {
-    0%   { transform: rotate(-90deg) scale(0.72); }
-    40%  { transform: rotate(-50deg) scale(0.85); bottom: calc(15% - 3vmin); }
-    70%  { transform: rotate(-10deg) scale(1.04); bottom: 17%; }
-    85%  { transform: rotate(0deg) scale(1.06) translateY(-4px); bottom: 17%; }
-    100% { transform: rotate(0deg) scale(1) translateY(0); bottom: 17%; }
+    0%   { transform: rotate(-90deg) scale(0.72); bottom: calc(15% - 6.55vmin); }
+    10%  { transform: rotate(-86deg) scale(0.74); }                              /* lift head */
+    22%  { transform: rotate(-94deg) scale(0.70); bottom: calc(15% - 6.7vmin); } /* coil down (anticipation) */
+    55%  { transform: rotate(-30deg) scale(0.95); bottom: calc(15% - 1.5vmin); } /* push up */
+    78%  { transform: rotate(9deg)   scale(1.06); bottom: 17.6%; }               /* overshoot lean fwd */
+    90%  { transform: rotate(-4deg)  scale(0.99); bottom: 16.7%; }               /* counter-settle */
+    100% { transform: rotate(0deg)   scale(1);    bottom: 17%; }
   }
+
+  /* Walk: position + body rocking — limbs animated separately via .walking sub-rules */
   @keyframes rab-walk {
-    0%   { right: calc(10% + 7vmin); bottom: 17%; transform: translateY(0); }
-    15%  { right: calc(18% + 5vmin); transform: translateY(-12px); }
-    30%  { right: calc(26% + 4vmin); transform: translateY(0); }
-    45%  { right: calc(33% + 3vmin); transform: translateY(-12px); }
-    60%  { right: calc(40% + 2vmin); transform: translateY(0); }
-    78%  { right: calc(46% + 1vmin); transform: translateY(-10px); }
-    100% { right: calc(50% - 9.5vmin); bottom: 17%; transform: translateY(0); }
+    0%   { right: calc(10% + 7vmin);  bottom: 17%; transform: translateY(0)   rotate(0deg); }
+    6%   { right: calc(10% + 7vmin);              transform: translateY(0)   rotate(-1.4deg); } /* weight shift */
+    20%  { right: calc(18% + 6vmin);              transform: translateY(-5px) rotate(0.2deg); }
+    34%  { right: calc(26% + 5vmin);              transform: translateY(0)   rotate(1.2deg); }
+    48%  { right: calc(33% + 4vmin);              transform: translateY(-5px) rotate(-0.4deg); }
+    62%  { right: calc(40% + 3vmin);              transform: translateY(0)   rotate(1deg); }
+    76%  { right: calc(47% + 2vmin);              transform: translateY(-4px) rotate(-0.8deg); }
+    92%  { right: calc(50% - 8vmin);              transform: translateY(-1px) rotate(2deg); }   /* arriving overshoot */
+    100% { right: calc(50% - 9.5vmin); bottom: 17%; transform: translateY(0)  rotate(0deg); }   /* counter-settle */
   }
+
+  /* Lever pull (.rabbit element-level): body leans into the yank, then settles back */
   @keyframes rab-pull {
-    0%   { transform: translateY(0); }
-    40%  { transform: translateX(-14px) translateY(4px) rotate(-6deg); }
-    100% { transform: translateY(0) rotate(0deg); }
-  }
-  @keyframes rab-celebrate {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(-18px); }
+    0%   { transform: translate(0,0) rotate(0deg); }
+    18%  { transform: translate(2px, -2px) rotate(2deg); }    /* anticipation back */
+    50%  { transform: translate(-9px, 3px) rotate(-4deg); }   /* yank into the lever */
+    72%  { transform: translate(-3px, 1px) rotate(-1.5deg); }
+    100% { transform: translate(0,0) rotate(0deg); }
   }
 
-  /* Independent body parts */
-  .b-head { transform-box: view-box; transform-origin: 100px 95px; }
-  .b-head { animation: head-idle 4s ease-in-out infinite; }
+  /* ─── Inner-SVG groups: per-part transform-origins (viewBox 200×250 coords) ─── */
+  .b-body, .b-foot-l, .b-foot-r, .b-arm-l, .b-arm-r, .b-head, .b-ear-l, .b-ear-r, .b-chain, .b-eyes {
+    transform-box: view-box;
+  }
+  .b-body   { transform-origin: 100px 220px; }   /* hips — body breathes/waddles around hips */
+  .b-foot-l { transform-origin: 72px 240px; }    /* foot heel */
+  .b-foot-r { transform-origin: 128px 240px; }
+  .b-arm-l  { transform-origin: 52px 162px; }    /* shoulder */
+  .b-arm-r  { transform-origin: 152px 162px; }
+  .b-chain  { transform-origin: 100px 156px; }   /* neckline */
+  .b-head   { transform-origin: 100px 158px; }   /* neck junction — head nods naturally */
+  .b-ear-l  { transform-origin: 78px 84px; }     /* ear base */
+  .b-ear-r  { transform-origin: 122px 84px; }
+  .b-eyes   { transform-origin: 100px 110px; }   /* eye center — clean blink */
+
+  /* ─── ALWAYS-ON IDLE (subtle life: breathing, micro-sway, blink) ─── */
+  .b-body  { animation: body-breathe 3.8s ease-in-out infinite; }
+  .b-head  { animation: head-idle    4.2s ease-in-out infinite; }
+  .b-ear-l { animation: ear-l-idle   3.3s ease-in-out infinite; }
+  .b-ear-r { animation: ear-r-idle   3.7s ease-in-out infinite 0.4s; }   /* asymmetric: ears slightly out of phase */
+  .b-chain { animation: chain-idle   3.8s ease-in-out infinite 0.15s; }  /* chain lags body */
+  .b-arm-l { animation: arm-l-idle   4.0s ease-in-out infinite; }
+  .b-arm-r { animation: arm-r-idle   4.4s ease-in-out infinite 0.2s; }
+  .b-eyes  { animation: blink        5.5s ease-in-out infinite; }
+
+  @keyframes body-breathe {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.018, 1.024); }
+  }
   @keyframes head-idle {
-    0%, 100% { transform: rotate(0deg) translateY(0); }
-    50%      { transform: rotate(0deg) translateY(-1px); }
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    35%      { transform: translateY(-1.2px) rotate(-0.7deg); }
+    70%      { transform: translateY(-0.4px) rotate(0.5deg); }
   }
-  .stage-inner.spinning .b-head {
-    animation: head-idle 4s ease-in-out infinite, head-look 2s ease-in-out infinite;
-  }
-  @keyframes head-look {
-    0%, 100% { transform: rotate(0deg); }
-    50%      { transform: rotate(-6deg); }
-  }
-
-  .b-ear-l { transform-box: view-box; transform-origin: 78px 70px; }
-  .b-ear-r { transform-box: view-box; transform-origin: 122px 70px; }
-  .b-ear-l { animation: ear-l-idle 4s ease-in-out infinite; }
-  .b-ear-r { animation: ear-r-idle 4s ease-in-out infinite 0.3s; }
   @keyframes ear-l-idle {
     0%, 100% { transform: rotate(0deg); }
-    50%      { transform: rotate(-3deg); }
+    45%      { transform: rotate(-4.5deg); }
+    72%      { transform: rotate(1.5deg); }
   }
   @keyframes ear-r-idle {
     0%, 100% { transform: rotate(0deg); }
-    50%      { transform: rotate(3deg); }
+    50%      { transform: rotate(5deg); }
+    80%      { transform: rotate(-1.5deg); }
   }
-  .stage-inner.jackpot .b-ear-l { animation: ear-l-perk 0.3s ease infinite; }
-  .stage-inner.jackpot .b-ear-r { animation: ear-r-perk 0.3s ease infinite; }
-  @keyframes ear-l-perk {
-    0%, 100% { transform: rotate(-15deg); }
-    50%      { transform: rotate(-8deg); }
+  @keyframes chain-idle {
+    0%, 100% { transform: rotate(0deg) translateY(0); }
+    50%      { transform: rotate(1.2deg) translateY(0.4px); }
   }
-  @keyframes ear-r-perk {
-    0%, 100% { transform: rotate(15deg); }
-    50%      { transform: rotate(8deg); }
+  @keyframes arm-l-idle {
+    0%, 100% { transform: rotate(0deg); }
+    50%      { transform: rotate(-2deg); }
   }
-
-  .b-eyes { transform-box: view-box; transform-origin: 100px 92px; }
-  .b-eyes { animation: blink 5s ease-in-out infinite; }
+  @keyframes arm-r-idle {
+    0%, 100% { transform: rotate(0deg); }
+    50%      { transform: rotate(2deg); }
+  }
   @keyframes blink {
     0%, 92%, 95%, 100% { transform: scaleY(1); }
-    93.5%              { transform: scaleY(0.1); }
+    93.5%              { transform: scaleY(0.08); }
   }
 
-  /* Right arm extends to pull lever */
-  .b-arm-r {
-    transform-box: view-box;
-    transform-origin: 152px 178px;
+  /* ─── PREP (anticipation just before stand-up, ~6.5–7s) ─── */
+  .rabbit.prep .b-ear-l { animation: ear-twitch-l 0.35s ease-out 2; }
+  .rabbit.prep .b-ear-r { animation: ear-twitch-r 0.35s ease-out 0.08s 2; }   /* slight asymmetric delay */
+  .rabbit.prep .b-eyes  { animation: eyes-glance 0.5s ease-in-out; }
+  @keyframes ear-twitch-l {
+    0%, 100% { transform: rotate(0deg); }
+    45%      { transform: rotate(-15deg); }
   }
-  .stage-inner.pulling .b-arm-r {
-    animation: arm-pull 0.7s ease 0s forwards;
+  @keyframes ear-twitch-r {
+    0%, 100% { transform: rotate(0deg); }
+    45%      { transform: rotate(13deg); }
   }
+  @keyframes eyes-glance {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(2px) translateY(-1px); }
+  }
+
+  /* ─── STANDING (during rab-stand 7–8.2s — ears flop, head bobs up) ─── */
+  .rabbit.standing .b-ear-l { animation: ear-l-stand 1.2s cubic-bezier(.34,1.6,.4,1) forwards; }
+  .rabbit.standing .b-ear-r { animation: ear-r-stand 1.2s cubic-bezier(.34,1.6,.4,1) 0.06s forwards; }
+  .rabbit.standing .b-head  { animation: head-stand  1.2s cubic-bezier(.34,1.5,.4,1) forwards; }
+  .rabbit.standing .b-arm-l { animation: arm-l-stand 1.2s ease-out forwards; }
+  .rabbit.standing .b-arm-r { animation: arm-r-stand 1.2s ease-out 0.05s forwards; }
+  .rabbit.standing .b-chain { animation: chain-stand 1.2s ease-in-out forwards; }
+  @keyframes ear-l-stand {
+    0%   { transform: rotate(-32deg); }
+    55%  { transform: rotate(12deg); }
+    78%  { transform: rotate(-6deg); }
+    100% { transform: rotate(0deg); }
+  }
+  @keyframes ear-r-stand {
+    0%   { transform: rotate(32deg); }
+    55%  { transform: rotate(-12deg); }
+    78%  { transform: rotate(6deg); }
+    100% { transform: rotate(0deg); }
+  }
+  @keyframes head-stand {
+    0%   { transform: translateY(5px) rotate(-6deg); }
+    55%  { transform: translateY(-4px) rotate(5deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+  }
+  @keyframes arm-l-stand {
+    0%   { transform: rotate(-28deg) translateY(8px); }
+    100% { transform: rotate(0deg) translateY(0); }
+  }
+  @keyframes arm-r-stand {
+    0%   { transform: rotate(28deg) translateY(8px); }
+    100% { transform: rotate(0deg) translateY(0); }
+  }
+  @keyframes chain-stand {
+    0%   { transform: rotate(-10deg) translateY(3px); }
+    60%  { transform: rotate(8deg) translateY(-1px); }
+    100% { transform: rotate(0deg) translateY(0); }
+  }
+
+  /* ─── WALKING (9–13.5s — cutout walk cycle: limbs swing, body waddles, ears flop) ─── */
+  /* 0.55s loop ≈ brisk maskottchen-like steps. Each part is slightly out-of-phase. */
+  .rabbit.walking .b-body   { animation: body-breathe 2.4s ease-in-out infinite, body-waddle 0.55s ease-in-out infinite; }
+  .rabbit.walking .b-head   { animation: head-walk    0.55s ease-in-out infinite 0.07s; }
+  .rabbit.walking .b-ear-l  { animation: ear-l-walk   0.55s ease-in-out infinite 0.10s; }
+  .rabbit.walking .b-ear-r  { animation: ear-r-walk   0.55s ease-in-out infinite 0.14s; }
+  .rabbit.walking .b-arm-l  { animation: arm-l-walk   0.55s ease-in-out infinite; }
+  .rabbit.walking .b-arm-r  { animation: arm-r-walk   0.55s ease-in-out infinite; }       /* counter-phase from arm-l */
+  .rabbit.walking .b-foot-l { animation: foot-l-walk  0.55s ease-in-out infinite; }
+  .rabbit.walking .b-foot-r { animation: foot-r-walk  0.55s ease-in-out infinite; }       /* counter-phase from foot-l */
+  .rabbit.walking .b-chain  { animation: chain-walk   0.55s ease-in-out infinite 0.09s; } /* chain follows body with delay */
+  @keyframes body-waddle {
+    0%, 100% { transform: rotate(-1.4deg); }
+    50%      { transform: rotate(1.4deg); }
+  }
+  @keyframes head-walk {
+    0%, 100% { transform: translateY(0) rotate(0.8deg); }
+    50%      { transform: translateY(0.5px) rotate(-0.8deg); }
+  }
+  @keyframes ear-l-walk {
+    0%, 100% { transform: rotate(2deg); }
+    50%      { transform: rotate(-8deg); }
+  }
+  @keyframes ear-r-walk {
+    0%, 100% { transform: rotate(-3deg); }
+    50%      { transform: rotate(9deg); }
+  }
+  @keyframes arm-l-walk {
+    0%, 100% { transform: rotate(-15deg) translateY(0); }
+    50%      { transform: rotate(15deg)  translateY(-1px); }
+  }
+  @keyframes arm-r-walk {
+    0%, 100% { transform: rotate(15deg)  translateY(-1px); }
+    50%      { transform: rotate(-15deg) translateY(0); }
+  }
+  @keyframes foot-l-walk {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    50%      { transform: translateY(-4px) translateX(2px); }
+  }
+  @keyframes foot-r-walk {
+    0%, 100% { transform: translateY(-4px) translateX(2px); }
+    50%      { transform: translateY(0) translateX(0); }
+  }
+  @keyframes chain-walk {
+    0%, 100% { transform: rotate(-3.5deg) translateY(0); }
+    50%      { transform: rotate(4.5deg)  translateY(1.2px); }
+  }
+
+  /* ─── WATCHING (after walk, before pull — focused on slot) ─── */
+  .rabbit.watching .b-head  { animation: head-watch   3.0s ease-in-out infinite; }
+  .rabbit.watching .b-ear-l { animation: ear-l-perky  2.6s ease-in-out infinite; }
+  .rabbit.watching .b-ear-r { animation: ear-r-perky  2.6s ease-in-out infinite 0.2s; }
+  .rabbit.watching .b-body  { animation: body-breathe 3.2s ease-in-out infinite; }
+  @keyframes head-watch {
+    0%, 100% { transform: rotate(-5deg) translateY(0); }
+    50%      { transform: rotate(-2deg) translateY(-1.5px); }
+  }
+  @keyframes ear-l-perky {
+    0%, 100% { transform: rotate(-10deg); }
+    50%      { transform: rotate(-14deg); }
+  }
+  @keyframes ear-r-perky {
+    0%, 100% { transform: rotate(10deg); }
+    50%      { transform: rotate(14deg); }
+  }
+
+  /* ─── LEVER PULL (stage-inner.pulling — arm cocks back, then YANKS, body leans) ─── */
+  .stage-inner.pulling .b-arm-r { animation: arm-pull   0.9s cubic-bezier(.4,1.2,.4,1) forwards; }
+  .stage-inner.pulling .b-arm-l { animation: arm-l-brace 0.9s ease-out forwards; }
+  .stage-inner.pulling .b-body  { animation: body-pull  0.9s cubic-bezier(.4,1.2,.4,1) forwards; }
+  .stage-inner.pulling .b-head  { animation: head-pull  0.9s cubic-bezier(.4,1.2,.4,1) forwards; }
+  .stage-inner.pulling .b-ear-l { animation: ear-l-pull 0.9s ease forwards; }
+  .stage-inner.pulling .b-ear-r { animation: ear-r-pull 0.9s ease forwards; }
+  .stage-inner.pulling .b-chain { animation: chain-pull 0.9s ease forwards; }
   @keyframes arm-pull {
     0%   { transform: rotate(0deg) translate(0,0); }
-    40%  { transform: rotate(-40deg) translate(-12px, 6px); }
+    18%  { transform: rotate(8deg) translate(3px, -3px); }    /* anticipation: arm cocks UP before yank */
+    48%  { transform: rotate(-58deg) translate(-12px, 9px); } /* big yank down */
+    72%  { transform: rotate(-40deg) translate(-7px, 6px); }
     100% { transform: rotate(0deg) translate(0,0); }
+  }
+  @keyframes arm-l-brace {
+    0%, 100% { transform: rotate(0deg); }
+    50%      { transform: rotate(-9deg); }                    /* opposite arm braces */
+  }
+  @keyframes body-pull {
+    0%, 100% { transform: rotate(0deg) translateX(0); }
+    20%      { transform: rotate(-1deg) translateX(2px); }
+    50%      { transform: rotate(4deg) translateX(-4px); }    /* body twists into the pull */
+  }
+  @keyframes head-pull {
+    0%, 100% { transform: rotate(-3deg) translateY(0); }
+    50%      { transform: rotate(-10deg) translateY(2px); }
+  }
+  @keyframes ear-l-pull {
+    0%   { transform: rotate(-10deg); }
+    50%  { transform: rotate(-28deg); }
+    100% { transform: rotate(-4deg); }
+  }
+  @keyframes ear-r-pull {
+    0%   { transform: rotate(10deg); }
+    50%  { transform: rotate(28deg); }
+    100% { transform: rotate(4deg); }
+  }
+  @keyframes chain-pull {
+    0%, 100% { transform: rotate(0deg) translateY(0); }
+    50%      { transform: rotate(-7deg) translateY(2.5px); }  /* chain swings forward delayed */
+  }
+
+  /* ─── REELS SPINNING (.spinning — bunny goes TENSE, glued to the slot) ─── */
+  .stage-inner.spinning .b-head  { animation: head-tense 1.4s ease-in-out infinite; }
+  .stage-inner.spinning .b-ear-l { animation: ear-l-tense 0.8s ease-in-out infinite; }
+  .stage-inner.spinning .b-ear-r { animation: ear-r-tense 0.8s ease-in-out infinite 0.12s; }
+  .stage-inner.spinning .b-body  { animation: body-breathe 1.6s ease-in-out infinite, body-tense 0.55s ease-in-out infinite; }
+  .stage-inner.spinning .b-eyes  { animation: blink 5.5s ease-in-out infinite, eyes-wide 1.4s ease-in-out infinite 0.7s; }
+  @keyframes head-tense {
+    0%, 100% { transform: rotate(-6deg) translateY(0); }
+    50%      { transform: rotate(-3deg) translateY(-2px); }
+  }
+  @keyframes ear-l-tense {
+    0%, 100% { transform: rotate(-17deg); }
+    50%      { transform: rotate(-12deg); }
+  }
+  @keyframes ear-r-tense {
+    0%, 100% { transform: rotate(17deg); }
+    50%      { transform: rotate(12deg); }
+  }
+  @keyframes body-tense {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-1.5px); }                /* shallow nervous bounce */
+  }
+  @keyframes eyes-wide {
+    0%, 100% { transform: scaleY(1); }
+    50%      { transform: scaleY(1.07); }
+  }
+
+  /* ─── JACKPOT (.jackpot — anticipation crouch → big jump → bounce + cheer) ─── */
+  .stage-inner.jackpot .rabbit {
+    animation:
+      rab-jackpot 0.85s cubic-bezier(.34,1.7,.4,1) forwards,
+      rab-bounce  0.55s cubic-bezier(.4,1.6,.4,1) 0.85s 8;
+  }
+  @keyframes rab-jackpot {
+    0%   { transform: translateY(0)    scale(1); }
+    18%  { transform: translateY(4px)  scale(0.93, 1.05); }   /* crouch (anticipation squash) */
+    32%  { transform: translateY(4px)  scale(0.93, 1.05); }   /* hold briefly (frame freeze) */
+    62%  { transform: translateY(-32px) scale(1.06, 0.95); }  /* big jump up + stretch */
+    82%  { transform: translateY(-4px) scale(1.0, 1.02); }
+    100% { transform: translateY(0)    scale(1); }
+  }
+  @keyframes rab-bounce {
+    0%, 100% { transform: translateY(0); }
+    45%      { transform: translateY(-20px); }
+  }
+  .stage-inner.jackpot .b-arm-l { animation: arm-l-cheer 0.4s ease-out 0.35s forwards, arm-l-wiggle 0.5s ease-in-out 0.75s infinite; }
+  .stage-inner.jackpot .b-arm-r { animation: arm-r-cheer 0.4s ease-out 0.35s forwards, arm-r-wiggle 0.5s ease-in-out 0.75s infinite 0.07s; }
+  @keyframes arm-l-cheer { 0% { transform: rotate(0deg) translateY(0); }   100% { transform: rotate(-105deg) translateY(-14px); } }
+  @keyframes arm-r-cheer { 0% { transform: rotate(0deg) translateY(0); }   100% { transform: rotate(105deg)  translateY(-14px); } }
+  @keyframes arm-l-wiggle { 0%, 100% { transform: rotate(-105deg) translateY(-14px); } 50% { transform: rotate(-122deg) translateY(-16px); } }
+  @keyframes arm-r-wiggle { 0%, 100% { transform: rotate(105deg)  translateY(-14px); } 50% { transform: rotate(122deg)  translateY(-16px); } }
+  .stage-inner.jackpot .b-ear-l { animation: ear-l-cheer 0.35s ease-out forwards, ear-l-pop 0.45s ease-in-out 0.35s infinite; }
+  .stage-inner.jackpot .b-ear-r { animation: ear-r-cheer 0.35s ease-out forwards, ear-r-pop 0.45s ease-in-out 0.35s infinite 0.08s; }
+  @keyframes ear-l-cheer { 0% { transform: rotate(0deg); }   100% { transform: rotate(-22deg); } }
+  @keyframes ear-r-cheer { 0% { transform: rotate(0deg); }   100% { transform: rotate(22deg); } }
+  @keyframes ear-l-pop   { 0%, 100% { transform: rotate(-22deg); } 50% { transform: rotate(-10deg); } }
+  @keyframes ear-r-pop   { 0%, 100% { transform: rotate(22deg); }  50% { transform: rotate(10deg); } }
+  .stage-inner.jackpot .b-head  { animation: head-cheer 0.35s ease-out forwards, head-pop 0.5s ease-in-out 0.35s infinite; }
+  @keyframes head-cheer { 0% { transform: rotate(0deg); }   100% { transform: rotate(2deg) translateY(-2px); } }
+  @keyframes head-pop   { 0%, 100% { transform: rotate(2deg)  translateY(-2px); } 50% { transform: rotate(-2deg) translateY(-3px); } }
+  .stage-inner.jackpot .b-chain { animation: chain-jackpot 0.4s ease-in-out infinite; }
+  @keyframes chain-jackpot {
+    0%, 100% { transform: rotate(-5deg) translateY(0); }
+    50%      { transform: rotate(5deg)  translateY(2px); }
+  }
+  .stage-inner.jackpot .b-body  { animation: body-breathe 1.6s ease-in-out infinite, body-cheer 0.5s ease-in-out infinite; }
+  @keyframes body-cheer {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-2px); }
   }
 
   /* ────────────────  TICKETS — fly out of slot machine  ──────────────── */
@@ -1371,15 +1616,17 @@
     </defs>
 
     <ellipse cx="100" cy="240" rx="60" ry="6" fill="rgba(0,0,0,0.22)"/>
-    <ellipse cx="72" cy="232" rx="20" ry="10" fill="url(#rGrad)"/>
-    <ellipse cx="128" cy="232" rx="20" ry="10" fill="url(#rGrad)"/>
+    <g class="b-foot-l"><ellipse cx="72" cy="232" rx="20" ry="10" fill="url(#rGrad)"/></g>
+    <g class="b-foot-r"><ellipse cx="128" cy="232" rx="20" ry="10" fill="url(#rGrad)"/></g>
 
-    <path d="M 100 130 Q 50 132, 46 192 Q 42 232, 100 234 Q 158 232, 154 192 Q 150 132, 100 130 Z" fill="url(#rGrad)"/>
-    <ellipse cx="100" cy="194" rx="32" ry="32" fill="url(#rBelly)" opacity="0.75"/>
-    <ellipse cx="76" cy="160" rx="18" ry="7" fill="rgba(255,255,255,0.07)"/>
+    <g class="b-body">
+      <path d="M 100 130 Q 50 132, 46 192 Q 42 232, 100 234 Q 158 232, 154 192 Q 150 132, 100 130 Z" fill="url(#rGrad)"/>
+      <ellipse cx="100" cy="194" rx="32" ry="32" fill="url(#rBelly)" opacity="0.75"/>
+      <ellipse cx="76" cy="160" rx="18" ry="7" fill="rgba(255,255,255,0.07)"/>
+    </g>
 
     <!-- Cuban gold chain (no pendant) -->
-    <g>
+    <g class="b-chain">
       <path d="M 58 156 Q 62 176, 78 188 Q 100 200, 122 188 Q 138 176, 142 156"
             fill="none" stroke="url(#rGold)" stroke-width="6.5" stroke-linecap="round"/>
       <path d="M 58 156 Q 62 176, 78 188 Q 100 200, 122 188 Q 138 176, 142 156"
@@ -1388,9 +1635,11 @@
             fill="none" stroke="#fff5d0" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
     </g>
 
-    <!-- Left arm (static) -->
-    <ellipse cx="50" cy="180" rx="12" ry="20" fill="url(#rGrad)"/>
-    <ellipse cx="46" cy="204" rx="9" ry="9" fill="url(#rGrad)"/>
+    <!-- Left arm -->
+    <g class="b-arm-l">
+      <ellipse cx="50" cy="180" rx="12" ry="20" fill="url(#rGrad)"/>
+      <ellipse cx="46" cy="204" rx="9" ry="9" fill="url(#rGrad)"/>
+    </g>
     <!-- Right arm (will animate when pulling lever) -->
     <g class="b-arm-r">
       <ellipse cx="150" cy="180" rx="12" ry="20" fill="url(#rGrad)"/>
@@ -1708,24 +1957,47 @@
     window.onYouTubeIframeAPIReady();
   }
 
-  // ───── Bunny on towel: DOM move ─────
-  // 1. At page load: move bunny INTO .beach-spot so lying CSS applies (relative to wrapper).
-  // 2. At t=7s (just before walk): move bunny OUT to .stage-inner with standing/walking position.
-  (function bunnyOnTowel() {
+  // ───── Bunny choreographer: DOM move + phase classes for cutout-puppet animation ─────
+  // Phases drive the layered sub-animations on body/ears/arms/head/chain/eyes:
+  //   t=0    : lying on towel (in .beach-spot wrapper, always-on idle anims)
+  //   t=6.5s : .prep      — ears twitch, eyes glance (anticipation before stand)
+  //   t=7.0s : .standing  — DOM move to stage; ears/arms unfold from lying pose (rab-stand 1.2s)
+  //   t=8.4s : (no phase) — brief idle moment before walking
+  //   t=9.0s : .walking   — limb walk cycle (matches rab-walk 4.5s)
+  //   t=13.6s: .watching  — focused on slot, ears perked
+  //   t=17s+ : stage-inner.pulling / .spinning / .jackpot drive reactive sub-anims
+  (function bunnyChoreographer() {
     const bunny = document.querySelector('.rabbit');
     const beachSpot = document.getElementById('beachSpot');
     const stageInnerEl = document.getElementById('stageInner');
     if (!bunny || !beachSpot || !stageInnerEl) return;
 
-    // Move bunny INTO beach-spot for lying phase
+    const PHASES = ['prep', 'standing', 'walking', 'watching'];
+    function setPhase(p) {
+      PHASES.forEach(c => bunny.classList.remove(c));
+      if (p) bunny.classList.add(p);
+    }
+
+    // Initial: lying in beach-spot wrapper
     beachSpot.appendChild(bunny);
 
-    // At t=7.0s — JUST as rab-stand animation triggers, move bunny back to stage-inner.
-    // The .walking class swaps positioning to viewport-absolute so walk anim can animate `right`.
+    // 6.5s — anticipation
+    setTimeout(() => setPhase('prep'), 6500);
+
+    // 7.0s — DOM move + standing phase (rab-stand runs 7.0–8.2s)
     setTimeout(() => {
       stageInnerEl.appendChild(bunny);
-      bunny.classList.add('walking');
+      setPhase('standing');
     }, 7000);
+
+    // 8.4s — clear (brief idle pause before walk)
+    setTimeout(() => setPhase(null), 8400);
+
+    // 9.0s — walking phase (matches rab-walk anim 9.0–13.5s)
+    setTimeout(() => setPhase('walking'), 9000);
+
+    // 13.6s — done walking, watching the slot
+    setTimeout(() => setPhase('watching'), 13600);
   })();
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
