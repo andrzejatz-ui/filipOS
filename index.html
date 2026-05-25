@@ -36,7 +36,6 @@
     --rab-light: #2a2024;
     --rab-mid:   #14101a;
     --rab-dark:  #050308;
-    --rab-belly: #1a1418;
     --pink-soft: #ff9cb5;
     --pink:      #ff5a7a;
     --pink-deep: #c5283d;
@@ -49,6 +48,14 @@
     --paper:     #fffaef;
     --paper-2:   #f6e6c0;
     --paper-line:#c9b890;
+
+    --slot-body-1: #ff7a8a;
+    --slot-body-2: #c5283d;
+    --slot-body-3: #7a1424;
+    --slot-trim:   #d4af37;
+    --slot-shadow: #3a0c14;
+    --slot-screen: #fff8e8;
+    --slot-screen-edge: #c9b890;
 
     --text:     #1a1208;
     --text-2:   #3a2b1a;
@@ -73,7 +80,6 @@
   }
   body { position: relative; }
 
-  /* film grain */
   body::before {
     content: '';
     position: fixed; inset: 0;
@@ -86,7 +92,7 @@
     mix-blend-mode: overlay;
   }
 
-  /* STAGE — runs automatically */
+  /* STAGE — auto-runs */
   .stage {
     position: fixed; inset: 0;
     overflow: hidden;
@@ -94,23 +100,20 @@
     opacity: 0;
     animation: stage-in 1.2s cubic-bezier(.4,0,.2,1) 0.1s forwards;
   }
-  @keyframes stage-in {
-    0%   { opacity: 0; }
-    100% { opacity: 1; }
-  }
+  @keyframes stage-in { 0% { opacity: 0; } 100% { opacity: 1; } }
   .stage-inner {
     position: absolute; inset: 0;
-    animation: cam-shake 0.7s cubic-bezier(.36,.07,.19,.97) 13.2s;
+    animation: cam-shake 0.8s cubic-bezier(.36,.07,.19,.97) 11.2s;
   }
   @keyframes cam-shake {
     0%, 100% { transform: translate(0); }
-    10%      { transform: translate(-9px, 5px); }
-    20%      { transform: translate(7px, -4px); }
-    30%      { transform: translate(-6px, 3px); }
-    40%      { transform: translate(5px, -2px); }
-    55%      { transform: translate(-4px, 1px); }
-    70%      { transform: translate(3px, -1px); }
-    85%      { transform: translate(-1px, 0); }
+    10% { transform: translate(-10px, 5px); }
+    20% { transform: translate(8px, -4px); }
+    30% { transform: translate(-7px, 3px); }
+    40% { transform: translate(6px, -2px); }
+    55% { transform: translate(-4px, 1px); }
+    70% { transform: translate(3px, -1px); }
+    85% { transform: translate(-1px, 0); }
   }
 
   /* SKY */
@@ -121,20 +124,20 @@
       linear-gradient(180deg,
         var(--sky-top) 0%,
         var(--sky-mid) 45%,
-        var(--sky-low) 60%,
-        var(--sky-low) 60.01%,
-        var(--sea-top) 60.6%,
-        var(--sea-mid) 67%,
-        var(--sea-deep) 73%,
-        var(--sea-deep) 75%,
-        var(--sand-top) 75.01%,
+        var(--sky-low) 62%,
+        var(--sky-low) 62.01%,
+        var(--sea-top) 62.6%,
+        var(--sea-mid) 70%,
+        var(--sea-deep) 76%,
+        var(--sea-deep) 78%,
+        var(--sand-top) 78.01%,
         var(--sand-bot) 100%);
   }
 
   /* SUN */
   .sun {
     position: absolute;
-    left: 76%; top: 10%;
+    left: 78%; top: 10%;
     width: clamp(70px, 18vmin, 130px);
     aspect-ratio: 1;
     border-radius: 50%;
@@ -160,7 +163,6 @@
   .cloud-1 { left: 4%;  top: 14%; width: clamp(90px, 26vmin, 220px); animation: drift 70s linear infinite; }
   .cloud-2 { left: 36%; top: 5%;  width: clamp(100px, 30vmin, 260px); animation: drift 85s linear infinite reverse; }
   .cloud-3 { left: 56%; top: 24%; width: clamp(70px, 20vmin, 170px); animation: drift 60s linear infinite; }
-  .cloud-4 { left: 20%; top: 30%; width: clamp(54px, 16vmin, 130px); animation: drift 78s linear infinite reverse; }
   @keyframes drift {
     0%, 100% { transform: translateX(0); }
     50%      { transform: translateX(-14px); }
@@ -168,15 +170,13 @@
 
   /* SEAGULLS */
   .gull {
-    position: absolute;
-    z-index: 1;
-    color: var(--rab-mid);
-    opacity: 0.7;
+    position: absolute; z-index: 1;
+    color: var(--rab-mid); opacity: 0.65;
     animation: gull-fly 22s ease-in-out infinite;
   }
   .gull svg { display: block; width: 100%; height: auto; }
   .gull-1 { left: 28%; top: 22%; width: clamp(22px, 5.5vmin, 36px); }
-  .gull-2 { left: 65%; top: 30%; width: clamp(18px, 4.5vmin, 28px); animation-delay: -10s; opacity: 0.55; }
+  .gull-2 { left: 65%; top: 32%; width: clamp(18px, 4.5vmin, 28px); animation-delay: -10s; opacity: 0.5; }
   @keyframes gull-fly {
     0%   { transform: translate(0,0); }
     25%  { transform: translate(20vw, -8px); }
@@ -185,11 +185,11 @@
     100% { transform: translate(0,0); }
   }
 
-  /* SEA detail */
+  /* SEA detail + foam */
   .sea-detail {
     position: absolute;
     left: 0; right: 0;
-    top: 60.5%; height: 14.5%;
+    top: 62.5%; height: 15.5%;
     z-index: 1;
     pointer-events: none;
     background-image:
@@ -200,7 +200,7 @@
   .sea-waves {
     position: absolute;
     left: 0; right: 0;
-    top: 60.5%; height: 14.5%;
+    top: 62.5%; height: 15.5%;
     z-index: 1;
     pointer-events: none;
     overflow: hidden;
@@ -214,21 +214,17 @@
   .sea-foam {
     position: absolute;
     left: 0; right: 0;
-    top: 74.5%; height: 4px;
+    top: 77.5%; height: 4px;
     z-index: 2;
     pointer-events: none;
-    background: linear-gradient(90deg,
-      transparent 0%, var(--foam) 14%, transparent 26%,
-      var(--foam) 42%, transparent 55%, var(--foam) 70%,
-      transparent 84%, var(--foam) 94%, transparent 100%);
-    opacity: 0.7;
-    filter: blur(0.3px);
+    background: linear-gradient(90deg, transparent 0%, var(--foam) 14%, transparent 26%, var(--foam) 42%, transparent 55%, var(--foam) 70%, transparent 84%, var(--foam) 94%, transparent 100%);
+    opacity: 0.7; filter: blur(0.3px);
   }
 
   /* SAND */
   .sand {
     position: absolute;
-    left: 0; right: 0; bottom: 0; top: 75%;
+    left: 0; right: 0; bottom: 0; top: 78%;
     background:
       radial-gradient(ellipse at 50% 0%, rgba(255,250,220,0.5), transparent 65%),
       linear-gradient(180deg, var(--sand-top) 0%, var(--sand-bot) 100%);
@@ -247,16 +243,15 @@
     background-size: 22px 22px, 26px 26px, 18px 18px, 24px 24px, 28px 28px, 20px 20px;
   }
   .sand::after {
-    content: '';
-    position: absolute; left: 0; right: 0; top: 0; height: 2px;
+    content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
   }
 
   /* PALM */
   .palm {
     position: absolute;
-    left: 3%; bottom: 14%;
-    width: clamp(140px, 36vmin, 320px);
+    left: 2%; bottom: 18%;
+    width: clamp(120px, 30vmin, 280px);
     aspect-ratio: 200/320;
     z-index: 2;
     transform-origin: bottom center;
@@ -264,165 +259,165 @@
     filter: drop-shadow(2px 8px 10px rgba(0,0,0,0.15));
   }
   @keyframes sway {
-    0%, 100% { transform: rotate(-1.6deg); }
-    50%      { transform: rotate(1.6deg); }
+    0%, 100% { transform: rotate(-1.5deg); }
+    50%      { transform: rotate(1.5deg); }
   }
 
-  /* STADIUM silhouette on horizon (subtle, fades in at reveal) */
-  .stadium {
+  /* ────────────────  SLOT MACHINE  ──────────────── */
+  .slot {
     position: absolute;
-    left: 50%; top: 48%;
-    transform: translate(-50%, -50%) scale(0.95);
-    width: clamp(260px, 70vmin, 660px);
-    aspect-ratio: 800/280;
-    z-index: 1;
-    opacity: 0;
-    pointer-events: none;
-    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.15));
-    animation: stadium-fade 2.4s cubic-bezier(.3,0,.2,1) 13.5s forwards;
-  }
-  @keyframes stadium-fade {
-    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.92); }
-    100% { opacity: 0.55; transform: translate(-50%, -50%) scale(1); }
-  }
-
-  /* GLOW (light flash above bunny — "something incoming") */
-  .glow {
-    position: fixed;
-    left: 50%; top: 38%;
-    transform: translate(-50%, -50%) scale(0);
-    width: clamp(200px, 55vmin, 500px);
-    aspect-ratio: 1;
+    left: 50%; bottom: 22%;
+    transform: translateX(-50%);
+    width: clamp(220px, 55vmin, 420px);
+    aspect-ratio: 5/6;
     z-index: 4;
-    pointer-events: none;
-    background: radial-gradient(circle,
-      rgba(255,240,180,0.7) 0%,
-      rgba(255,210,90,0.3) 30%,
-      rgba(255,180,80,0.1) 55%,
-      transparent 75%);
-    mix-blend-mode: screen;
-    animation: glow-rise 2.4s cubic-bezier(.3,0,.2,1) 5.0s forwards;
+    filter: drop-shadow(0 16px 22px rgba(0,0,0,0.4));
   }
-  @keyframes glow-rise {
-    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0); }
-    50%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
+  .slot svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  /* Slot machine subtle idle bob */
+  .slot {
+    animation: slot-idle 3.5s ease-in-out infinite;
+  }
+  @keyframes slot-idle {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%      { transform: translateX(-50%) translateY(-3px); }
   }
 
-  /* Sparkle stars around bunny (when noticing) */
-  .notice-spark {
-    position: fixed;
-    pointer-events: none;
-    z-index: 5;
-    opacity: 0;
-    font-size: clamp(14px, 3vmin, 22px);
-    color: var(--gold-light);
-    text-shadow: 0 0 8px rgba(255,235,140,0.6);
-    animation: spark-pop 0.9s ease-out forwards;
+  /* Lights flashing on slot machine */
+  .slot-light {
+    animation: light-blink 0.7s steps(2) infinite;
   }
-  .spark-1 { left: 38%; top: 60%; animation-delay: 4.2s; animation-duration: 1.4s; }
-  .spark-2 { left: 62%; top: 55%; animation-delay: 4.6s; animation-duration: 1.4s; }
-  .spark-3 { left: 30%; top: 50%; animation-delay: 5.0s; animation-duration: 1.4s; }
-  .spark-4 { left: 70%; top: 50%; animation-delay: 5.4s; animation-duration: 1.4s; }
-  .spark-5 { left: 50%; top: 44%; animation-delay: 5.8s; animation-duration: 1.4s; }
-  @keyframes spark-pop {
-    0%   { opacity: 0; transform: scale(0) rotate(0deg); }
-    40%  { opacity: 1; transform: scale(1.4) rotate(20deg); }
-    100% { opacity: 0; transform: scale(0.6) translateY(-30px) rotate(-20deg); }
+  @keyframes light-blink {
+    0%, 100% { fill: #fff5b0; opacity: 1; }
+    50%      { fill: #ff5a7a; opacity: 0.4; }
+  }
+  /* On jackpot — lights go wild */
+  .stage-inner.jackpot .slot-light {
+    animation: light-jackpot 0.15s steps(2) infinite;
+  }
+  @keyframes light-jackpot {
+    0%   { fill: #fff5b0; opacity: 1; }
+    50%  { fill: #ff5a7a; opacity: 1; }
+    100% { fill: #fff5b0; opacity: 1; }
   }
 
-  /* LIGHT RAYS behind reveal */
-  .light-rays {
-    position: fixed;
-    left: 50%; top: 50%;
-    transform: translate(-50%, -50%) scale(0.3);
-    width: min(150vw, 800px);
-    aspect-ratio: 1;
-    z-index: 8;
-    pointer-events: none;
-    opacity: 0;
-    mix-blend-mode: screen;
-    animation: rays-in 2.0s cubic-bezier(.3,1.3,.3,1) 8.5s forwards;
+  /* Reels — each one stops at different time */
+  .reel-strip {
+    transform: translateY(0);
   }
-  @keyframes rays-in {
-    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
-    100% { opacity: 0.85; transform: translate(-50%, -50%) scale(1); }
+  .reel-1 { animation: reel-spin-1 5.2s cubic-bezier(.18,.45,.32,1) 4.0s forwards; }
+  .reel-2 { animation: reel-spin-2 6.2s cubic-bezier(.18,.45,.32,1) 4.0s forwards; }
+  .reel-3 { animation: reel-spin-3 7.2s cubic-bezier(.18,.45,.32,1) 4.0s forwards; }
+  /* Reel strip is 600px tall (6 symbols × 100px). End on HEART at position -100 from top */
+  @keyframes reel-spin-1 {
+    0%   { transform: translateY(0); }
+    85%  { transform: translateY(-2400px); }
+    100% { transform: translateY(-2500px); } /* lands on heart */
   }
-  .light-rays svg { width: 100%; height: 100%; display: block; }
-  .light-rays svg g { animation: rays-spin 16s linear infinite; transform-origin: 200px 200px; }
-  @keyframes rays-spin {
+  @keyframes reel-spin-2 {
+    0%   { transform: translateY(0); }
+    85%  { transform: translateY(-2900px); }
+    100% { transform: translateY(-3000px); } /* lands on heart */
+  }
+  @keyframes reel-spin-3 {
+    0%   { transform: translateY(0); }
+    85%  { transform: translateY(-3400px); }
+    100% { transform: translateY(-3500px); } /* lands on heart */
+  }
+
+  /* Highlight winning hearts (pulse) */
+  .reel-strip .heart-symbol {
+    transform-origin: center;
+  }
+  .stage-inner.jackpot .winner-1, .stage-inner.jackpot .winner-2, .stage-inner.jackpot .winner-3 {
+    animation: heart-pulse 0.5s ease-in-out infinite;
+  }
+  @keyframes heart-pulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.18); }
+  }
+
+  /* Lever animation */
+  .slot-lever {
+    transform-box: view-box;
+    transform-origin: 350px 220px;
+  }
+  .stage-inner.pulling .slot-lever {
+    animation: pull-lever 0.6s cubic-bezier(.4,1.4,.4,1) forwards;
+  }
+  @keyframes pull-lever {
     0%   { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    50%  { transform: rotate(80deg); }
+    100% { transform: rotate(15deg); }
   }
 
-  /* CONFETTI */
-  .confetti-layer {
+  /* Jackpot flash */
+  .jackpot-flash {
     position: fixed; inset: 0;
-    z-index: 13;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  .confetti {
-    position: absolute;
-    top: -24px;
-    width: 10px; height: 16px;
+    background: white;
     opacity: 0;
-    border-radius: 2px;
-    will-change: transform;
+    pointer-events: none;
+    z-index: 9;
+  }
+  .stage-inner.jackpot .jackpot-flash {
+    animation: jackpot-flash 0.25s ease 0.0s 3;
+  }
+  @keyframes jackpot-flash {
+    0%, 100% { opacity: 0; }
+    50%      { opacity: 0.55; }
   }
 
-  /* ────────────  BUNNY MASCOT — cute, friendly, mobile-friendly  ──────────── */
+  /* ────────────────  BUNNY MASCOT  ──────────────── */
   .rabbit {
     position: absolute;
-    left: 50%;
-    bottom: 14%;
-    transform: translateX(-50%);
-    width: clamp(140px, 32vmin, 240px);
+    right: 6%; bottom: 21%;
+    width: clamp(96px, 22vmin, 180px);
     aspect-ratio: 200/250;
-    z-index: 6;
-    filter: drop-shadow(0 6px 16px rgba(0,0,0,0.28));
+    z-index: 5;
+    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.28));
     animation: rab-breathe 3s ease-in-out infinite;
   }
   @keyframes rab-breathe {
-    0%, 100% { transform: translateX(-50%) translateY(0)    scaleY(1); }
-    50%      { transform: translateX(-50%) translateY(-2px) scaleY(1.025); }
+    0%, 100% { transform: translateY(0)    scaleY(1); }
+    50%      { transform: translateY(-2px) scaleY(1.025); }
   }
-  /* Reaction: bunny notices + looks up at glow */
-  .rabbit { animation: rab-breathe 3s ease-in-out infinite, rab-notice 0.7s ease 4.0s forwards, rab-look-up 1.0s ease 4.8s forwards, rab-bounce 0.6s cubic-bezier(.4,1.6,.4,1) 12.8s 3; }
-  @keyframes rab-notice {
-    0%   { transform: translateX(-50%) translateY(0) scale(1); }
-    40%  { transform: translateX(-50%) translateY(-5px) scale(1.02); }
-    100% { transform: translateX(-50%) translateY(-2px) scale(1.01); }
+  /* Bunny pulls lever at t=3.4s: lean toward slot, then back */
+  .stage-inner.pulling .rabbit {
+    animation: rab-breathe 3s ease-in-out infinite, rab-pull 0.7s ease 0s forwards;
   }
-  @keyframes rab-look-up {
-    0%   { transform: translateX(-50%) translateY(-2px); }
-    100% { transform: translateX(-50%) translateY(-2px); }
+  @keyframes rab-pull {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(2px) translateX(-12px); }
+    100% { transform: translateY(0)   translateX(0); }
   }
-  @keyframes rab-bounce {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50%      { transform: translateX(-50%) translateY(-24px); }
+  /* On jackpot — bunny does excited bounces */
+  .stage-inner.jackpot .rabbit {
+    animation: rab-breathe 3s ease-in-out infinite, rab-celebrate 0.4s cubic-bezier(.4,1.6,.4,1) 0s 5;
+  }
+  @keyframes rab-celebrate {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-18px); }
   }
 
-  /* Bunny PARTS — independent animations */
+  /* Independent body parts */
   .b-head { transform-box: view-box; transform-origin: 100px 95px; }
   .b-head { animation: head-idle 4s ease-in-out infinite; }
   @keyframes head-idle {
     0%, 100% { transform: rotate(0deg) translateY(0); }
     50%      { transform: rotate(0deg) translateY(-1px); }
   }
-  /* During notice: head tilts up */
-  .b-head { animation: head-idle 4s ease-in-out infinite, head-up 1.0s cubic-bezier(.4,0,.3,1.2) 4.6s forwards; }
-  @keyframes head-up {
-    0%   { transform: rotate(0deg); }
-    60%  { transform: rotate(-12deg) translateY(-4px); }
-    100% { transform: rotate(-8deg) translateY(-2px); }
+  .stage-inner.spinning .b-head {
+    animation: head-idle 4s ease-in-out infinite, head-look 2s ease-in-out infinite;
+  }
+  @keyframes head-look {
+    0%, 100% { transform: rotate(0deg); }
+    50%      { transform: rotate(-6deg); }
   }
 
   .b-ear-l { transform-box: view-box; transform-origin: 78px 70px; }
   .b-ear-r { transform-box: view-box; transform-origin: 122px 70px; }
-  /* Ears: idle wiggle then perked up on notice */
-  .b-ear-l { animation: ear-l-idle 4s ease-in-out infinite, ear-l-perk 0.5s cubic-bezier(.4,1.6,.4,1) 4.0s forwards; }
-  .b-ear-r { animation: ear-r-idle 4s ease-in-out infinite 0.3s, ear-r-perk 0.5s cubic-bezier(.4,1.6,.4,1) 4.2s forwards; }
+  .b-ear-l { animation: ear-l-idle 4s ease-in-out infinite; }
+  .b-ear-r { animation: ear-r-idle 4s ease-in-out infinite 0.3s; }
   @keyframes ear-l-idle {
     0%, 100% { transform: rotate(0deg); }
     50%      { transform: rotate(-3deg); }
@@ -431,60 +426,49 @@
     0%, 100% { transform: rotate(0deg); }
     50%      { transform: rotate(3deg); }
   }
+  .stage-inner.jackpot .b-ear-l { animation: ear-l-perk 0.3s ease infinite; }
+  .stage-inner.jackpot .b-ear-r { animation: ear-r-perk 0.3s ease infinite; }
   @keyframes ear-l-perk {
-    0%   { transform: rotate(0deg); }
-    100% { transform: rotate(-15deg); }
+    0%, 100% { transform: rotate(-15deg); }
+    50%      { transform: rotate(-8deg); }
   }
   @keyframes ear-r-perk {
-    0%   { transform: rotate(0deg); }
-    100% { transform: rotate(15deg); }
+    0%, 100% { transform: rotate(15deg); }
+    50%      { transform: rotate(8deg); }
   }
 
-  /* Eyes — blinking */
   .b-eyes { transform-box: view-box; transform-origin: 100px 92px; }
-  .b-eyes { animation: blink 5.5s ease-in-out infinite; }
+  .b-eyes { animation: blink 5s ease-in-out infinite; }
   @keyframes blink {
     0%, 92%, 95%, 100% { transform: scaleY(1); }
     93.5%              { transform: scaleY(0.1); }
   }
 
-  /* ───────────────  TICKETS (fly in from background as the reveal)  ─────────────── */
-  .heart-wrap {
-    position: fixed;
-    left: 50%; top: 56%;
-    transform: translate(-50%, -50%) scale(0.5);
-    width: min(82vw, 460px);
-    aspect-ratio: 5/4;
-    z-index: 11;
-    pointer-events: none;
-    opacity: 0;
-    animation:
-      heart-in 1.4s cubic-bezier(.3,1.4,.3,1) 9.0s forwards,
-      heart-float 4s ease-in-out 10.4s infinite;
+  /* Right arm extends to pull lever */
+  .b-arm-r {
+    transform-box: view-box;
+    transform-origin: 152px 178px;
   }
-  @keyframes heart-in {
-    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(-12deg); filter: blur(8px); }
-    100% { opacity: 1; transform: translate(-50%, -50%) scale(1)   rotate(0deg);   filter: blur(0); }
+  .stage-inner.pulling .b-arm-r {
+    animation: arm-pull 0.7s ease 0s forwards;
   }
-  @keyframes heart-float {
-    0%, 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
-    50%      { transform: translate(-50%, calc(-50% - 6px)) scale(1.01) rotate(-0.4deg); }
+  @keyframes arm-pull {
+    0%   { transform: rotate(0deg) translate(0,0); }
+    40%  { transform: rotate(-40deg) translate(-12px, 6px); }
+    100% { transform: rotate(0deg) translate(0,0); }
   }
-  .heart-outline {
+
+  /* ────────────────  TICKETS — fly out of slot machine  ──────────────── */
+  .tickets-out {
     position: absolute;
-    inset: -4%;
-    width: 108%; height: 108%;
+    left: 50%;
+    /* Position: top of slot machine — roughly the middle/upper area of viewport */
+    top: 38%;
+    transform: translate(-50%, -50%);
+    width: clamp(280px, 75vmin, 520px);
+    aspect-ratio: 5/3;
+    z-index: 12;
     pointer-events: none;
-    filter: drop-shadow(0 8px 22px rgba(229,72,124,0.32));
-  }
-  .heart-outline svg { width: 100%; height: 100%; display: block; }
-  .heart-outline path.heart-draw {
-    stroke-dasharray: 800;
-    stroke-dashoffset: 800;
-    animation: heart-draw 2.0s cubic-bezier(.4,0,.3,1) 9.2s forwards;
-  }
-  @keyframes heart-draw {
-    to { stroke-dashoffset: 0; }
   }
   .ticket {
     position: absolute;
@@ -496,9 +480,9 @@
     border: 1.5px solid var(--text);
     border-radius: 12px;
     box-shadow:
-      0 22px 46px rgba(40,28,12,0.5),
-      0 0 24px rgba(255,90,122,0.32),
-      0 0 50px rgba(255,200,90,0.2),
+      0 22px 46px rgba(40,28,12,0.55),
+      0 0 26px rgba(255,90,122,0.4),
+      0 0 60px rgba(255,200,90,0.25),
       inset 0 1px 0 rgba(255,255,255,0.9);
     padding: 5% 6%;
     display: flex; flex-direction: column;
@@ -520,28 +504,29 @@
     border-radius: 50%;
   }
   .ticket-filip {
-    left: 4%; top: 4%;
-    transform: rotate(-30deg) translateY(80px) scale(0.4);
-    transform-origin: 100% 100%;
-    animation: t-fly-l 1.5s cubic-bezier(.3,1.3,.3,1) 10.0s forwards;
+    left: 4%; top: 24%;
+    /* Start from inside slot machine (below view, slightly right) */
+    transform: translate(0, 220%) rotate(0deg) scale(0.3);
+    animation: t-fly-l 1.4s cubic-bezier(.3,1.3,.3,1) 11.3s forwards;
   }
-  .ticket-filip::after { right: -8px; }
+  .ticket-filip::after { right: -9px; }
   .ticket-justyna {
-    right: 4%; top: 4%;
-    transform: rotate(30deg) translateY(80px) scale(0.4);
-    transform-origin: 0% 100%;
-    animation: t-fly-r 1.5s cubic-bezier(.3,1.3,.3,1) 10.4s forwards;
+    right: 4%; top: 24%;
+    transform: translate(0, 220%) rotate(0deg) scale(0.3);
+    animation: t-fly-r 1.4s cubic-bezier(.3,1.3,.3,1) 11.5s forwards;
   }
-  .ticket-justyna::after { left: -8px; }
+  .ticket-justyna::after { left: -9px; }
   @keyframes t-fly-l {
-    0%   { opacity: 0; transform: rotate(-30deg) translateY(80px) scale(0.4); }
-    60%  { opacity: 1; transform: rotate(-12deg) translateY(-6px) scale(1.05); }
-    100% { opacity: 1; transform: rotate(-14deg) translateY(0) scale(1); }
+    0%   { opacity: 0; transform: translate(0, 220%) rotate(0deg) scale(0.3); }
+    30%  { opacity: 1; }
+    65%  { opacity: 1; transform: translate(0, -20%) rotate(-16deg) scale(1.05); }
+    100% { opacity: 1; transform: translate(0, 0) rotate(-14deg) scale(1); }
   }
   @keyframes t-fly-r {
-    0%   { opacity: 0; transform: rotate(30deg)  translateY(80px) scale(0.4); }
-    60%  { opacity: 1; transform: rotate(12deg)  translateY(-6px) scale(1.05); }
-    100% { opacity: 1; transform: rotate(14deg)  translateY(0) scale(1); }
+    0%   { opacity: 0; transform: translate(0, 220%) rotate(0deg) scale(0.3); }
+    30%  { opacity: 1; }
+    65%  { opacity: 1; transform: translate(0, -20%) rotate(16deg) scale(1.05); }
+    100% { opacity: 1; transform: translate(0, 0) rotate(14deg) scale(1); }
   }
   .ticket .brand-row {
     display: flex; align-items: center; gap: 5px;
@@ -595,14 +580,14 @@
     text-transform: uppercase;
   }
 
-  /* ───────────────  POSTER TEXT  ─────────────── */
+  /* ────────────────  POSTER TEXT  ──────────────── */
   .poster {
     position: fixed;
     left: 50%; top: 3%;
     transform: translateX(-50%);
     width: min(94vw, 720px);
     text-align: center;
-    z-index: 12;
+    z-index: 13;
     pointer-events: none;
   }
   .rp-burst {
@@ -623,7 +608,7 @@
       0 0 0 3px white,
       0 0 0 5px var(--pink-deep);
     margin-bottom: 0.6em;
-    animation: burst-pop 0.7s cubic-bezier(.34,1.6,.4,1) 13.0s forwards, burst-wiggle 1.8s ease-in-out 13.7s infinite;
+    animation: burst-pop 0.6s cubic-bezier(.34,1.6,.4,1) 11.0s forwards, burst-wiggle 1.8s ease-in-out 11.6s infinite;
   }
   @keyframes burst-pop {
     0%   { opacity: 0; transform: scale(0) rotate(-25deg); }
@@ -646,7 +631,7 @@
     line-height: 1;
     color: var(--pink-deep);
     text-shadow: 2px 2px 0 white, -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white;
-    animation: rp-in 0.8s cubic-bezier(.3,1.2,.3,1) 14.2s forwards;
+    animation: rp-in 0.7s cubic-bezier(.3,1.2,.3,1) 12.0s forwards;
   }
   .rp-names .amp { color: var(--gold); font-style: italic; padding: 0 0.15em; }
   .rp-going {
@@ -657,7 +642,7 @@
     text-shadow: 1px 1px 0 white;
     line-height: 1;
     margin-bottom: 0.1em;
-    animation: rp-in 0.8s cubic-bezier(.3,1.2,.3,1) 15.0s forwards;
+    animation: rp-in 0.7s cubic-bezier(.3,1.2,.3,1) 12.4s forwards;
   }
   .rp-title {
     font-family: var(--font-disp);
@@ -667,13 +652,10 @@
     letter-spacing: -0.03em;
     color: var(--text);
     text-shadow:
-      2px 2px 0 white,
-      -2px -2px 0 white,
-      2px -2px 0 white,
-      -2px 2px 0 white,
+      2px 2px 0 white, -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white,
       0 6px 0 rgba(0,0,0,0.15),
       0 10px 28px rgba(255,90,122,0.35);
-    animation: rp-pop 0.9s cubic-bezier(.34,1.6,.4,1) 15.8s forwards;
+    animation: rp-pop 0.7s cubic-bezier(.34,1.6,.4,1) 12.8s forwards;
   }
   @keyframes rp-pop {
     0%   { opacity: 0; transform: scale(0.5); }
@@ -686,7 +668,7 @@
     margin: 0.7em auto;
     border-radius: 2px;
     opacity: 0;
-    animation: rp-in 0.6s ease 16.8s forwards;
+    animation: rp-in 0.5s ease 13.4s forwards;
   }
   .rp-meta {
     font-family: var(--font-disp);
@@ -696,7 +678,7 @@
     line-height: 1.25;
     text-shadow: 1.5px 1.5px 0 white;
     font-weight: 700;
-    animation: rp-in 0.6s ease 17.2s forwards;
+    animation: rp-in 0.6s ease 13.7s forwards;
   }
   .rp-meta strong { color: var(--pink-deep); font-weight: 800; }
   .rp-venue {
@@ -707,7 +689,7 @@
     text-shadow: 1px 1px 0 white;
     font-weight: 600;
     margin-top: 0.1em;
-    animation: rp-in 0.6s ease 17.6s forwards;
+    animation: rp-in 0.6s ease 14.0s forwards;
   }
   .rp-venue strong { color: var(--text); font-weight: 700; }
   .rp-cta {
@@ -718,7 +700,7 @@
     color: var(--text);
     text-shadow: 1px 1px 0 white;
     line-height: 1.1;
-    animation: rp-in 0.8s cubic-bezier(.3,1.2,.3,1) 18.4s forwards;
+    animation: rp-in 0.7s cubic-bezier(.3,1.2,.3,1) 14.4s forwards;
   }
   .rp-cta span { color: var(--pink-deep); }
   @keyframes rp-in {
@@ -726,7 +708,55 @@
     100% { opacity: 1; transform: translateY(0); }
   }
 
-  /* SOUND TOGGLE — discreet corner button (in case music is muted) */
+  /* CONFETTI */
+  .confetti-layer {
+    position: fixed; inset: 0;
+    z-index: 14;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .confetti {
+    position: absolute;
+    top: -24px;
+    width: 10px; height: 16px;
+    opacity: 0;
+    border-radius: 2px;
+    will-change: transform;
+  }
+  @keyframes confetti-fall {
+    0%   { transform: translate3d(0, -24px, 0) rotate(0deg); }
+    100% { transform: translate3d(var(--drift, 30px), 112vh, 0) rotate(var(--spin, 720deg)); }
+  }
+  @keyframes confetti-show { to { opacity: 1; } }
+
+  /* SOUND HINT — small bubble that shows briefly */
+  .sound-hint {
+    position: fixed;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 30;
+    background: rgba(20,15,10,0.78);
+    color: var(--gold-light);
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-family: var(--font-hand);
+    font-weight: 700;
+    font-size: clamp(0.95rem, 3vw, 1.2rem);
+    pointer-events: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    border: 1px solid rgba(212,175,55,0.4);
+    animation: sound-hint-show 5s ease-in-out 1.2s forwards;
+  }
+  @keyframes sound-hint-show {
+    0%   { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    10%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+    80%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+    100% { opacity: 0; transform: translateX(-50%) translateY(-6px); pointer-events: none; }
+  }
+  .sound-hint.hide { display: none; }
+
+  /* SOUND TOGGLE BUTTON */
   .sound-toggle {
     position: fixed;
     bottom: 50px; right: 14px;
@@ -755,7 +785,7 @@
     border-radius: 2px;
   }
 
-  /* YouTube — in viewport, transparent */
+  /* YouTube */
   #music-host {
     position: fixed;
     top: 0; right: 0;
@@ -769,7 +799,7 @@
     width: 100%; height: 100%;
   }
 
-  /* filipOS footer — subtle */
+  /* FOOTER */
   .footer {
     position: fixed;
     left: 0; right: 0; bottom: 0;
@@ -781,7 +811,7 @@
   }
   .footer .row {
     font-family: var(--mono);
-    font-size: clamp(0.48rem, 1vw, 0.58rem);
+    font-size: clamp(0.5rem, 1vw, 0.6rem);
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: rgba(255,245,225,0.78);
@@ -801,20 +831,31 @@
   }
   .footer .sep { color: var(--gold); opacity: 0.55; }
 
-  /* Mobile-specific */
+  /* Mobile */
   @media (max-width: 480px) {
-    .rabbit { bottom: 16%; width: clamp(150px, 38vmin, 200px); }
-    .heart-wrap { width: 92vw; top: 54%; }
+    .rabbit { right: 4%; bottom: 22%; width: clamp(96px, 26vmin, 160px); }
+    .slot   { width: clamp(220px, 70vmin, 380px); }
     .poster { top: 2.5%; }
-    .stadium { top: 46%; }
+    .tickets-out { width: 96vw; top: 36%; }
+    .palm { left: 1%; bottom: 20%; }
+  }
+  /* Tablet */
+  @media (min-width: 768px) and (orientation: portrait) {
+    .slot { width: clamp(280px, 50vmin, 460px); }
+    .rabbit { right: 14%; }
+  }
+  @media (min-width: 900px) and (orientation: landscape) {
+    .slot { width: clamp(280px, 40vmin, 460px); bottom: 18%; }
+    .rabbit { right: 18%; bottom: 16%; }
+    .palm { left: 8%; bottom: 14%; }
+    .tickets-out { width: 60vmin; }
   }
 </style>
 </head>
 <body>
 
-<!-- ─────── STAGE (autostart, no tap needed) ─────── -->
 <div class="stage">
- <div class="stage-inner">
+ <div class="stage-inner" id="stageInner">
   <div class="sky"></div>
 
   <!-- CLOUDS -->
@@ -835,7 +876,6 @@
       <ellipse cx="108" cy="32" rx="50" ry="28" fill="#fff"/>
       <ellipse cx="160" cy="46" rx="42" ry="24" fill="#fff"/>
       <ellipse cx="110" cy="66" rx="100" ry="14" fill="#fff"/>
-      <ellipse cx="110" cy="74" rx="102" ry="6" fill="#d8e6ec" opacity="0.5"/>
     </svg>
   </div>
   <div class="cloud cloud-3">
@@ -846,17 +886,9 @@
       <ellipse cx="110" cy="58" rx="80" ry="12" fill="#fff"/>
     </svg>
   </div>
-  <div class="cloud cloud-4">
-    <svg viewBox="0 0 220 90" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="86" cy="40" rx="50" ry="24" fill="#fff"/>
-      <ellipse cx="140" cy="44" rx="38" ry="20" fill="#fff"/>
-      <ellipse cx="110" cy="60" rx="88" ry="12" fill="#fff"/>
-    </svg>
-  </div>
 
   <div class="sun"></div>
 
-  <!-- SEAGULLS -->
   <div class="gull gull-1">
     <svg viewBox="0 0 60 20" xmlns="http://www.w3.org/2000/svg">
       <path d="M 4 12 Q 14 2, 30 13 Q 46 2, 56 12" stroke="#1a1410" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
@@ -868,51 +900,11 @@
     </svg>
   </div>
 
-  <!-- STADIUM (subtle, on horizon) -->
-  <svg class="stadium" viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-    <defs>
-      <linearGradient id="stadiumGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"  stop-color="white" stop-opacity="0.95"/>
-        <stop offset="100%" stop-color="white" stop-opacity="0.5"/>
-      </linearGradient>
-      <linearGradient id="stadiumFill" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"  stop-color="rgba(255,255,255,0.16)"/>
-        <stop offset="100%" stop-color="rgba(255,255,255,0.04)"/>
-      </linearGradient>
-    </defs>
-    <ellipse cx="400" cy="232" rx="370" ry="36" fill="url(#stadiumFill)"/>
-    <ellipse cx="400" cy="248" rx="380" ry="38" fill="none" stroke="url(#stadiumGrad)" stroke-width="1.6"/>
-    <ellipse cx="400" cy="218" rx="370" ry="35" fill="none" stroke="url(#stadiumGrad)" stroke-width="1.3"/>
-    <ellipse cx="400" cy="190" rx="350" ry="32" fill="none" stroke="url(#stadiumGrad)" stroke-width="1.1"/>
-    <ellipse cx="400" cy="154" rx="318" ry="26" fill="none" stroke="url(#stadiumGrad)" stroke-width="1.5"/>
-    <ellipse cx="400" cy="134" rx="140" ry="12" fill="none" stroke="url(#stadiumGrad)" stroke-width="1"/>
-    <g stroke="url(#stadiumGrad)" stroke-width="0.8" opacity="0.85">
-      <line x1="400" y1="66" x2="84"  y2="148"/>
-      <line x1="400" y1="66" x2="160" y2="164"/>
-      <line x1="400" y1="66" x2="232" y2="174"/>
-      <line x1="400" y1="66" x2="300" y2="178"/>
-      <line x1="400" y1="66" x2="360" y2="180"/>
-      <line x1="400" y1="66" x2="400" y2="180"/>
-      <line x1="400" y1="66" x2="440" y2="180"/>
-      <line x1="400" y1="66" x2="500" y2="178"/>
-      <line x1="400" y1="66" x2="568" y2="174"/>
-      <line x1="400" y1="66" x2="640" y2="164"/>
-      <line x1="400" y1="66" x2="716" y2="148"/>
-    </g>
-    <line x1="400" y1="66" x2="400" y2="134" stroke="white" stroke-width="1.6" stroke-opacity="0.92"/>
-    <circle cx="400" cy="50" r="5" fill="none" stroke="white" stroke-width="1.5" stroke-opacity="0.92"/>
-    <line x1="400" y1="50" x2="400" y2="66" stroke="white" stroke-width="1.5" stroke-opacity="0.92"/>
-    <line x1="400" y1="38" x2="400" y2="14" stroke="white" stroke-width="1" stroke-opacity="0.85"/>
-    <circle cx="400" cy="12" r="2.5" fill="white" fill-opacity="0.95"/>
-  </svg>
-
-  <!-- SEA -->
   <div class="sea-detail"></div>
   <div class="sea-waves">
     <svg viewBox="0 0 800 150" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
       <path d="M 0 30 Q 80 20, 160 32 T 320 32 T 480 32 T 640 32 T 800 32 V 36 Q 720 26, 640 34 T 480 34 T 320 34 T 160 34 T 0 34 Z" fill="rgba(255,255,255,0.18)"/>
       <path d="M 0 75 Q 100 70, 200 78 T 400 78 T 600 78 T 800 78 V 80 Q 700 72, 600 80 T 400 80 T 200 80 T 0 80 Z" fill="rgba(255,255,255,0.12)"/>
-      <path d="M 0 110 Q 90 102, 180 113 T 360 113 T 540 113 T 720 113 T 800 113 V 115 Q 710 105, 620 115 T 460 115 T 280 115 T 100 115 T 0 115 Z" fill="rgba(255,255,255,0.08)"/>
     </svg>
   </div>
   <div class="sea-foam"></div>
@@ -938,14 +930,6 @@
     </defs>
     <path d="M 96 320 C 92 240, 110 170, 102 110 C 94 70, 108 38, 106 18"
           stroke="url(#trunkG)" stroke-width="13" fill="none" stroke-linecap="round"/>
-    <g stroke="#2a1810" stroke-width="0.9" fill="none" opacity="0.55">
-      <path d="M 88 290 q 12 -2, 19 0"/>
-      <path d="M 86 252 q 14 -2, 20 0"/>
-      <path d="M 90 212 q 14 -2, 19 0"/>
-      <path d="M 96 175 q 12 -2, 17 0"/>
-      <path d="M 94 140 q 14 -2, 17 0"/>
-      <path d="M 96 105 q 12 -2, 16 0"/>
-    </g>
     <g transform="translate(106, 20)">
       <path d="M0 0 C -28 -8, -82 -8, -125 10 C -75 0, -32 8, 0 0 Z" fill="url(#leafB)" stroke="#1a3818" stroke-width="0.6"/>
       <path d="M0 0 C -30 -32, -82 -45, -125 -34 C -78 -30, -32 -12, 0 0 Z" fill="url(#leafA)" stroke="#1a3818" stroke-width="0.6"/>
@@ -953,56 +937,239 @@
       <path d="M0 0 C 24 -26, 74 -40, 116 -30 C 70 -24, 30 -8, 0 0 Z" fill="url(#leafA)" stroke="#1a3818" stroke-width="0.6"/>
       <path d="M0 0 C 32 8, 80 12, 118 30 C 74 14, 34 14, 0 0 Z" fill="url(#leafB)" stroke="#1a3818" stroke-width="0.6"/>
       <path d="M0 0 C -20 20, -54 40, -84 60 C -50 36, -20 14, 0 0 Z" fill="url(#leafA)" stroke="#1a3818" stroke-width="0.6"/>
-      <!-- Coconuts on palm -->
-      <ellipse cx="-3" cy="10" rx="6.5" ry="7.5" fill="#5a3414" stroke="#1a0e08" stroke-width="0.9"/>
-      <ellipse cx="8"  cy="14" rx="6.5" ry="7.5" fill="#5a3414" stroke="#1a0e08" stroke-width="0.9"/>
-      <ellipse cx="2"  cy="21" rx="6.5" ry="7.5" fill="#5a3414" stroke="#1a0e08" stroke-width="0.9"/>
     </g>
   </svg>
 
-  <!-- GLOW (light flash before reveal) -->
-  <div class="glow"></div>
-
-  <!-- Sparkle "noticing" effects -->
-  <div class="notice-spark spark-1">✨</div>
-  <div class="notice-spark spark-2">★</div>
-  <div class="notice-spark spark-3">✦</div>
-  <div class="notice-spark spark-4">✨</div>
-  <div class="notice-spark spark-5">★</div>
-
-  <!-- LIGHT RAYS behind reveal -->
-  <div class="light-rays">
-    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+  <!-- ───────────  SLOT MACHINE  ─────────── -->
+  <div class="slot">
+    <svg viewBox="0 0 400 480" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
       <defs>
-        <radialGradient id="rayGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="rgba(255,235,150,0.55)"/>
-          <stop offset="55%" stop-color="rgba(255,210,90,0.18)"/>
-          <stop offset="100%" stop-color="rgba(255,210,90,0)"/>
+        <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stop-color="#ff7a8a"/>
+          <stop offset="55%" stop-color="#c5283d"/>
+          <stop offset="100%" stop-color="#7a1424"/>
+        </linearGradient>
+        <linearGradient id="topG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stop-color="#fff0a8"/>
+          <stop offset="50%" stop-color="#f5d97a"/>
+          <stop offset="100%" stop-color="#a47820"/>
+        </linearGradient>
+        <linearGradient id="trayG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stop-color="#8a4520"/>
+          <stop offset="100%" stop-color="#3a1a08"/>
+        </linearGradient>
+        <radialGradient id="leverBall" cx="50%" cy="40%" r="60%">
+          <stop offset="0%"  stop-color="#fff5d0"/>
+          <stop offset="50%" stop-color="#f5d97a"/>
+          <stop offset="100%" stop-color="#6a4f12"/>
         </radialGradient>
+        <clipPath id="reelClip">
+          <rect x="0" y="0" width="80" height="100"/>
+        </clipPath>
       </defs>
-      <g transform="translate(200,200)" fill="rgba(255,235,150,0.34)">
-        <polygon points="0,-200 -12,-40 12,-40"/>
-        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(22.5)"/>
-        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(45)"/>
-        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(67.5)"/>
-        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(90)"/>
-        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(112.5)"/>
-        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(135)"/>
-        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(157.5)"/>
-        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(180)"/>
-        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(202.5)"/>
-        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(225)"/>
-        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(247.5)"/>
-        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(270)"/>
-        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(292.5)"/>
-        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(315)"/>
-        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(337.5)"/>
+
+      <!-- Base coin tray -->
+      <rect x="30" y="380" width="340" height="60" rx="14" fill="url(#trayG)" stroke="#1a0a04" stroke-width="3"/>
+      <rect x="30" y="380" width="340" height="6" rx="3" fill="#1a0a04" opacity="0.5"/>
+      <rect x="60" y="402" width="280" height="14" rx="4" fill="#1a0a04" opacity="0.6"/>
+
+      <!-- Main body -->
+      <rect x="40" y="80" width="320" height="320" rx="26" fill="url(#bodyG)" stroke="#4a0c14" stroke-width="3"/>
+      <!-- Body inner darker frame -->
+      <rect x="50" y="90" width="300" height="300" rx="20" fill="none" stroke="#7a1424" stroke-width="2" opacity="0.6"/>
+      <!-- Body shine -->
+      <path d="M 50 100 Q 200 90, 350 100 L 350 110 Q 200 100, 50 110 Z" fill="rgba(255,255,255,0.2)"/>
+
+      <!-- Top marquee -->
+      <rect x="30" y="20" width="340" height="80" rx="20" fill="url(#topG)" stroke="#4a3008" stroke-width="3"/>
+      <rect x="40" y="30" width="320" height="60" rx="14" fill="none" stroke="#4a3008" stroke-width="1.5" opacity="0.4"/>
+      <!-- Marquee text -->
+      <text x="200" y="56" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="20" fill="#3a1a08" letter-spacing="2">★ LUCKY HEARTS ★</text>
+      <text x="200" y="78" text-anchor="middle" font-family="DM Mono, monospace" font-size="9" fill="#3a1a08" opacity="0.7" letter-spacing="2">JACKPOT MACHINE · EST. 2026</text>
+
+      <!-- Border lights (top) -->
+      <g>
+        <circle class="slot-light" cx="45"  cy="25" r="5" fill="#fff5b0"/>
+        <circle class="slot-light" cx="85"  cy="25" r="5" fill="#fff5b0" style="animation-delay: 0.1s"/>
+        <circle class="slot-light" cx="125" cy="25" r="5" fill="#fff5b0" style="animation-delay: 0.2s"/>
+        <circle class="slot-light" cx="165" cy="25" r="5" fill="#fff5b0" style="animation-delay: 0.3s"/>
+        <circle class="slot-light" cx="200" cy="20" r="5" fill="#fff5b0" style="animation-delay: 0.4s"/>
+        <circle class="slot-light" cx="235" cy="25" r="5" fill="#fff5b0" style="animation-delay: 0.3s"/>
+        <circle class="slot-light" cx="275" cy="25" r="5" fill="#fff5b0" style="animation-delay: 0.2s"/>
+        <circle class="slot-light" cx="315" cy="25" r="5" fill="#fff5b0" style="animation-delay: 0.1s"/>
+        <circle class="slot-light" cx="355" cy="25" r="5" fill="#fff5b0"/>
       </g>
-      <circle cx="200" cy="200" r="160" fill="url(#rayGlow)"/>
+      <!-- Border lights (sides) -->
+      <g>
+        <circle class="slot-light" cx="48" cy="120" r="4" fill="#fff5b0" style="animation-delay: 0.2s"/>
+        <circle class="slot-light" cx="48" cy="170" r="4" fill="#fff5b0" style="animation-delay: 0.4s"/>
+        <circle class="slot-light" cx="48" cy="220" r="4" fill="#fff5b0" style="animation-delay: 0.1s"/>
+        <circle class="slot-light" cx="48" cy="270" r="4" fill="#fff5b0" style="animation-delay: 0.3s"/>
+        <circle class="slot-light" cx="48" cy="320" r="4" fill="#fff5b0" style="animation-delay: 0.2s"/>
+        <circle class="slot-light" cx="48" cy="370" r="4" fill="#fff5b0" style="animation-delay: 0.4s"/>
+        <circle class="slot-light" cx="352" cy="120" r="4" fill="#fff5b0" style="animation-delay: 0.1s"/>
+        <circle class="slot-light" cx="352" cy="170" r="4" fill="#fff5b0" style="animation-delay: 0.3s"/>
+        <circle class="slot-light" cx="352" cy="220" r="4" fill="#fff5b0" style="animation-delay: 0.2s"/>
+        <circle class="slot-light" cx="352" cy="270" r="4" fill="#fff5b0" style="animation-delay: 0.4s"/>
+        <circle class="slot-light" cx="352" cy="320" r="4" fill="#fff5b0" style="animation-delay: 0.1s"/>
+        <circle class="slot-light" cx="352" cy="370" r="4" fill="#fff5b0" style="animation-delay: 0.2s"/>
+      </g>
+
+      <!-- Reel housing (dark inside) -->
+      <rect x="68" y="125" width="264" height="120" rx="10" fill="#1a0a08" stroke="#4a0c14" stroke-width="2"/>
+
+      <!-- Reel window 1 -->
+      <rect x="78" y="135" width="80" height="100" rx="6" fill="#fff8e8" stroke="#7a3020" stroke-width="2"/>
+      <g clip-path="url(#reelClip)" transform="translate(78, 135)">
+        <g class="reel-strip reel-1">
+          <!-- Each symbol is 100px tall, total 28 symbols of 100px = 2800px. End at -2500 to show heart at y=0 (position 25 in strip) -->
+          <text x="40" y="80" text-anchor="middle" font-size="64">🍒</text>
+          <text x="40" y="180" text-anchor="middle" font-size="64">🍋</text>
+          <text x="40" y="280" text-anchor="middle" font-size="64">⭐</text>
+          <text x="40" y="380" text-anchor="middle" font-size="64">🔔</text>
+          <text x="40" y="480" text-anchor="middle" font-size="64">🍀</text>
+          <text x="40" y="580" text-anchor="middle" font-size="64">💎</text>
+          <text x="40" y="680" text-anchor="middle" font-size="64">🍒</text>
+          <text x="40" y="780" text-anchor="middle" font-size="64">🍋</text>
+          <text x="40" y="880" text-anchor="middle" font-size="64">⭐</text>
+          <text x="40" y="980" text-anchor="middle" font-size="64">🔔</text>
+          <text x="40" y="1080" text-anchor="middle" font-size="64">🍀</text>
+          <text x="40" y="1180" text-anchor="middle" font-size="64">💎</text>
+          <text x="40" y="1280" text-anchor="middle" font-size="64">🍒</text>
+          <text x="40" y="1380" text-anchor="middle" font-size="64">🍋</text>
+          <text x="40" y="1480" text-anchor="middle" font-size="64">⭐</text>
+          <text x="40" y="1580" text-anchor="middle" font-size="64">🔔</text>
+          <text x="40" y="1680" text-anchor="middle" font-size="64">🍀</text>
+          <text x="40" y="1780" text-anchor="middle" font-size="64">💎</text>
+          <text x="40" y="1880" text-anchor="middle" font-size="64">🍒</text>
+          <text x="40" y="1980" text-anchor="middle" font-size="64">🍋</text>
+          <text x="40" y="2080" text-anchor="middle" font-size="64">⭐</text>
+          <text x="40" y="2180" text-anchor="middle" font-size="64">🔔</text>
+          <text x="40" y="2280" text-anchor="middle" font-size="64">🍀</text>
+          <text x="40" y="2380" text-anchor="middle" font-size="64">💎</text>
+          <text x="40" y="2480" text-anchor="middle" font-size="64">🍒</text>
+          <!-- Land here on heart -->
+          <text class="winner-1" x="40" y="2580" text-anchor="middle" font-size="72">❤️</text>
+          <text x="40" y="2680" text-anchor="middle" font-size="64">🍒</text>
+          <text x="40" y="2780" text-anchor="middle" font-size="64">⭐</text>
+        </g>
+      </g>
+
+      <!-- Reel window 2 -->
+      <rect x="168" y="135" width="80" height="100" rx="6" fill="#fff8e8" stroke="#7a3020" stroke-width="2"/>
+      <g clip-path="url(#reelClip)" transform="translate(168, 135)">
+        <g class="reel-strip reel-2">
+          <text x="40" y="80" text-anchor="middle" font-size="64">🍋</text>
+          <text x="40" y="180" text-anchor="middle" font-size="64">🍒</text>
+          <text x="40" y="280" text-anchor="middle" font-size="64">🔔</text>
+          <text x="40" y="380" text-anchor="middle" font-size="64">⭐</text>
+          <text x="40" y="480" text-anchor="middle" font-size="64">💎</text>
+          <text x="40" y="580" text-anchor="middle" font-size="64">🍀</text>
+          <text x="40" y="680" text-anchor="middle" font-size="64">🍋</text>
+          <text x="40" y="780" text-anchor="middle" font-size="64">🍒</text>
+          <text x="40" y="880" text-anchor="middle" font-size="64">🔔</text>
+          <text x="40" y="980" text-anchor="middle" font-size="64">⭐</text>
+          <text x="40" y="1080" text-anchor="middle" font-size="64">💎</text>
+          <text x="40" y="1180" text-anchor="middle" font-size="64">🍀</text>
+          <text x="40" y="1280" text-anchor="middle" font-size="64">🍋</text>
+          <text x="40" y="1380" text-anchor="middle" font-size="64">🍒</text>
+          <text x="40" y="1480" text-anchor="middle" font-size="64">🔔</text>
+          <text x="40" y="1580" text-anchor="middle" font-size="64">⭐</text>
+          <text x="40" y="1680" text-anchor="middle" font-size="64">💎</text>
+          <text x="40" y="1780" text-anchor="middle" font-size="64">🍀</text>
+          <text x="40" y="1880" text-anchor="middle" font-size="64">🍋</text>
+          <text x="40" y="1980" text-anchor="middle" font-size="64">🍒</text>
+          <text x="40" y="2080" text-anchor="middle" font-size="64">🔔</text>
+          <text x="40" y="2180" text-anchor="middle" font-size="64">⭐</text>
+          <text x="40" y="2280" text-anchor="middle" font-size="64">💎</text>
+          <text x="40" y="2380" text-anchor="middle" font-size="64">🍀</text>
+          <text x="40" y="2480" text-anchor="middle" font-size="64">🍋</text>
+          <text x="40" y="2580" text-anchor="middle" font-size="64">🍒</text>
+          <text x="40" y="2680" text-anchor="middle" font-size="64">🔔</text>
+          <text x="40" y="2780" text-anchor="middle" font-size="64">⭐</text>
+          <text x="40" y="2880" text-anchor="middle" font-size="64">💎</text>
+          <text x="40" y="2980" text-anchor="middle" font-size="64">🍀</text>
+          <!-- Land on heart at y=3080, but reel-2 stops at -3000 = shows item at y=3000 (heart should be there) -->
+          <text class="winner-2" x="40" y="3080" text-anchor="middle" font-size="72">❤️</text>
+          <text x="40" y="3180" text-anchor="middle" font-size="64">🍒</text>
+        </g>
+      </g>
+
+      <!-- Reel window 3 -->
+      <rect x="258" y="135" width="80" height="100" rx="6" fill="#fff8e8" stroke="#7a3020" stroke-width="2"/>
+      <g clip-path="url(#reelClip)" transform="translate(258, 135)">
+        <g class="reel-strip reel-3">
+          <text x="40" y="80" text-anchor="middle" font-size="64">⭐</text>
+          <text x="40" y="180" text-anchor="middle" font-size="64">🍋</text>
+          <text x="40" y="280" text-anchor="middle" font-size="64">💎</text>
+          <text x="40" y="380" text-anchor="middle" font-size="64">🍒</text>
+          <text x="40" y="480" text-anchor="middle" font-size="64">🔔</text>
+          <text x="40" y="580" text-anchor="middle" font-size="64">🍀</text>
+          <text x="40" y="680" text-anchor="middle" font-size="64">⭐</text>
+          <text x="40" y="780" text-anchor="middle" font-size="64">🍋</text>
+          <text x="40" y="880" text-anchor="middle" font-size="64">💎</text>
+          <text x="40" y="980" text-anchor="middle" font-size="64">🍒</text>
+          <text x="40" y="1080" text-anchor="middle" font-size="64">🔔</text>
+          <text x="40" y="1180" text-anchor="middle" font-size="64">🍀</text>
+          <text x="40" y="1280" text-anchor="middle" font-size="64">⭐</text>
+          <text x="40" y="1380" text-anchor="middle" font-size="64">🍋</text>
+          <text x="40" y="1480" text-anchor="middle" font-size="64">💎</text>
+          <text x="40" y="1580" text-anchor="middle" font-size="64">🍒</text>
+          <text x="40" y="1680" text-anchor="middle" font-size="64">🔔</text>
+          <text x="40" y="1780" text-anchor="middle" font-size="64">🍀</text>
+          <text x="40" y="1880" text-anchor="middle" font-size="64">⭐</text>
+          <text x="40" y="1980" text-anchor="middle" font-size="64">🍋</text>
+          <text x="40" y="2080" text-anchor="middle" font-size="64">💎</text>
+          <text x="40" y="2180" text-anchor="middle" font-size="64">🍒</text>
+          <text x="40" y="2280" text-anchor="middle" font-size="64">🔔</text>
+          <text x="40" y="2380" text-anchor="middle" font-size="64">🍀</text>
+          <text x="40" y="2480" text-anchor="middle" font-size="64">⭐</text>
+          <text x="40" y="2580" text-anchor="middle" font-size="64">🍋</text>
+          <text x="40" y="2680" text-anchor="middle" font-size="64">💎</text>
+          <text x="40" y="2780" text-anchor="middle" font-size="64">🍒</text>
+          <text x="40" y="2880" text-anchor="middle" font-size="64">🔔</text>
+          <text x="40" y="2980" text-anchor="middle" font-size="64">🍀</text>
+          <text x="40" y="3080" text-anchor="middle" font-size="64">⭐</text>
+          <text x="40" y="3180" text-anchor="middle" font-size="64">🍋</text>
+          <text x="40" y="3280" text-anchor="middle" font-size="64">💎</text>
+          <text x="40" y="3380" text-anchor="middle" font-size="64">🍒</text>
+          <text x="40" y="3480" text-anchor="middle" font-size="64">🔔</text>
+          <text class="winner-3" x="40" y="3580" text-anchor="middle" font-size="72">❤️</text>
+          <text x="40" y="3680" text-anchor="middle" font-size="64">🍀</text>
+        </g>
+      </g>
+
+      <!-- Display/screen text below reels -->
+      <rect x="100" y="260" width="200" height="36" rx="6" fill="#1a4530" stroke="#0a1a14" stroke-width="2"/>
+      <text x="200" y="284" text-anchor="middle" font-family="DM Mono, monospace" font-size="13" font-weight="700" fill="#5af090" letter-spacing="2">★ LUCKY ★</text>
+
+      <!-- BIG SPIN BUTTON -->
+      <circle cx="200" cy="330" r="32" fill="url(#bodyG)" stroke="#4a0c14" stroke-width="3"/>
+      <circle cx="200" cy="330" r="24" fill="#ff5a7a" stroke="#4a0c14" stroke-width="2"/>
+      <text x="200" y="336" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="14" fill="#fff">SPIN</text>
+
+      <!-- LEVER (right side) -->
+      <g class="slot-lever">
+        <!-- Lever shaft -->
+        <line x1="368" y1="220" x2="368" y2="280" stroke="#8a4520" stroke-width="6" stroke-linecap="round"/>
+        <!-- Lever socket -->
+        <rect x="362" y="278" width="14" height="8" rx="2" fill="#4a3008" stroke="#1a0a08" stroke-width="1"/>
+        <!-- Lever ball -->
+        <circle cx="368" cy="216" r="12" fill="url(#leverBall)" stroke="#4a3008" stroke-width="2"/>
+        <circle cx="364" cy="212" r="3" fill="rgba(255,255,255,0.6)"/>
+      </g>
+
+      <!-- Jackpot flash overlay around slot -->
+      <rect class="slot-flash" x="35" y="15" width="330" height="430" rx="28" fill="none" stroke="#fff5b0" stroke-width="5" opacity="0">
+        <animate attributeName="opacity"
+                 values="0;0.9;0;0.9;0"
+                 keyTimes="0;0.2;0.4;0.6;1"
+                 begin="11.0s" dur="1.2s" fill="freeze"/>
+      </rect>
     </svg>
   </div>
 
-  <!-- BUNNY MASCOT — cute, app-quality, friendly -->
+  <!-- ───────────  BUNNY MASCOT  ─────────── -->
   <svg class="rabbit" viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <radialGradient id="rGrad" cx="40%" cy="35%" r="75%">
@@ -1025,72 +1192,38 @@
         <stop offset="70%" stop-color="#d4af37"/>
         <stop offset="100%" stop-color="#6a4f12"/>
       </linearGradient>
-      <radialGradient id="goldLink" cx="40%" cy="35%" r="65%">
-        <stop offset="0%"  stop-color="#fff0a8"/>
-        <stop offset="55%" stop-color="#d4af37"/>
-        <stop offset="100%" stop-color="#5a3f0a"/>
-      </radialGradient>
     </defs>
 
-    <!-- Ground shadow -->
     <ellipse cx="100" cy="240" rx="60" ry="6" fill="rgba(0,0,0,0.22)"/>
-
-    <!-- Feet -->
     <ellipse cx="72" cy="232" rx="20" ry="10" fill="url(#rGrad)"/>
     <ellipse cx="128" cy="232" rx="20" ry="10" fill="url(#rGrad)"/>
-    <ellipse cx="68" cy="234" rx="6" ry="2.5" fill="#ff7a9d" opacity="0.5"/>
-    <ellipse cx="132" cy="234" rx="6" ry="2.5" fill="#ff7a9d" opacity="0.5"/>
 
-    <!-- Body (rounded pear shape) -->
-    <path d="M 100 130 Q 50 132, 46 192 Q 42 232, 100 234 Q 158 232, 154 192 Q 150 132, 100 130 Z"
-          fill="url(#rGrad)"/>
-    <!-- Belly highlight -->
+    <path d="M 100 130 Q 50 132, 46 192 Q 42 232, 100 234 Q 158 232, 154 192 Q 150 132, 100 130 Z" fill="url(#rGrad)"/>
     <ellipse cx="100" cy="194" rx="32" ry="32" fill="url(#rBelly)" opacity="0.75"/>
-    <!-- Soft body shine -->
     <ellipse cx="76" cy="160" rx="18" ry="7" fill="rgba(255,255,255,0.07)"/>
 
-    <!-- Gold Cuban-link chain — always visible -->
+    <!-- Gold chain -->
     <g>
       <path d="M 58 156 Q 62 174, 76 186 Q 100 198, 124 186 Q 138 174, 142 156"
             fill="none" stroke="url(#rGold)" stroke-width="6" stroke-linecap="round"/>
       <path d="M 58 156 Q 62 174, 76 186 Q 100 198, 124 186 Q 138 174, 142 156"
-            fill="none" stroke="#2a1f0f" stroke-width="6.1" stroke-linecap="butt"
-            stroke-dasharray="0.4 3.4"/>
-      <path d="M 58 156 Q 62 174, 76 186 Q 100 198, 124 186 Q 138 174, 142 156"
-            fill="none" stroke="#fff5d0" stroke-width="1.4" stroke-linecap="round" opacity="0.65"/>
-      <g>
-        <ellipse cx="62" cy="164" rx="3.4" ry="2.2" fill="url(#goldLink)" stroke="#2a1f0f" stroke-width="0.4"/>
-        <ellipse cx="68" cy="172" rx="2.2" ry="3.4" fill="url(#goldLink)" stroke="#2a1f0f" stroke-width="0.4"/>
-        <ellipse cx="76" cy="178" rx="3.4" ry="2.2" fill="url(#goldLink)" stroke="#2a1f0f" stroke-width="0.4"/>
-        <ellipse cx="86" cy="186" rx="2.2" ry="3.4" fill="url(#goldLink)" stroke="#2a1f0f" stroke-width="0.4"/>
-        <ellipse cx="100" cy="194" rx="3.4" ry="2.2" fill="url(#goldLink)" stroke="#2a1f0f" stroke-width="0.4"/>
-        <ellipse cx="114" cy="186" rx="2.2" ry="3.4" fill="url(#goldLink)" stroke="#2a1f0f" stroke-width="0.4"/>
-        <ellipse cx="124" cy="178" rx="3.4" ry="2.2" fill="url(#goldLink)" stroke="#2a1f0f" stroke-width="0.4"/>
-        <ellipse cx="132" cy="172" rx="2.2" ry="3.4" fill="url(#goldLink)" stroke="#2a1f0f" stroke-width="0.4"/>
-        <ellipse cx="138" cy="164" rx="3.4" ry="2.2" fill="url(#goldLink)" stroke="#2a1f0f" stroke-width="0.4"/>
-      </g>
-      <!-- Bail -->
+            fill="none" stroke="#2a1f0f" stroke-width="6.1" stroke-linecap="butt" stroke-dasharray="0.4 3.4"/>
       <ellipse cx="100" cy="201" rx="4" ry="2.8" fill="none" stroke="url(#rGold)" stroke-width="1.8"/>
-      <!-- Pendant -->
       <path d="M 80 206 L 120 206 L 120 240 Q 120 252, 108 256 L 92 256 Q 80 252, 80 240 Z"
             fill="url(#rGold)" stroke="#2a1f0f" stroke-width="1.8"/>
-      <path d="M 85 211 L 115 211 L 115 238 Q 115 247, 107 250 L 93 250 Q 85 247, 85 238 Z"
-            fill="none" stroke="#2a1f0f" stroke-width="0.7" opacity="0.45"/>
-      <path d="M 86 213 L 114 213" stroke="#fff5d0" stroke-width="1.1" opacity="0.6" stroke-linecap="round"/>
-      <text x="100" y="242" text-anchor="middle"
-            font-family="Syne, sans-serif" font-weight="800" font-size="30"
-            fill="#1a0e08">F</text>
+      <text x="100" y="242" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="30" fill="#1a0e08">F</text>
     </g>
 
-    <!-- Arms (small, rounded) -->
+    <!-- Left arm (static) -->
     <ellipse cx="50" cy="180" rx="12" ry="20" fill="url(#rGrad)"/>
     <ellipse cx="46" cy="204" rx="9" ry="9" fill="url(#rGrad)"/>
-    <ellipse cx="150" cy="180" rx="12" ry="20" fill="url(#rGrad)"/>
-    <ellipse cx="154" cy="204" rx="9" ry="9" fill="url(#rGrad)"/>
+    <!-- Right arm (will animate when pulling lever) -->
+    <g class="b-arm-r">
+      <ellipse cx="150" cy="180" rx="12" ry="20" fill="url(#rGrad)"/>
+      <ellipse cx="154" cy="204" rx="9" ry="9" fill="url(#rGrad)"/>
+    </g>
 
-    <!-- HEAD GROUP — animates independently (looks up at glow) -->
     <g class="b-head">
-      <!-- Ears (independent) -->
       <g class="b-ear-l">
         <ellipse cx="78" cy="48" rx="11" ry="42" fill="url(#rGrad)"/>
         <ellipse cx="78" cy="54" rx="5" ry="30" fill="#ff9cb5" opacity="0.9"/>
@@ -1100,69 +1233,39 @@
         <ellipse cx="122" cy="54" rx="5" ry="30" fill="#ff9cb5" opacity="0.9"/>
       </g>
 
-      <!-- Head (big, round) -->
       <circle cx="100" cy="110" r="54" fill="url(#rGrad)"/>
-      <!-- Fluffy cheek puffs -->
       <ellipse cx="58" cy="128" rx="11" ry="13" fill="url(#rGrad)"/>
       <ellipse cx="142" cy="128" rx="11" ry="13" fill="url(#rGrad)"/>
-      <!-- Cheek blush (subtle pink) -->
       <ellipse cx="62" cy="130" rx="7" ry="4" fill="#ff7a9d" opacity="0.25"/>
       <ellipse cx="138" cy="130" rx="7" ry="4" fill="#ff7a9d" opacity="0.25"/>
 
-      <!-- Eyes (big with multi-highlights) -->
       <g class="b-eyes">
-        <!-- Eye whites -->
         <ellipse cx="82" cy="105" rx="13" ry="16" fill="white" stroke="#0a0608" stroke-width="1.5"/>
         <ellipse cx="118" cy="105" rx="13" ry="16" fill="white" stroke="#0a0608" stroke-width="1.5"/>
-        <!-- Iris -->
         <ellipse cx="82" cy="108" rx="8" ry="10" fill="url(#rEye)"/>
         <ellipse cx="118" cy="108" rx="8" ry="10" fill="url(#rEye)"/>
-        <!-- Pupils -->
         <ellipse cx="82" cy="110" rx="4.5" ry="6" fill="#0a0608"/>
         <ellipse cx="118" cy="110" rx="4.5" ry="6" fill="#0a0608"/>
-        <!-- Big sparkle highlights -->
         <ellipse cx="85" cy="103" rx="3" ry="4" fill="white"/>
         <ellipse cx="121" cy="103" rx="3" ry="4" fill="white"/>
-        <!-- Small lower highlights -->
         <circle cx="79" cy="113" r="1.4" fill="white"/>
         <circle cx="115" cy="113" r="1.4" fill="white"/>
-        <!-- Tiny lash hints -->
-        <path d="M 70 96 Q 73 92, 76 94" stroke="#0a0608" stroke-width="1" fill="none" stroke-linecap="round"/>
-        <path d="M 130 96 Q 127 92, 124 94" stroke="#0a0608" stroke-width="1" fill="none" stroke-linecap="round"/>
       </g>
 
-      <!-- Nose (pink) -->
       <path d="M 92 130 Q 100 124, 108 130 L 100 138 Z" fill="#ff5a7a" stroke="#0a0608" stroke-width="1"/>
-      <ellipse cx="96" cy="128" rx="2" ry="1" fill="rgba(255,255,255,0.55)"/>
-
-      <!-- Whiskers -->
       <g stroke="rgba(255,255,255,0.45)" stroke-width="0.7" stroke-linecap="round">
         <line x1="62" y1="136" x2="42" y2="134"/>
         <line x1="62" y1="140" x2="40" y2="144"/>
         <line x1="138" y1="136" x2="158" y2="134"/>
         <line x1="138" y1="140" x2="160" y2="144"/>
       </g>
-
-      <!-- Mouth — gentle smile -->
       <path d="M 100 140 L 100 146 Q 96 152, 90 149" stroke="#0a0608" stroke-width="1.5" fill="none" stroke-linecap="round"/>
       <path d="M 100 146 Q 104 152, 110 149" stroke="#0a0608" stroke-width="1.5" fill="none" stroke-linecap="round"/>
     </g>
   </svg>
 
-  <!-- HEART of TICKETS -->
-  <div class="heart-wrap">
-    <div class="heart-outline">
-      <svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-        <defs>
-          <linearGradient id="heartGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"  stop-color="#ff7a9d"/>
-            <stop offset="100%" stop-color="#c5283d"/>
-          </linearGradient>
-        </defs>
-        <path class="heart-draw" d="M 100 168 C 30 110, -5 60, 38 28 C 65 9, 92 28, 100 55 C 108 28, 135 9, 162 28 C 205 60, 170 110, 100 168 Z"
-              fill="none" stroke="url(#heartGrad)" stroke-width="3.5" stroke-linecap="round"/>
-      </svg>
-    </div>
+  <!-- TICKETS (fly out of slot machine on jackpot) -->
+  <div class="tickets-out">
     <div class="ticket ticket-filip">
       <div class="brand-row"><span>BAD BUNNY</span><span class="dot">·</span><span>Ticket</span></div>
       <div class="big-brand">BAD BUNNY</div>
@@ -1183,7 +1286,7 @@
 
   <!-- POSTER -->
   <div class="poster">
-    <div class="rp-burst">🎉 NIESPODZIANKA! 🎉</div>
+    <div class="rp-burst">🎉 JACKPOT! 🎉</div>
     <div class="rp-line rp-names">FILIP <span class="amp">&amp;</span> JUSTYNA</div>
     <div class="rp-line rp-going">idziecie na</div>
     <div class="rp-line rp-title">BAD BUNNY</div>
@@ -1193,12 +1296,15 @@
     <div class="rp-line rp-cta">🎟️ Bilety czekają u <span>świadka</span></div>
   </div>
 
-  <!-- CONFETTI layer -->
+  <div class="jackpot-flash"></div>
   <div class="confetti-layer" id="confetti"></div>
  </div>
 </div>
 
-<!-- SOUND TOGGLE (only shown if music can't autoplay) -->
+<!-- SOUND HINT (briefly visible at start) -->
+<div class="sound-hint" id="soundHint">🔊 stuknij gdziekolwiek dla dźwięku</div>
+
+<!-- SOUND TOGGLE -->
 <button class="sound-toggle muted" id="soundToggle" style="display:none" aria-label="Toggle sound">🔊</button>
 
 <!-- YOUTUBE music host -->
@@ -1219,12 +1325,17 @@
 </footer>
 
 <script>
-  // ───── Music (YouTube IFrame API) — auto-play attempt ─────
+  // Bad Bunny — DtMF (Official Audio)
   const YT_VIDEO_ID = "rMcvHSaQISU";
-  const START_SECONDS = 187; // 03:07 — so the song drop at 03:20 lands exactly when NIESPODZIANKA pops (animation t=13s)
+  // Start at 03:09 — so the drop at 03:20 hits at animation t=11s (jackpot moment)
+  const START_SECONDS = 189;
 
   let ytPlayer = null;
   let ytReady = false;
+  let userInteracted = false;
+
+  const soundBtn = document.getElementById('soundToggle');
+  const soundHint = document.getElementById('soundHint');
 
   window.onYouTubeIframeAPIReady = function () {
     ytPlayer = new YT.Player('yt-player', {
@@ -1246,42 +1357,66 @@
           ytReady = true;
           try {
             ytPlayer.mute();
+            ytPlayer.setVolume(60);
             ytPlayer.seekTo(START_SECONDS, true);
             ytPlayer.playVideo();
-            // Try to unmute after ~3 seconds — mobile may still block
-            setTimeout(tryUnmute, 3000);
           } catch (e) {}
+          // Ramp volume during reel spin → max at jackpot
+          setTimeout(() => { try { ytPlayer.setVolume(70); } catch(e){} }, 4000);
+          setTimeout(() => { try { ytPlayer.setVolume(85); } catch(e){} }, 7000);
+          setTimeout(() => { try { ytPlayer.setVolume(100); } catch(e){} }, 10000);
+          // Try to unmute automatically (works on desktop + some Android)
+          setTimeout(unmuteIfPossible, 600);
         }
       }
     });
   };
 
-  const soundBtn = document.getElementById('soundToggle');
-
-  function tryUnmute() {
+  function unmuteIfPossible() {
     if (!ytPlayer || !ytPlayer.unMute) return;
     try {
       ytPlayer.unMute();
-      ytPlayer.setVolume(80);
+      ytPlayer.setVolume(70);
       ytPlayer.playVideo();
     } catch(e) {}
-    // After a moment, check if it actually became audible
-    setTimeout(checkAudible, 800);
-  }
-  function checkAudible() {
-    if (!ytPlayer) return;
-    try {
-      const muted = ytPlayer.isMuted && ytPlayer.isMuted();
-      const state = ytPlayer.getPlayerState && ytPlayer.getPlayerState();
-      // If still muted OR paused, browser blocked — show sound toggle
-      if (muted || state !== 1) {
-        soundBtn.style.display = 'flex';
-        soundBtn.classList.add('muted');
-      }
-    } catch(e) {}
+    // Check if audio is actually playing audibly
+    setTimeout(() => {
+      try {
+        const muted = ytPlayer.isMuted && ytPlayer.isMuted();
+        if (muted) {
+          // Browser blocked autoplay — show subtle sound toggle so user knows
+          soundBtn.style.display = 'flex';
+        } else {
+          // Sound is playing — hide the hint
+          soundHint.classList.add('hide');
+        }
+      } catch(e) {}
+    }, 800);
   }
 
-  soundBtn.addEventListener('click', () => {
+  function handleFirstInteraction() {
+    if (userInteracted) return;
+    userInteracted = true;
+    if (ytPlayer && ytPlayer.unMute) {
+      try {
+        ytPlayer.unMute();
+        ytPlayer.setVolume(80);
+        ytPlayer.playVideo();
+      } catch(e) {}
+    }
+    soundBtn.classList.remove('muted');
+    soundBtn.textContent = '🔊';
+    soundHint.classList.add('hide');
+  }
+
+  // Whole document acts as "tap anywhere for sound" — single trigger
+  ['click','touchstart','pointerdown'].forEach(ev => {
+    document.addEventListener(ev, handleFirstInteraction, { once: true, passive: true });
+  });
+
+  // Sound toggle button (manual)
+  soundBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
     if (!ytPlayer) return;
     try {
       if (ytPlayer.isMuted && ytPlayer.isMuted()) {
@@ -1289,7 +1424,6 @@
         ytPlayer.setVolume(80);
         ytPlayer.playVideo();
         soundBtn.classList.remove('muted');
-        soundBtn.textContent = '🔊';
       } else {
         ytPlayer.mute();
         soundBtn.classList.add('muted');
@@ -1297,13 +1431,23 @@
     } catch(e) {}
   });
 
-  // ───── Confetti at 6.0s (when NIESPODZIANKA pops) ─────
+  // ───── Slot machine sequence ─────
+  const stageInner = document.getElementById('stageInner');
+
+  // t=3.4s: bunny pulls lever
+  setTimeout(() => stageInner.classList.add('pulling'), 3400);
+  // t=4.0s: reels start spinning
+  setTimeout(() => stageInner.classList.add('spinning'), 4000);
+  // t=11.2s: JACKPOT! (last reel just stopped)
+  setTimeout(() => stageInner.classList.add('jackpot'), 11200);
+
+  // ───── Confetti at jackpot moment ─────
   (function makeConfetti(){
     const layer = document.getElementById('confetti');
     if (!layer) return;
     const colors = ['#ff5a7a', '#c5283d', '#d4af37', '#fff0a8', '#5ec5e8', '#76c46a', '#ff9c44', '#ffd055'];
     const shapes = ['rect','circle','star'];
-    const COUNT = 50;
+    const COUNT = 60;
     for (let i = 0; i < COUNT; i++) {
       const p = document.createElement('span');
       p.className = 'confetti';
@@ -1311,7 +1455,7 @@
       const x = Math.random() * 100;
       const drift = Math.random() * 80 - 40;
       const dur = 3 + Math.random() * 3;
-      const delay = 13.0 + Math.random() * 1.8;
+      const delay = 11.0 + Math.random() * 1.5;
       const size = 6 + Math.random() * 9;
       const spin = (Math.random()*720+360) * (Math.random()<0.5?1:-1);
       const shape = shapes[Math.floor(Math.random()*shapes.length)];
@@ -1332,18 +1476,10 @@
     }
   })();
 
-  // Defensive: if YT API loaded before this script
   if (typeof YT !== 'undefined' && YT.Player) {
     window.onYouTubeIframeAPIReady();
   }
 </script>
-<style>
-  @keyframes confetti-show { to { opacity: 1; } }
-  @keyframes confetti-fall {
-    0%   { transform: translate3d(0, -24px, 0) rotate(0deg); }
-    100% { transform: translate3d(var(--drift, 30px), 112vh, 0) rotate(var(--spin, 720deg)); }
-  }
-</style>
 <script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
