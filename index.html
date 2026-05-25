@@ -457,7 +457,7 @@
     transform: rotate(-90deg) scale(0.72);
     animation:
       rab-stand 1.2s cubic-bezier(.34,1.6,.42,1) 7.0s forwards,
-      rab-walk  4.5s ease-in-out 9.0s forwards,
+      rab-walk  5.5s ease-in-out 8.5s forwards,
       rab-pull  1.0s cubic-bezier(.4,1.2,.4,1) 17.0s forwards;
   }
 
@@ -658,22 +658,56 @@
     50%      { transform: rotate(4.5deg)  translateY(1.2px); }
   }
 
-  /* ─── WATCHING (after walk, before pull — focused on slot) ─── */
-  .rabbit.watching .b-head  { animation: head-watch   3.0s ease-in-out infinite; }
-  .rabbit.watching .b-ear-l { animation: ear-l-perky  2.6s ease-in-out infinite; }
-  .rabbit.watching .b-ear-r { animation: ear-r-perky  2.6s ease-in-out infinite 0.2s; }
-  .rabbit.watching .b-body  { animation: body-breathe 3.2s ease-in-out infinite; }
-  @keyframes head-watch {
-    0%, 100% { transform: rotate(-5deg) translateY(0); }
-    50%      { transform: rotate(-2deg) translateY(-1.5px); }
+  /* ─── WATCHING (after walk, before pull — bunny ACTIVELY hops + anticipates the slot) ─── */
+  /* 0.55s loop = same tempo as the walk cycle so the transition feels seamless.
+     Every body part animates so the bunny never appears to just stand still. */
+  .rabbit.watching .b-body   { animation: body-breathe 2.0s ease-in-out infinite,
+                                          body-excited 0.55s cubic-bezier(.4,1.5,.4,1) infinite; }
+  .rabbit.watching .b-head   { animation: head-eager   1.0s ease-in-out infinite; }
+  .rabbit.watching .b-ear-l  { animation: ear-l-eager  0.55s ease-in-out infinite; }
+  .rabbit.watching .b-ear-r  { animation: ear-r-eager  0.55s ease-in-out infinite 0.08s; }
+  .rabbit.watching .b-arm-l  { animation: arm-l-eager  0.55s ease-in-out infinite; }
+  .rabbit.watching .b-arm-r  { animation: arm-r-eager  0.55s ease-in-out infinite 0.06s; }
+  .rabbit.watching .b-chain  { animation: chain-bouncy 0.55s ease-in-out infinite 0.08s; }
+  .rabbit.watching .b-foot-l { animation: foot-l-hop   0.55s ease-in-out infinite; }
+  .rabbit.watching .b-foot-r { animation: foot-r-hop   0.55s ease-in-out infinite; }
+  @keyframes body-excited {
+    0%, 100% { transform: translateY(0)    scale(1); }
+    35%      { transform: translateY(-5px) scale(1.025, 0.985); }   /* hop apex */
+    65%      { transform: translateY(-1px) scale(1); }              /* settle bounce */
   }
-  @keyframes ear-l-perky {
-    0%, 100% { transform: rotate(-10deg); }
-    50%      { transform: rotate(-14deg); }
+  @keyframes head-eager {
+    0%, 100% { transform: rotate(-7deg) translateY(0); }
+    35%      { transform: rotate(-3deg) translateY(-3px); }          /* look up at slot */
+    65%      { transform: rotate(-9deg) translateY(0); }
   }
-  @keyframes ear-r-perky {
-    0%, 100% { transform: rotate(10deg); }
-    50%      { transform: rotate(14deg); }
+  @keyframes ear-l-eager {
+    0%, 100% { transform: rotate(-15deg); }
+    50%      { transform: rotate(-24deg); }                          /* ears spring up on each hop */
+  }
+  @keyframes ear-r-eager {
+    0%, 100% { transform: rotate(15deg); }
+    50%      { transform: rotate(24deg); }
+  }
+  @keyframes arm-l-eager {
+    0%, 100% { transform: rotate(-12deg) translateY(0); }
+    50%      { transform: rotate(-28deg) translateY(-3px); }         /* arms reach up in anticipation */
+  }
+  @keyframes arm-r-eager {
+    0%, 100% { transform: rotate(12deg) translateY(0); }
+    50%      { transform: rotate(28deg) translateY(-3px); }
+  }
+  @keyframes chain-bouncy {
+    0%, 100% { transform: rotate(-3deg) translateY(0); }
+    50%      { transform: rotate(4deg)  translateY(2px); }            /* chain swings with each hop */
+  }
+  @keyframes foot-l-hop {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-4px); }                         /* both feet lift = real hop */
+  }
+  @keyframes foot-r-hop {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-4px); }
   }
 
   /* ─── LEVER PULL (stage-inner.pulling — arm cocks back, then YANKS, body leans) ─── */
@@ -1499,32 +1533,113 @@
 
   <div class="sand"></div>
 
-  <!-- PALM -->
+  <!-- PALM — feathered fronds + coconut cluster + textured trunk -->
   <svg class="palm" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id="trunkG" x1="0" y1="1" x2="0" y2="0">
-        <stop offset="0%"  stop-color="#3e2410"/>
-        <stop offset="50%" stop-color="#6e4422"/>
-        <stop offset="100%" stop-color="#946238"/>
+      <linearGradient id="trunkG" x1="0.15" y1="0" x2="0.85" y2="0">
+        <stop offset="0%"   stop-color="#2a1808"/>
+        <stop offset="22%"  stop-color="#5a3818"/>
+        <stop offset="52%"  stop-color="#a87248"/>
+        <stop offset="78%"  stop-color="#6e4422"/>
+        <stop offset="100%" stop-color="#1f1004"/>
       </linearGradient>
-      <linearGradient id="leafA" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#76c46a"/>
+      <linearGradient id="leafTop" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#a8e08a"/>
+        <stop offset="55%"  stop-color="#4ea948"/>
         <stop offset="100%" stop-color="#1f5a22"/>
       </linearGradient>
-      <linearGradient id="leafB" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#5cab53"/>
-        <stop offset="100%" stop-color="#1f5a22"/>
+      <linearGradient id="leafSide" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#7bc468"/>
+        <stop offset="55%"  stop-color="#3d9038"/>
+        <stop offset="100%" stop-color="#194818"/>
       </linearGradient>
+      <linearGradient id="leafDark" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#5cab53"/>
+        <stop offset="55%"  stop-color="#2d7530"/>
+        <stop offset="100%" stop-color="#0f3a14"/>
+      </linearGradient>
+      <radialGradient id="cocoG" cx="32%" cy="28%" r="78%">
+        <stop offset="0%"   stop-color="#a06a3a"/>
+        <stop offset="48%"  stop-color="#5a3618"/>
+        <stop offset="100%" stop-color="#160a02"/>
+      </radialGradient>
+      <!-- Reusable frond shape (rachis going right + feathered leaflets on both sides) -->
+      <g id="palmFrond">
+        <!-- central rachis -->
+        <path d="M 0 0 C 25 -2, 55 -9, 100 -22"
+              stroke="#2d6c2a" stroke-width="1.7" fill="none" stroke-linecap="round" opacity="0.9"/>
+        <!-- upper leaflets (smaller→larger→smaller) -->
+        <path d="M 8 -1 Q 8 -10, 14 -14 Q 14 -7, 13 -1 Z" fill="url(#leafTop)"/>
+        <path d="M 20 -4 Q 16 -18, 30 -22 Q 26 -10, 24 -4 Z" fill="url(#leafTop)"/>
+        <path d="M 34 -8 Q 28 -24, 48 -29 Q 38 -14, 38 -8 Z" fill="url(#leafTop)"/>
+        <path d="M 50 -12 Q 42 -30, 66 -33 Q 54 -20, 54 -12 Z" fill="url(#leafSide)"/>
+        <path d="M 66 -17 Q 58 -33, 84 -33 Q 70 -22, 70 -17 Z" fill="url(#leafSide)"/>
+        <path d="M 82 -21 Q 78 -30, 99 -25 Q 92 -22, 88 -21 Z" fill="url(#leafDark)"/>
+        <!-- lower leaflets -->
+        <path d="M 14 2 Q 18 12, 24 14 Q 20 6, 18 2 Z" fill="url(#leafSide)"/>
+        <path d="M 28 -1 Q 34 10, 42 13 Q 34 4, 32 -1 Z" fill="url(#leafSide)"/>
+        <path d="M 44 -6 Q 52 7, 60 8 Q 50 -1, 48 -6 Z" fill="url(#leafDark)"/>
+        <path d="M 60 -11 Q 70 1, 78 1 Q 66 -6, 64 -11 Z" fill="url(#leafDark)"/>
+        <path d="M 76 -16 Q 84 -7, 92 -8 Q 82 -14, 80 -16 Z" fill="url(#leafDark)"/>
+      </g>
     </defs>
-    <path d="M 96 320 C 92 240, 110 170, 102 110 C 94 70, 108 38, 106 18"
-          stroke="url(#trunkG)" stroke-width="13" fill="none" stroke-linecap="round"/>
-    <g transform="translate(106, 20)">
-      <path d="M0 0 C -28 -8, -82 -8, -125 10 C -75 0, -32 8, 0 0 Z" fill="url(#leafB)" stroke="#1a3818" stroke-width="0.6"/>
-      <path d="M0 0 C -30 -32, -82 -45, -125 -34 C -78 -30, -32 -12, 0 0 Z" fill="url(#leafA)" stroke="#1a3818" stroke-width="0.6"/>
-      <path d="M0 0 C -2 -34, 10 -82, 38 -116 C 18 -72, 4 -34, 0 0 Z" fill="url(#leafB)" stroke="#1a3818" stroke-width="0.6"/>
-      <path d="M0 0 C 24 -26, 74 -40, 116 -30 C 70 -24, 30 -8, 0 0 Z" fill="url(#leafA)" stroke="#1a3818" stroke-width="0.6"/>
-      <path d="M0 0 C 32 8, 80 12, 118 30 C 74 14, 34 14, 0 0 Z" fill="url(#leafB)" stroke="#1a3818" stroke-width="0.6"/>
-      <path d="M0 0 C -20 20, -54 40, -84 60 C -50 36, -20 14, 0 0 Z" fill="url(#leafA)" stroke="#1a3818" stroke-width="0.6"/>
+
+    <!-- TRUNK — tapered filled shape with side shading -->
+    <path d="M 85 320
+             C 84 250, 100 175, 92 110
+             C 86 70, 102 38, 99 18
+             L 113 18
+             C 116 38, 122 70, 116 110
+             C 110 175, 104 250, 105 320 Z"
+          fill="url(#trunkG)" stroke="#1a0c02" stroke-width="0.8"/>
+
+    <!-- Bark segment rings -->
+    <g stroke="#22130a" stroke-width="0.7" opacity="0.62" fill="none">
+      <path d="M 86 296 Q 95 298, 104 295"/>
+      <path d="M 86 272 Q 96 274, 105 270"/>
+      <path d="M 87 248 Q 96 250, 106 246"/>
+      <path d="M 88 224 Q 97 226, 107 222"/>
+      <path d="M 90 200 Q 98 202, 108 199"/>
+      <path d="M 92 176 Q 100 178, 110 176"/>
+      <path d="M 94 152 Q 102 153, 112 150"/>
+      <path d="M 96 128 Q 103 129, 113 126"/>
+      <path d="M 97 104 Q 104 105, 113 102"/>
+      <path d="M 98 80  Q 105 80, 113 77"/>
+      <path d="M 100 56 Q 106 56, 113 53"/>
+      <path d="M 101 34 Q 107 34, 113 32"/>
+    </g>
+
+    <!-- Trunk highlight stripe (catches the sun) -->
+    <path d="M 93 318 C 91 240, 105 170, 100 100 C 97 65, 106 32, 105 20"
+          stroke="rgba(255,220,180,0.32)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+
+    <!-- COCONUTS — cluster of 4 nestled at the top of the trunk under the fronds -->
+    <g transform="translate(106, 24)">
+      <ellipse cx="-3"  cy="2"   rx="7"   ry="7"   fill="url(#cocoG)" stroke="#0c0602" stroke-width="0.8"/>
+      <ellipse cx="-5"  cy="-0.5" rx="2.2" ry="2"  fill="rgba(255,210,160,0.4)"/>
+      <ellipse cx="-12" cy="6"   rx="6.5" ry="6.5" fill="url(#cocoG)" stroke="#0c0602" stroke-width="0.8"/>
+      <ellipse cx="-14" cy="3.5" rx="2"   ry="1.8" fill="rgba(255,210,160,0.35)"/>
+      <ellipse cx="6"   cy="6"   rx="7"   ry="6.5" fill="url(#cocoG)" stroke="#0c0602" stroke-width="0.8"/>
+      <ellipse cx="4"   cy="3.5" rx="2"   ry="2"   fill="rgba(255,210,160,0.4)"/>
+      <ellipse cx="-7"  cy="10"  rx="5.5" ry="5"   fill="url(#cocoG)" stroke="#0c0602" stroke-width="0.8" opacity="0.95"/>
+      <ellipse cx="-9"  cy="8"   rx="1.6" ry="1.4" fill="rgba(255,210,160,0.3)"/>
+    </g>
+
+    <!-- FRONDS — 8 spread around the crown.
+         Drawing order: back-most first so the front-side fronds overlap convincingly. -->
+    <g transform="translate(106, 22)">
+      <!-- Back / drooping fronds (less prominent) -->
+      <use href="#palmFrond" transform="rotate(195) scale(0.9)"  opacity="0.82"/>
+      <use href="#palmFrond" transform="rotate(165) scale(0.95)" opacity="0.88"/>
+      <!-- Side fronds reaching out -->
+      <use href="#palmFrond" transform="rotate(-160) scale(1.0)"/>
+      <use href="#palmFrond" transform="rotate(-115) scale(1.05)"/>
+      <use href="#palmFrond" transform="rotate(-70)  scale(1.1)"/>
+      <!-- Top arching fronds -->
+      <use href="#palmFrond" transform="rotate(-25) scale(1.08)"/>
+      <use href="#palmFrond" transform="rotate(25)  scale(1.05)"/>
+      <use href="#palmFrond" transform="rotate(70)  scale(1.0)"/>
+      <use href="#palmFrond" transform="rotate(115) scale(0.95)"/>
     </g>
   </svg>
 
@@ -2280,14 +2395,13 @@
   }
 
   // ───── Bunny choreographer: DOM move + phase classes for cutout-puppet animation ─────
-  // Phases drive the layered sub-animations on body/ears/arms/head/chain/eyes:
-  //   t=0    : lying on towel (in .beach-spot wrapper, always-on idle anims)
-  //   t=6.5s : .prep      — ears twitch, eyes glance (anticipation before stand)
-  //   t=7.0s : .standing  — DOM move to stage; ears/arms unfold from lying pose (rab-stand 1.2s)
-  //   t=8.4s : (no phase) — brief idle moment before walking
-  //   t=9.0s : .walking   — limb walk cycle (matches rab-walk 4.5s)
-  //   t=13.6s: .watching  — focused on slot, ears perked
-  //   t=17s+ : stage-inner.pulling / .spinning / .jackpot drive reactive sub-anims
+  // Schedule packs the walk + active "watching" so the bunny never just stands still:
+  //   t=0     : lying on towel (in .beach-spot wrapper, always-on idle anims)
+  //   t=6.5s  : .prep      — ears twitch, eyes glance (anticipation before stand)
+  //   t=7.0s  : .standing  — DOM move to stage; ears/arms unfold from lying (rab-stand 1.2s)
+  //   t=8.5s  : .walking   — walks immediately after standing (rab-walk 5.5s)
+  //   t=14.0s : .watching  — ACTIVELY hops in place + arms reach + ears spring (matches walk tempo)
+  //   t=17s+  : stage-inner.pulling / .spinning / .jackpot drive reactive sub-anims
   (function bunnyChoreographer() {
     const bunny = document.querySelector('.rabbit');
     const beachSpot = document.getElementById('beachSpot');
@@ -2312,14 +2426,11 @@
       setPhase('standing');
     }, 7000);
 
-    // 8.4s — clear (brief idle pause before walk)
-    setTimeout(() => setPhase(null), 8400);
+    // 8.5s — go straight into walking (no awkward standing-still gap)
+    setTimeout(() => setPhase('walking'), 8500);
 
-    // 9.0s — walking phase (matches rab-walk anim 9.0–13.5s)
-    setTimeout(() => setPhase('walking'), 9000);
-
-    // 13.6s — done walking, watching the slot
-    setTimeout(() => setPhase('watching'), 13600);
+    // 14.0s — arrives at slot, active anticipation hops while waiting for lever pull at 17s
+    setTimeout(() => setPhase('watching'), 14000);
   })();
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
