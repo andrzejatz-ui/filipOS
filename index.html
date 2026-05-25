@@ -298,18 +298,10 @@
     filter: drop-shadow(0 6px 10px rgba(0,0,0,0.22));
   }
   .beach-spot .towel svg { width: 100%; height: 100%; display: block; }
-  .beach-spot .rabbit {
-    position: absolute;
-    left: 18%;
-    right: auto;
-    bottom: 12%;
-    width: 64%;
-    aspect-ratio: 200/250;
-    transform-origin: 50% 88%;
-    transform: rotate(-90deg) scale(0.7);
-    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.25));
-    z-index: 1;
-  }
+  /* Bunny is NOT a child of .beach-spot — it's positioned directly in stage-inner
+     (right + bottom in .rabbit base aligns its rotated center with the towel center).
+     DOM-moving the bunny between parents broke the rab-stand CSS animation, so we
+     keep it in place and let the transform/position keyframes do the work. */
 
   /* ────────────────  SLOT MACHINE — hidden until t=4s  ──────────────── */
   .slot {
@@ -444,11 +436,14 @@
      Sub-animations cascade by selector specificity / declaration order.
      ════════════════════════════════════════════════════════════════════ */
 
-  /* Bunny journey: lying sideways on towel → stands up → walks to slot → plays */
+  /* Bunny journey: lying sideways on towel → stands up → walks to slot → plays.
+     The bunny lives in stage-inner the whole time (no DOM moves — those broke
+     rab-stand). Its initial right+bottom places its rotated visual center on the
+     towel; rab-stand keyframes then animate it to standing height in place. */
   .rabbit {
     position: absolute;
-    right: calc(10% + 7vmin);
-    bottom: calc(15% - 6.55vmin);
+    right: calc(5% + 7vmin);                /* visual center aligns with towel center */
+    bottom: calc(13% - 6.55vmin);           /* visual center aligns with towel surface */
     width: clamp(96px, 22vmin, 180px);
     aspect-ratio: 200/250;
     z-index: 5;
@@ -461,28 +456,31 @@
       rab-pull  1.0s cubic-bezier(.4,1.2,.4,1) 17.0s forwards;
   }
 
-  /* Stand-up: coil down (anticipation) → push off → overshoot → settle back */
+  /* Stand-up: coil down (anticipation) → push off → overshoot → settle back.
+     Bottom interpolates from lying (13% - 6.55vmin) to standing (17%). */
   @keyframes rab-stand {
-    0%   { transform: rotate(-90deg) scale(0.72); bottom: calc(15% - 6.55vmin); }
+    0%   { transform: rotate(-90deg) scale(0.72); bottom: calc(13% - 6.55vmin); }
     10%  { transform: rotate(-86deg) scale(0.74); }                              /* lift head */
-    22%  { transform: rotate(-94deg) scale(0.70); bottom: calc(15% - 6.7vmin); } /* coil down (anticipation) */
-    55%  { transform: rotate(-30deg) scale(0.95); bottom: calc(15% - 1.5vmin); } /* push up */
+    22%  { transform: rotate(-94deg) scale(0.70); bottom: calc(13% - 6.8vmin); } /* coil down (anticipation) */
+    45%  { transform: rotate(-50deg) scale(0.88); bottom: calc(13% - 2vmin); }   /* mid push */
+    65%  { transform: rotate(-15deg) scale(1.02); bottom: calc(15% + 1vmin); }   /* nearly up */
     78%  { transform: rotate(9deg)   scale(1.06); bottom: 17.6%; }               /* overshoot lean fwd */
     90%  { transform: rotate(-4deg)  scale(0.99); bottom: 16.7%; }               /* counter-settle */
     100% { transform: rotate(0deg)   scale(1);    bottom: 17%; }
   }
 
-  /* Walk: position + body rocking — limbs animated separately via .walking sub-rules */
+  /* Walk: position + body rocking — limbs animated separately via .walking sub-rules.
+     Starts at the bunny's standing spot (5%+7vmin) and arrives at the slot. */
   @keyframes rab-walk {
-    0%   { right: calc(10% + 7vmin);  bottom: 17%; transform: translateY(0)   rotate(0deg); }
-    6%   { right: calc(10% + 7vmin);              transform: translateY(0)   rotate(-1.4deg); } /* weight shift */
-    20%  { right: calc(18% + 6vmin);              transform: translateY(-5px) rotate(0.2deg); }
-    34%  { right: calc(26% + 5vmin);              transform: translateY(0)   rotate(1.2deg); }
-    48%  { right: calc(33% + 4vmin);              transform: translateY(-5px) rotate(-0.4deg); }
-    62%  { right: calc(40% + 3vmin);              transform: translateY(0)   rotate(1deg); }
-    76%  { right: calc(47% + 2vmin);              transform: translateY(-4px) rotate(-0.8deg); }
-    92%  { right: calc(50% - 8vmin);              transform: translateY(-1px) rotate(2deg); }   /* arriving overshoot */
-    100% { right: calc(50% - 9.5vmin); bottom: 17%; transform: translateY(0)  rotate(0deg); }   /* counter-settle */
+    0%   { right: calc(5% + 7vmin);   bottom: 17%; transform: translateY(0)   rotate(0deg); }
+    6%   { right: calc(5% + 7vmin);                transform: translateY(0)   rotate(-1.4deg); } /* weight shift */
+    20%  { right: calc(13% + 6vmin);               transform: translateY(-5px) rotate(0.2deg); }
+    34%  { right: calc(21% + 5vmin);               transform: translateY(0)    rotate(1.2deg); }
+    48%  { right: calc(28% + 4vmin);               transform: translateY(-5px) rotate(-0.4deg); }
+    62%  { right: calc(35% + 3vmin);               transform: translateY(0)    rotate(1deg); }
+    76%  { right: calc(42% + 2vmin);               transform: translateY(-4px) rotate(-0.8deg); }
+    92%  { right: calc(50% - 8vmin);               transform: translateY(-1px) rotate(2deg); }   /* arriving overshoot */
+    100% { right: calc(50% - 9.5vmin); bottom: 17%; transform: translateY(0)   rotate(0deg); }   /* counter-settle */
   }
 
   /* Lever pull (.rabbit element-level): body leans into the yank, then settles back */
@@ -2394,19 +2392,21 @@
     window.onYouTubeIframeAPIReady();
   }
 
-  // ───── Bunny choreographer: DOM move + phase classes for cutout-puppet animation ─────
-  // Schedule packs the walk + active "watching" so the bunny never just stands still:
-  //   t=0     : lying on towel (in .beach-spot wrapper, always-on idle anims)
+  // ───── Bunny choreographer: phase classes for cutout-puppet animation ─────
+  // The bunny stays in stage-inner the whole time — DOM-moving it between parents
+  // broke the rab-stand CSS animation (bunny stayed lying while sub-anims ran =
+  // "tanzt im liegen"). CSS handles the lying→standing→walking transitions
+  // entirely via the .rabbit base animation list and the phase classes below
+  // layer in per-body-part sub-animations.
+  //   t=0     : lying on towel (.rabbit base position + rotate(-90))
   //   t=6.5s  : .prep      — ears twitch, eyes glance (anticipation before stand)
-  //   t=7.0s  : .standing  — DOM move to stage; ears/arms unfold from lying (rab-stand 1.2s)
-  //   t=8.5s  : .walking   — walks immediately after standing (rab-walk 5.5s)
-  //   t=14.0s : .watching  — ACTIVELY hops in place + arms reach + ears spring (matches walk tempo)
+  //   t=7.0s  : .standing  — ears/arms unfold from lying (rab-stand 1.2s)
+  //   t=8.5s  : .walking   — walk cycle (rab-walk 5.5s)
+  //   t=14.0s : .watching  — ACTIVELY hops in place + arms reach + ears spring
   //   t=17s+  : stage-inner.pulling / .spinning / .jackpot drive reactive sub-anims
   (function bunnyChoreographer() {
     const bunny = document.querySelector('.rabbit');
-    const beachSpot = document.getElementById('beachSpot');
-    const stageInnerEl = document.getElementById('stageInner');
-    if (!bunny || !beachSpot || !stageInnerEl) return;
+    if (!bunny) return;
 
     const PHASES = ['prep', 'standing', 'walking', 'watching'];
     function setPhase(p) {
@@ -2414,22 +2414,9 @@
       if (p) bunny.classList.add(p);
     }
 
-    // Initial: lying in beach-spot wrapper
-    beachSpot.appendChild(bunny);
-
-    // 6.5s — anticipation
-    setTimeout(() => setPhase('prep'), 6500);
-
-    // 7.0s — DOM move + standing phase (rab-stand runs 7.0–8.2s)
-    setTimeout(() => {
-      stageInnerEl.appendChild(bunny);
-      setPhase('standing');
-    }, 7000);
-
-    // 8.5s — go straight into walking (no awkward standing-still gap)
-    setTimeout(() => setPhase('walking'), 8500);
-
-    // 14.0s — arrives at slot, active anticipation hops while waiting for lever pull at 17s
+    setTimeout(() => setPhase('prep'),     6500);
+    setTimeout(() => setPhase('standing'), 7000);
+    setTimeout(() => setPhase('walking'),  8500);
     setTimeout(() => setPhase('watching'), 14000);
   })();
 </script>
