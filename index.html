@@ -1585,7 +1585,7 @@
   setTimeout(() => stageInner.classList.add('pulling'),  17000);
   setTimeout(() => stageInner.classList.add('spinning'), 19000);
 
-  // Watch the song clock and fire reveal at song time 03:21 (201s).
+  // Watch the song clock and fire reveal at song time 03:19 (199s).
   // Fallback: if YT API is broken, fire by setTimeout at t=42s (gives 1s buffer slack).
   let revealFired = false;
   function fireJackpot() {
@@ -1599,7 +1599,7 @@
     if (ytPlayer && ytPlayer.getCurrentTime) {
       try {
         const t = ytPlayer.getCurrentTime();
-        if (t >= 201) {
+        if (t >= 199) {
           fireJackpot();
           clearInterval(songWatcher);
         }
