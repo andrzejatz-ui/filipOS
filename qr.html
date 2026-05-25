@@ -172,9 +172,10 @@
   }
   .msg em { color: var(--pink); font-style: italic; }
 
-  /* CTA */
+  /* CTA — now a clickable link */
   .cta {
     position: relative; z-index: 2;
+    display: inline-block;
     font-family: 'DM Mono', monospace;
     font-size: clamp(0.78rem, 2.4vw, 1rem);
     letter-spacing: 0.32em;
@@ -186,8 +187,25 @@
     border-radius: 999px;
     background: rgba(212,175,55,0.08);
     margin-top: 0.4rem;
+    text-decoration: none;
+    cursor: pointer;
     animation: cta-glow 2.4s ease-in-out infinite;
+    transition: transform 0.15s ease, background 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
   }
+  .cta:hover { background: rgba(212,175,55,0.18); }
+  .cta:active { transform: scale(0.97); }
+  .cta-tap {
+    margin-top: 0.6rem;
+    font-family: 'Caveat', cursive;
+    font-weight: 600;
+    font-size: clamp(0.95rem, 3vw, 1.2rem);
+    color: var(--text-2);
+    text-align: center;
+    z-index: 2;
+    position: relative;
+  }
+  .cta-tap em { font-style: italic; color: var(--gold); }
   @keyframes cta-glow {
     0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,55,0.4); }
     50%      { box-shadow: 0 0 20px 4px rgba(212,175,55,0.25); }
@@ -271,7 +289,10 @@
 
 <div class="msg">coś na Was czeka...<br>otwórz, żeby zobaczyć <em>co to</em> 🎁</div>
 
-<div class="cta">zeskanuj telefonem <span class="arrow">→</span></div>
+<a class="cta" href="https://filiplovejustyna.vercel.app" target="_blank" rel="noopener">
+  zeskanuj telefonem <span class="arrow">→</span>
+</a>
+<div class="cta-tap">…albo <em>kliknij tutaj</em> ☝️</div>
 
 <div class="hint">tylko dla Filipa &amp; Justyny</div>
 
