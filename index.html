@@ -7,83 +7,57 @@
 <title>Niespodzianka — Filip &amp; Justyna</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    /* Sky / Sea / Sand */
-    --sky-top:   #5bc5e8;
-    --sky-mid:   #9adcef;
-    --sky-low:   #d4eef7;
-    --sky-haze:  rgba(255, 220, 160, 0.18);
-    --sun-core:  #fff5b8;
-    --sun-mid:   #ffd96b;
-    --sun-glow:  #ffac4a;
-    --cloud:     #ffffff;
-    --cloud-shadow: #d8e6ec;
-    --sea-top:   #6dd0e0;
-    --sea-mid:   #2bb6d0;
-    --sea-deep:  #1a7c98;
-    --foam:      rgba(255,255,255,0.85);
-    --sand-top:  #f6d68a;
-    --sand-bot:  #d4a456;
-    --sand-grain:rgba(110,70,30,0.18);
+    --sky-top: #5bc5e8;
+    --sky-mid: #9adcef;
+    --sky-low: #d4eef7;
+    --cloud: #fff;
+    --sun-core: #fff5b8;
+    --sun-mid: #ffd96b;
+    --sun-glow: #ffac4a;
+    --sea-top: #6dd0e0;
+    --sea-mid: #2bb6d0;
+    --sea-deep: #1a7c98;
+    --foam: rgba(255,255,255,0.85);
+    --sand-top: #f6d68a;
+    --sand-bot: #d4a456;
+    --sand-grain: rgba(110,70,30,0.18);
 
-    /* Palm */
-    --trunk-light: #946238;
-    --trunk-mid:   #6e4422;
-    --trunk-dark:  #3e2410;
-    --leaf-light:  #76c46a;
-    --leaf-mid:    #3d8a3a;
-    --leaf-dark:   #1f5a22;
-    --coco-light:  #a06a35;
-    --coco-mid:    #5a3414;
-    --coco-dark:   #1f0e08;
+    --trunk-1: #946238;
+    --trunk-2: #6e4422;
+    --trunk-3: #3e2410;
+    --leaf-1: #76c46a;
+    --leaf-2: #3d8a3a;
+    --leaf-3: #1f5a22;
 
-    /* Rabbit */
-    --rab-light:   #2a2024;
-    --rab-mid:     #14101a;
-    --rab-dark:    #050308;
-    --rab-belly:   #1a1418;
-    --pink-soft:   #ff9cb5;
-    --pink-bright: #ff5a7a;
-    --pink-deep:   #c5283d;
+    --rab-light: #2a2024;
+    --rab-mid:   #14101a;
+    --rab-dark:  #050308;
+    --rab-belly: #1a1418;
+    --pink-soft: #ff9cb5;
+    --pink:      #ff5a7a;
+    --pink-deep: #c5283d;
 
-    /* Gold */
     --gold-light: #fff0a8;
     --gold-mid:   #f5d97a;
     --gold:       #d4af37;
     --gold-deep:  #6a4f12;
 
-    /* Ticket */
-    --paper:      #fffaef;
-    --paper-2:    #f6e6c0;
-    --paper-line: #c9b890;
-    --text:       #1f1610;
-    --text-2:     #3e3225;
-    --text-dim:   #74614a;
+    --paper:     #fffaef;
+    --paper-2:   #f6e6c0;
+    --paper-line:#c9b890;
 
-    /* Boombox */
-    --bb-light:   #3a3438;
-    --bb-mid:     #1f1a22;
-    --bb-dark:    #0a0608;
-    --bb-metal:   #c9c0b4;
-    --bb-led:     #6fff90;
-    --bb-red:     #ff3a55;
+    --text:     #1a1208;
+    --text-2:   #3a2b1a;
+    --text-dim: #6a5a45;
 
-    /* Towel */
-    --towel-1:    #ff7560;
-    --towel-2:    #fff3d6;
-    --towel-3:    #5ec5e8;
-    --towel-4:    #ffd055;
-
-    /* Stadium */
-    --stadium-line: rgba(255,255,255,0.92);
-
-    --font:       'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-disp:  'Syne', 'DM Sans', sans-serif;
-    --font-hand:  'Caveat', 'Comic Sans MS', cursive;
-    --mono:       'DM Mono', 'SF Mono', 'Fira Code', monospace;
+    --font:      'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-disp: 'Syne', 'DM Sans', sans-serif;
+    --font-hand: 'Caveat', cursive;
+    --mono:      'DM Mono', 'SF Mono', monospace;
   }
 
   html, body {
@@ -99,223 +73,149 @@
   }
   body { position: relative; }
 
-  /* Subtle film grain for cohesion */
+  /* film grain */
   body::before {
     content: '';
     position: fixed; inset: 0;
     pointer-events: none;
     z-index: 9999;
-    opacity: 0.04;
+    opacity: 0.035;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     background-repeat: repeat;
     background-size: 220px;
     mix-blend-mode: overlay;
   }
 
-  /* ─────────────────────────────  START SCREEN  ───────────────────────────── */
-  #start {
-    position: fixed; inset: 0; z-index: 1000;
-    display: flex; align-items: center; justify-content: center;
-    flex-direction: column;
-    background:
-      radial-gradient(circle at 50% 40%, #fff5c8 0%, transparent 60%),
-      linear-gradient(180deg, var(--sky-top) 0%, var(--sky-low) 100%);
-    color: var(--text);
-    cursor: pointer;
-    transition: opacity 0.7s cubic-bezier(.4,0,.2,1);
-    padding: 1rem;
-    text-align: center;
-  }
-  #start.hide { opacity: 0; pointer-events: none; }
-  #start .ring {
-    width: 104px; height: 104px;
-    border-radius: 50%;
-    border: 2px solid var(--text);
-    display: flex; align-items: center; justify-content: center;
-    position: relative;
-    background: white;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.18), inset 0 -3px 0 var(--paper-line);
-  }
-  #start .ring::before {
-    content: '';
-    position: absolute; inset: -12px;
-    border-radius: 50%;
-    border: 2px solid rgba(28,21,12,0.22);
-    animation: ring-pulse 2.2s ease-in-out infinite;
-  }
-  @keyframes ring-pulse {
-    0%, 100% { transform: scale(1);   opacity: 0.7; }
-    50%      { transform: scale(1.14); opacity: 0.2; }
-  }
-  #start .ring svg { width: 40px; height: 40px; color: var(--text); margin-left: 4px; }
-  #start .wm {
-    margin-top: 2.2rem;
-    font-family: var(--font-disp);
-    font-weight: 800;
-    font-size: clamp(1.5rem, 6.2vw, 2.4rem);
-    letter-spacing: -0.02em;
-    color: var(--text);
-    line-height: 1.05;
-  }
-  #start .wm em { font-style: italic; color: var(--pink-deep); font-weight: 800; }
-  #start .sub {
-    margin-top: 0.8rem;
-    font-family: var(--font-hand);
-    font-size: clamp(1.1rem, 4vw, 1.5rem);
-    color: var(--text-2);
-    animation: blink 2s ease-in-out infinite;
-  }
-  @keyframes blink {
-    0%, 100% { opacity: 0.55; }
-    50%      { opacity: 1; }
-  }
-
-  /* ─────────────────────────────  STAGE  ───────────────────────────── */
+  /* STAGE — runs automatically */
   .stage {
     position: fixed; inset: 0;
     overflow: hidden;
     background: var(--sky-top);
     opacity: 0;
-    transition: opacity 1.0s cubic-bezier(.4,0,.2,1);
+    animation: stage-in 0.8s cubic-bezier(.4,0,.2,1) 0.1s forwards;
   }
-  .stage.on { opacity: 1; }
+  @keyframes stage-in {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+  }
   .stage-inner { position: absolute; inset: 0; }
 
-  /* SKY with subtle pastel gradient + soft sun haze */
+  /* SKY */
   .sky {
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse at 78% 14%, var(--sky-haze) 0%, transparent 35%),
-      radial-gradient(ellipse at 50% 85%, rgba(255,200,120,0.25) 0%, transparent 50%),
+      radial-gradient(ellipse at 78% 14%, rgba(255,235,170,0.25) 0%, transparent 35%),
       linear-gradient(180deg,
         var(--sky-top) 0%,
-        var(--sky-mid) 50%,
-        var(--sky-low) 65%,
-        var(--sky-low) 65.01%,
-        var(--sea-top) 65.6%,
-        var(--sea-mid) 73%,
-        var(--sea-deep) 80%,
-        var(--sea-deep) 80%,
-        var(--sand-top) 80.01%,
+        var(--sky-mid) 45%,
+        var(--sky-low) 60%,
+        var(--sky-low) 60.01%,
+        var(--sea-top) 60.6%,
+        var(--sea-mid) 67%,
+        var(--sea-deep) 73%,
+        var(--sea-deep) 75%,
+        var(--sand-top) 75.01%,
         var(--sand-bot) 100%);
   }
 
-  /* SUN with soft outer glow */
+  /* SUN */
   .sun {
     position: absolute;
-    left: 78%; top: 14%;
-    width: clamp(72px, 19vmin, 150px);
+    left: 76%; top: 10%;
+    width: clamp(70px, 18vmin, 130px);
     aspect-ratio: 1;
     border-radius: 50%;
-    background:
-      radial-gradient(circle at 38% 32%, #fff8d6 0%, var(--sun-core) 35%, var(--sun-mid) 70%, var(--sun-glow) 100%);
+    background: radial-gradient(circle at 38% 32%, #fff8d6 0%, var(--sun-core) 38%, var(--sun-mid) 72%, var(--sun-glow) 100%);
     box-shadow:
-      0 0 30px 8px rgba(255,225,90,0.45),
-      0 0 80px 24px rgba(255,196,80,0.32);
+      0 0 30px 8px rgba(255,225,90,0.4),
+      0 0 80px 24px rgba(255,196,80,0.3);
     z-index: 1;
     animation: sun-pulse 6s ease-in-out infinite;
   }
   @keyframes sun-pulse {
     0%, 100% { transform: scale(1); }
-    50%      { transform: scale(1.02); }
+    50%      { transform: scale(1.025); }
   }
 
-  /* CLOUDS — soft, rounded with subtle shadow */
+  /* CLOUDS */
   .cloud {
     position: absolute;
     z-index: 1;
-    filter: drop-shadow(0 6px 12px rgba(80,110,140,0.18));
+    filter: drop-shadow(0 6px 12px rgba(80,110,140,0.16));
   }
   .cloud svg { width: 100%; height: auto; display: block; }
-  .cloud-1 { left: 4%;  top: 14%; width: clamp(90px, 26vmin, 240px); animation: cloud-drift 70s linear infinite; }
-  .cloud-2 { left: 36%; top: 6%;  width: clamp(100px, 30vmin, 280px); animation: cloud-drift 85s linear infinite reverse; }
-  .cloud-3 { left: 56%; top: 26%; width: clamp(70px, 20vmin, 180px); animation: cloud-drift 60s linear infinite; }
-  .cloud-4 { left: 22%; top: 32%; width: clamp(54px, 16vmin, 140px); animation: cloud-drift 78s linear infinite reverse; }
-  .cloud-5 { left: 82%; top: 38%; width: clamp(46px, 13vmin, 110px); animation: cloud-drift 92s linear infinite; }
-  @keyframes cloud-drift {
-    0%   { transform: translateX(0); }
-    50%  { transform: translateX(-14px); }
-    100% { transform: translateX(0); }
+  .cloud-1 { left: 4%;  top: 14%; width: clamp(90px, 26vmin, 220px); animation: drift 70s linear infinite; }
+  .cloud-2 { left: 36%; top: 5%;  width: clamp(100px, 30vmin, 260px); animation: drift 85s linear infinite reverse; }
+  .cloud-3 { left: 56%; top: 24%; width: clamp(70px, 20vmin, 170px); animation: drift 60s linear infinite; }
+  .cloud-4 { left: 20%; top: 30%; width: clamp(54px, 16vmin, 130px); animation: drift 78s linear infinite reverse; }
+  @keyframes drift {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(-14px); }
   }
 
-  /* SEAGULLS — gentle flying */
+  /* SEAGULLS */
   .gull {
     position: absolute;
     z-index: 1;
     color: var(--rab-mid);
-    animation: gull-fly 18s ease-in-out infinite;
-    opacity: 0.85;
+    opacity: 0.7;
+    animation: gull-fly 22s ease-in-out infinite;
   }
   .gull svg { display: block; width: 100%; height: auto; }
-  .gull-1 { left: 28%; top: 22%; width: clamp(22px, 5.5vmin, 40px); }
-  .gull-2 { left: 65%; top: 32%; width: clamp(18px, 4.5vmin, 32px); animation-delay: -8s; opacity: 0.7; }
-  .gull-3 { left: 50%; top: 18%; width: clamp(16px, 4vmin, 28px); animation-delay: -3s; opacity: 0.8; }
+  .gull-1 { left: 28%; top: 22%; width: clamp(22px, 5.5vmin, 36px); }
+  .gull-2 { left: 65%; top: 30%; width: clamp(18px, 4.5vmin, 28px); animation-delay: -10s; opacity: 0.55; }
   @keyframes gull-fly {
     0%   { transform: translate(0,0); }
-    25%  { transform: translate(22vw, -10px); }
-    50%  { transform: translate(40vw, 4px); }
+    25%  { transform: translate(20vw, -8px); }
+    50%  { transform: translate(38vw, 4px); }
     75%  { transform: translate(20vw, -4px); }
     100% { transform: translate(0,0); }
   }
 
-  /* SEA — subtle wave lines + foam */
+  /* SEA detail */
   .sea-detail {
     position: absolute;
     left: 0; right: 0;
-    top: 65.5%;
-    height: 14.5%;
+    top: 60.5%; height: 14.5%;
     z-index: 1;
     pointer-events: none;
     background-image:
-      repeating-linear-gradient(180deg, transparent 0 18px, rgba(255,255,255,0.06) 18px 19px),
-      radial-gradient(ellipse at 30% 18%, rgba(255,255,255,0.18) 0%, transparent 30%),
-      radial-gradient(ellipse at 72% 34%, rgba(255,255,255,0.12) 0%, transparent 32%),
-      radial-gradient(ellipse at 16% 60%, rgba(255,255,255,0.10) 0%, transparent 28%);
+      repeating-linear-gradient(180deg, transparent 0 16px, rgba(255,255,255,0.06) 16px 17px),
+      radial-gradient(ellipse at 30% 18%, rgba(255,255,255,0.16) 0%, transparent 28%),
+      radial-gradient(ellipse at 72% 36%, rgba(255,255,255,0.12) 0%, transparent 30%);
   }
   .sea-waves {
     position: absolute;
     left: 0; right: 0;
-    top: 65.5%;
-    height: 14.5%;
+    top: 60.5%; height: 14.5%;
     z-index: 1;
     pointer-events: none;
     overflow: hidden;
   }
   .sea-waves svg { width: 100%; height: 100%; }
-  .sea-waves svg path {
-    animation: wave 10s ease-in-out infinite;
-  }
+  .sea-waves svg path { animation: wave 10s ease-in-out infinite; }
   @keyframes wave {
     0%, 100% { transform: translateX(0); }
     50%      { transform: translateX(-12px); }
   }
-  /* Foam line */
   .sea-foam {
     position: absolute;
     left: 0; right: 0;
-    top: 79.5%;
-    height: 4px;
+    top: 74.5%; height: 4px;
     z-index: 2;
     pointer-events: none;
     background: linear-gradient(90deg,
-      transparent 0%,
-      var(--foam) 14%,
-      transparent 26%,
-      var(--foam) 42%,
-      transparent 55%,
-      var(--foam) 70%,
-      transparent 84%,
-      var(--foam) 94%,
-      transparent 100%);
-    opacity: 0.75;
+      transparent 0%, var(--foam) 14%, transparent 26%,
+      var(--foam) 42%, transparent 55%, var(--foam) 70%,
+      transparent 84%, var(--foam) 94%, transparent 100%);
+    opacity: 0.7;
     filter: blur(0.3px);
   }
 
-  /* SAND with warm gradient + grain */
+  /* SAND */
   .sand {
     position: absolute;
-    left: 0; right: 0; bottom: 0;
-    top: 80%;
+    left: 0; right: 0; bottom: 0; top: 75%;
     background:
       radial-gradient(ellipse at 50% 0%, rgba(255,250,220,0.5), transparent 65%),
       linear-gradient(180deg, var(--sand-top) 0%, var(--sand-bot) 100%);
@@ -323,447 +223,235 @@
   .sand::before {
     content: '';
     position: absolute; inset: 0;
-    opacity: 0.45;
+    opacity: 0.4;
     background-image:
       radial-gradient(circle at 20% 35%, var(--sand-grain) 1.2px, transparent 1.6px),
       radial-gradient(circle at 65% 22%, var(--sand-grain) 1px, transparent 1.4px),
       radial-gradient(circle at 88% 55%, var(--sand-grain) 1px, transparent 1.4px),
       radial-gradient(circle at 12% 75%, var(--sand-grain) 1.2px, transparent 1.6px),
       radial-gradient(circle at 42% 88%, var(--sand-grain) 1px, transparent 1.4px),
-      radial-gradient(circle at 75% 78%, var(--sand-grain) 1px, transparent 1.4px),
-      radial-gradient(circle at 30% 62%, var(--sand-grain) 0.8px, transparent 1.2px),
-      radial-gradient(circle at 55% 45%, var(--sand-grain) 0.8px, transparent 1.2px),
-      radial-gradient(circle at 92% 30%, var(--sand-grain) 0.6px, transparent 1px);
-    background-size: 22px 22px, 26px 26px, 18px 18px, 24px 24px, 28px 28px, 20px 20px, 30px 30px, 32px 32px, 18px 18px;
+      radial-gradient(circle at 75% 78%, var(--sand-grain) 1px, transparent 1.4px);
+    background-size: 22px 22px, 26px 26px, 18px 18px, 24px 24px, 28px 28px, 20px 20px;
   }
   .sand::after {
     content: '';
-    position: absolute; left: 0; right: 0; top: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+    position: absolute; left: 0; right: 0; top: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
   }
 
-  /* STADIUM silhouette on horizon */
+  /* PALM */
+  .palm {
+    position: absolute;
+    left: 3%; bottom: 14%;
+    width: clamp(140px, 36vmin, 320px);
+    aspect-ratio: 200/320;
+    z-index: 2;
+    transform-origin: bottom center;
+    animation: sway 7s ease-in-out infinite;
+    filter: drop-shadow(2px 8px 10px rgba(0,0,0,0.15));
+  }
+  @keyframes sway {
+    0%, 100% { transform: rotate(-1.6deg); }
+    50%      { transform: rotate(1.6deg); }
+  }
+
+  /* STADIUM silhouette on horizon (subtle, fades in at reveal) */
   .stadium {
     position: absolute;
-    left: 50%; top: 56%;
+    left: 50%; top: 48%;
     transform: translate(-50%, -50%) scale(0.95);
-    width: clamp(280px, 80vmin, 760px);
+    width: clamp(260px, 70vmin, 660px);
     aspect-ratio: 800/280;
     z-index: 1;
     opacity: 0;
     pointer-events: none;
-    filter: drop-shadow(0 6px 16px rgba(0,0,0,0.2));
-  }
-  .stage.on .stadium {
-    animation: stadium-fade 2.2s cubic-bezier(.3,0,.2,1) 40.5s forwards;
+    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.15));
+    animation: stadium-fade 2.0s cubic-bezier(.3,0,.2,1) 7.5s forwards;
   }
   @keyframes stadium-fade {
     0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.92); }
-    100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0.55; transform: translate(-50%, -50%) scale(1); }
   }
 
-  /* BACK PALM */
-  .palm-back {
-    position: absolute;
-    right: 6%;
-    bottom: 18%;
-    width: clamp(86px, 22vmin, 200px);
-    aspect-ratio: 200 / 320;
-    z-index: 1;
-    opacity: 0.78;
-    filter: brightness(0.82) saturate(0.7);
-    transform-origin: bottom center;
-    animation: sway-back 8s ease-in-out infinite;
-  }
-  @keyframes sway-back {
-    0%, 100% { transform: rotate(1.2deg); }
-    50%      { transform: rotate(-1.2deg); }
-  }
-
-  /* MAIN PALM */
-  .palm {
-    position: absolute;
-    left: 3%; bottom: 9%;
-    width: clamp(150px, 38vmin, 340px);
-    aspect-ratio: 200 / 320;
-    z-index: 2;
-    transform-origin: bottom center;
-    animation: sway 7s ease-in-out infinite;
-    filter: drop-shadow(2px 8px 12px rgba(0,0,0,0.18));
-  }
-  @keyframes sway {
-    0%, 100% { transform: rotate(-1.8deg); }
-    50%      { transform: rotate(1.8deg); }
-  }
-
-  /* TOWEL */
-  .towel {
-    position: absolute;
-    left: 32%;
-    bottom: 4vh;
-    transform: translateX(-50%) rotate(-6deg);
-    width: clamp(160px, 38vmin, 320px);
-    aspect-ratio: 5/2;
-    z-index: 3;
-    opacity: 0;
-    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.2));
-  }
-  .stage.on .towel {
-    animation: towel-fade 1.0s ease 0.6s forwards;
-  }
-  @keyframes towel-fade {
-    0%   { opacity: 0; transform: translateX(-50%) rotate(-6deg) translateY(8px); }
-    100% { opacity: 1; transform: translateX(-50%) rotate(-6deg) translateY(0); }
-  }
-
-  /* BOOMBOX */
-  .boombox {
-    position: absolute;
-    left: 32%;
-    bottom: 6vh;
-    transform: translateX(-50%);
-    width: clamp(120px, 28vmin, 240px);
-    aspect-ratio: 5/3;
-    z-index: 4;
-    opacity: 0;
-    filter: drop-shadow(0 8px 14px rgba(0,0,0,0.35));
-  }
-  .stage.on .boombox {
-    animation: boombox-fade 0.9s cubic-bezier(.34,1.4,.4,1) 0.8s forwards;
-  }
-  @keyframes boombox-fade {
-    0%   { opacity: 0; transform: translateX(-50%) translateY(6px) scale(0.95); }
-    100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
-  }
-  /* When bunny presses → boombox slight squish + LED flashes */
-  .stage.on .boombox {
-    animation:
-      boombox-fade 0.9s cubic-bezier(.34,1.4,.4,1) 0.8s forwards,
-      boombox-press 0.3s ease-in-out 5.4s 1;
-  }
-  @keyframes boombox-press {
-    0%, 100% { transform: translateX(-50%) scale(1); }
-    50%      { transform: translateX(-50%) scale(0.97); }
-  }
-  .bb-led {
-    transform-origin: center;
-  }
-  .stage.on .bb-led {
-    animation: led-on 0.6s steps(2, end) 5.5s forwards;
-  }
-  @keyframes led-on {
-    0%   { opacity: 0.2; fill: var(--bb-red); }
-    100% { opacity: 1;   fill: var(--bb-led); }
-  }
-  .stage.on .bb-bars {
-    animation: bb-bars 0.4s steps(4) 5.6s infinite;
-  }
-  @keyframes bb-bars {
-    0%   { transform: scaleY(0.3); }
-    25%  { transform: scaleY(0.7); }
-    50%  { transform: scaleY(1); }
-    75%  { transform: scaleY(0.5); }
-    100% { transform: scaleY(0.3); }
-  }
-
-  /* COCONUT */
-  .coconut {
-    position: absolute;
-    width: clamp(36px, 6.5vmin, 60px);
+  /* GLOW (light flash above bunny — "something incoming") */
+  .glow {
+    position: fixed;
+    left: 50%; top: 38%;
+    transform: translate(-50%, -50%) scale(0);
+    width: clamp(200px, 55vmin, 500px);
     aspect-ratio: 1;
-    left: 22vmin;
-    top: calc(30vh - 4vmin);
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0;
-    z-index: 6;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.35));
-  }
-  .stage.on .coconut {
-    animation:
-      coco-show       0.4s ease 5.6s forwards,
-      coco-fall       1.8s cubic-bezier(.34,.0,.78,1) 6.0s forwards,
-      coco-pickup     1.5s cubic-bezier(.4,1.5,.3,1) 9.0s forwards,
-      coco-bob        2.54s ease-in-out 10.5s 11,
-      coco-anticipate 0.7s cubic-bezier(.4,0,.6,1.2) 38.5s forwards,
-      coco-crack      0.4s cubic-bezier(.7,0,.95,.5) 39.2s forwards,
-      coco-burst      0.5s ease-out 39.5s forwards;
-  }
-  @keyframes coco-show { to { opacity: 1; } }
-  @keyframes coco-fall {
-    0%   { left: 22vmin; top: calc(30vh - 4vmin); transform: translate(-50%,-50%) rotate(0deg)   scale(1); }
-    80%  { left: 22vmin; top: 82vh;               transform: translate(-50%,-50%) rotate(560deg) scale(1); }
-    88%  { left: 22vmin; top: 83vh;               transform: translate(-50%,-50%) rotate(560deg) scaleY(0.55) scaleX(1.45); }
-    100% { left: 22vmin; top: 82vh;               transform: translate(-50%,-50%) rotate(560deg) scale(1); }
-  }
-  @keyframes coco-pickup {
-    0%   { left: 22vmin; top: 82vh; transform: translate(-50%,-50%) rotate(560deg) scale(1); }
-    55%  { left: 40vw;   top: 82vh; transform: translate(-50%,-50%) rotate(600deg) scale(1.15); }
-    100% { left: 50vw;   top: 70vh; transform: translate(-50%,-50%) rotate(620deg) scale(1.3); }
-  }
-  @keyframes coco-bob {
-    0%, 100% { transform: translate(-50%,-50%) rotate(620deg) scale(1.3); }
-    25%      { transform: translate(-50%, calc(-50% - 14px)) rotate(625deg) scale(1.3); }
-    50%      { transform: translate(-50%,-50%) rotate(620deg) scale(1.3); }
-    75%      { transform: translate(-50%, calc(-50% - 16px)) rotate(615deg) scale(1.3); }
-  }
-  @keyframes coco-anticipate {
-    0%   { left: 50vw; top: 70vh; transform: translate(-50%,-50%) rotate(620deg) scale(1.3); }
-    100% { left: 50vw; top: 64vh; transform: translate(-50%,-50%) rotate(650deg) scale(1.5); }
-  }
-  @keyframes coco-crack {
-    0%   { transform: translate(-50%,-50%) rotate(650deg) scale(1.5); }
-    50%  { transform: translate(-52%,-50%) rotate(645deg) scale(1.5); }
-    100% { transform: translate(-50%,-50%) rotate(660deg) scale(1.55); }
-  }
-  @keyframes coco-burst {
-    0%   { opacity: 1; transform: translate(-50%,-50%) rotate(660deg) scale(1.55); }
-    50%  { opacity: 1; transform: translate(-50%,-50%) rotate(680deg) scale(1.85); }
-    100% { opacity: 0; transform: translate(-50%,-50%) rotate(700deg) scale(2.1); }
-  }
-
-  /* SHELLS */
-  .coco-shells {
-    position: absolute;
-    left: 50%; top: 64vh;
-    transform: translate(-50%, -50%);
-    width: clamp(110px, 24vmin, 220px);
-    aspect-ratio: 2/1;
-    z-index: 6;
-    opacity: 0;
+    z-index: 4;
     pointer-events: none;
+    background: radial-gradient(circle,
+      rgba(255,240,180,0.7) 0%,
+      rgba(255,210,90,0.3) 30%,
+      rgba(255,180,80,0.1) 55%,
+      transparent 75%);
+    mix-blend-mode: screen;
+    animation: glow-rise 1.4s cubic-bezier(.3,0,.2,1) 2.6s forwards;
   }
-  .stage.on .coco-shells { animation: shells-show 0.5s ease 39.5s forwards; }
-  @keyframes shells-show { to { opacity: 1; } }
-  .shell-half { transform-origin: center center; opacity: 0; }
-  .stage.on .shell-left  { animation: shell-fly-l 0.8s cubic-bezier(.3,.6,.4,1) 39.5s forwards; }
-  .stage.on .shell-right { animation: shell-fly-r 0.8s cubic-bezier(.3,.6,.4,1) 39.5s forwards; }
-  @keyframes shell-fly-l {
-    0%   { opacity: 0; transform: translate(0, 0) rotate(0deg); }
-    25%  { opacity: 1; }
-    100% { opacity: 1; transform: translate(-44px, 16px) rotate(-32deg); }
-  }
-  @keyframes shell-fly-r {
-    0%   { opacity: 0; transform: translate(0, 0) rotate(0deg); }
-    25%  { opacity: 1; }
-    100% { opacity: 1; transform: translate(44px, 16px) rotate(32deg); }
+  @keyframes glow-rise {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+    50%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
   }
 
-  /* ──────────────────  RABBIT (multi-part) ────────────────── */
-  .rabbit {
-    position: absolute;
-    right: -25vmin;
-    bottom: 7vh;
-    width: clamp(100px, 20vmin, 200px);
-    aspect-ratio: 200 / 300;
+  /* Sparkle stars around bunny (when noticing) */
+  .notice-spark {
+    position: fixed;
+    pointer-events: none;
     z-index: 5;
     opacity: 0;
-    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.32));
-    transform-origin: 50% 95%;
+    font-size: clamp(14px, 3vmin, 22px);
+    color: var(--gold-light);
+    text-shadow: 0 0 8px rgba(255,235,140,0.6);
+    animation: spark-pop 0.9s ease-out forwards;
   }
-  .stage.on .rabbit {
-    animation:
-      rab-show       0.1s linear 1.5s forwards,
-      rab-walk       3.0s cubic-bezier(.45,.05,.45,1) 1.5s forwards,
-      rab-press-pose 1.0s ease 4.5s forwards,
-      rab-return     1.0s ease 5.8s forwards,
-      rab-groove     1.27s ease-in-out 10.5s 22,
-      rab-celebrate  0.7s ease-in-out 40.0s 6;
-  }
-  @keyframes rab-show { to { opacity: 1; } }
-  @keyframes rab-walk {
-    0%   { right: -25vmin; transform: translateY(0); }
-    18%  { right: 0vmin;   transform: translateY(-22px); }
-    32%  { right: 14vmin;  transform: translateY(0); }
-    50%  { right: 25vmin;  transform: translateY(-18px); }
-    65%  { right: 36vmin;  transform: translateY(0); }
-    82%  { right: 45vmin;  transform: translateY(-10px); }
-    100% { right: calc(60vw - 9.5vmin); transform: translateY(0); }
-  }
-  @keyframes rab-press-pose {
-    0%   { transform: translateY(0)   rotate(0deg); }
-    50%  { transform: translateY(2px) rotate(-3deg); }
-    100% { transform: translateY(2px) rotate(-3deg); }
-  }
-  @keyframes rab-return {
-    0%   { right: calc(60vw - 9.5vmin); transform: translateY(2px) rotate(-3deg); }
-    100% { right: calc(50vw - 9.5vmin); transform: translateY(0)   rotate(0deg); }
-  }
-  /* Whole-body groove — gentle vertical sway, NOT hectic */
-  @keyframes rab-groove {
-    0%   { transform: translateY(0); }
-    25%  { transform: translateY(-10px); }
-    50%  { transform: translateY(0); }
-    75%  { transform: translateY(-7px); }
-    100% { transform: translateY(0); }
-  }
-  @keyframes rab-celebrate {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(-26px); }
+  .spark-1 { left: 38%; top: 60%; animation-delay: 2.3s; }
+  .spark-2 { left: 62%; top: 55%; animation-delay: 2.5s; }
+  .spark-3 { left: 30%; top: 50%; animation-delay: 2.7s; }
+  .spark-4 { left: 70%; top: 50%; animation-delay: 2.9s; }
+  .spark-5 { left: 50%; top: 44%; animation-delay: 3.1s; }
+  @keyframes spark-pop {
+    0%   { opacity: 0; transform: scale(0) rotate(0deg); }
+    40%  { opacity: 1; transform: scale(1.4) rotate(20deg); }
+    100% { opacity: 0; transform: scale(0.6) translateY(-30px) rotate(-20deg); }
   }
 
-  /* Independent body-part animations — kick in during dance */
-  /* Idle breathing (default subtle) */
-  .r-head-group, .r-body-group {
-    transform-box: view-box;
+  /* LIGHT RAYS behind reveal */
+  .light-rays {
+    position: fixed;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%) scale(0.3);
+    width: min(150vw, 800px);
+    aspect-ratio: 1;
+    z-index: 8;
+    pointer-events: none;
+    opacity: 0;
+    mix-blend-mode: screen;
+    animation: rays-in 1.6s cubic-bezier(.3,1.3,.3,1) 4.0s forwards;
   }
-  .r-head-group { transform-origin: 100px 110px; }
-  .r-body-group { transform-origin: 100px 210px; }
+  @keyframes rays-in {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+    100% { opacity: 0.85; transform: translate(-50%, -50%) scale(1); }
+  }
+  .light-rays svg { width: 100%; height: 100%; display: block; }
+  .light-rays svg g { animation: rays-spin 16s linear infinite; transform-origin: 200px 200px; }
+  @keyframes rays-spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 
-  .stage.on .r-head-group {
-    animation: head-idle 4s ease-in-out 2s infinite, head-dance 1.27s ease-in-out 10.5s 22;
+  /* CONFETTI */
+  .confetti-layer {
+    position: fixed; inset: 0;
+    z-index: 13;
+    pointer-events: none;
+    overflow: hidden;
   }
+  .confetti {
+    position: absolute;
+    top: -24px;
+    width: 10px; height: 16px;
+    opacity: 0;
+    border-radius: 2px;
+    will-change: transform;
+  }
+
+  /* ────────────  BUNNY MASCOT — cute, friendly, mobile-friendly  ──────────── */
+  .rabbit {
+    position: absolute;
+    left: 50%;
+    bottom: 14%;
+    transform: translateX(-50%);
+    width: clamp(140px, 32vmin, 240px);
+    aspect-ratio: 200/250;
+    z-index: 6;
+    filter: drop-shadow(0 6px 16px rgba(0,0,0,0.28));
+    animation: rab-breathe 3s ease-in-out infinite;
+  }
+  @keyframes rab-breathe {
+    0%, 100% { transform: translateX(-50%) translateY(0)    scaleY(1); }
+    50%      { transform: translateX(-50%) translateY(-2px) scaleY(1.025); }
+  }
+  /* Reaction: bunny notices + looks up at glow */
+  .rabbit { animation: rab-breathe 3s ease-in-out infinite, rab-notice 0.5s ease 2.2s forwards, rab-look-up 0.8s ease 2.8s forwards, rab-bounce 0.5s cubic-bezier(.4,1.6,.4,1) 6.4s 2; }
+  @keyframes rab-notice {
+    0%   { transform: translateX(-50%) translateY(0) scale(1); }
+    40%  { transform: translateX(-50%) translateY(-5px) scale(1.02); }
+    100% { transform: translateX(-50%) translateY(-2px) scale(1.01); }
+  }
+  @keyframes rab-look-up {
+    0%   { transform: translateX(-50%) translateY(-2px); }
+    100% { transform: translateX(-50%) translateY(-2px); }
+  }
+  @keyframes rab-bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%      { transform: translateX(-50%) translateY(-24px); }
+  }
+
+  /* Bunny PARTS — independent animations */
+  .b-head { transform-box: view-box; transform-origin: 100px 95px; }
+  .b-head { animation: head-idle 4s ease-in-out infinite; }
   @keyframes head-idle {
     0%, 100% { transform: rotate(0deg) translateY(0); }
-    50%      { transform: rotate(0deg) translateY(-1.5px); }
+    50%      { transform: rotate(0deg) translateY(-1px); }
   }
-  @keyframes head-dance {
-    0%   { transform: rotate(-5deg) translateY(0); }
-    25%  { transform: rotate(0deg)  translateY(-3px); }
-    50%  { transform: rotate(5deg)  translateY(0); }
-    75%  { transform: rotate(0deg)  translateY(-2px); }
-    100% { transform: rotate(-5deg) translateY(0); }
-  }
-
-  .stage.on .r-body-group {
-    animation: body-dance 2.54s ease-in-out 10.5s 11;
-  }
-  @keyframes body-dance {
-    0%, 100% { transform: rotate(0deg)  scaleX(1)    scaleY(1); }
-    25%      { transform: rotate(-2.5deg) scaleX(0.97) scaleY(1.03); }
-    50%      { transform: rotate(0deg)  scaleX(1.03) scaleY(0.97); }
-    75%      { transform: rotate(2.5deg) scaleX(0.97) scaleY(1.03); }
+  /* During notice: head tilts up */
+  .b-head { animation: head-idle 4s ease-in-out infinite, head-up 0.7s cubic-bezier(.4,0,.3,1.2) 2.6s forwards; }
+  @keyframes head-up {
+    0%   { transform: rotate(0deg); }
+    60%  { transform: rotate(-12deg) translateY(-4px); }
+    100% { transform: rotate(-8deg) translateY(-2px); }
   }
 
-  /* Arms — swing alternately + special "press" gesture for left arm */
-  .r-arm-l { transform-box: view-box; transform-origin: 52px 175px; }
-  .r-arm-r { transform-box: view-box; transform-origin: 148px 175px; }
-
-  .stage.on .r-arm-l {
-    animation:
-      arm-idle-l 4s ease-in-out infinite,
-      arm-press  1.0s ease-in-out 4.5s 1,
-      arm-swing-l 1.27s ease-in-out 10.5s 22;
+  .b-ear-l { transform-box: view-box; transform-origin: 78px 70px; }
+  .b-ear-r { transform-box: view-box; transform-origin: 122px 70px; }
+  /* Ears: idle wiggle then perked up on notice */
+  .b-ear-l { animation: ear-l-idle 4s ease-in-out infinite, ear-l-perk 0.4s cubic-bezier(.4,1.6,.4,1) 2.3s forwards; }
+  .b-ear-r { animation: ear-r-idle 4s ease-in-out infinite 0.3s, ear-r-perk 0.4s cubic-bezier(.4,1.6,.4,1) 2.4s forwards; }
+  @keyframes ear-l-idle {
+    0%, 100% { transform: rotate(0deg); }
+    50%      { transform: rotate(-3deg); }
   }
-  .stage.on .r-arm-r {
-    animation:
-      arm-idle-r 4s ease-in-out infinite,
-      arm-swing-r 1.27s ease-in-out 10.5s 22;
+  @keyframes ear-r-idle {
+    0%, 100% { transform: rotate(0deg); }
+    50%      { transform: rotate(3deg); }
   }
-  @keyframes arm-idle-l { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(2deg); } }
-  @keyframes arm-idle-r { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-2deg); } }
-  @keyframes arm-press {
-    /* Left arm extends DOWN-LEFT toward the boombox button */
-    0%   { transform: rotate(0deg)   translate(0, 0); }
-    40%  { transform: rotate(-35deg) translate(-8px, 6px); }
-    65%  { transform: rotate(-35deg) translate(-8px, 6px); }
-    100% { transform: rotate(0deg)   translate(0, 0); }
+  @keyframes ear-l-perk {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(-15deg); }
   }
-  @keyframes arm-swing-l {
-    0%, 100% { transform: rotate(-10deg); }
-    50%      { transform: rotate(24deg); }
-  }
-  @keyframes arm-swing-r {
-    0%, 100% { transform: rotate(24deg); }
-    50%      { transform: rotate(-10deg); }
+  @keyframes ear-r-perk {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(15deg); }
   }
 
-  /* Feet small taps */
-  .r-foot-l { transform-box: view-box; transform-origin: 65px 280px; }
-  .r-foot-r { transform-box: view-box; transform-origin: 135px 280px; }
-  .stage.on .r-foot-l { animation: foot-tap-l 1.27s ease-in-out 10.5s 22; }
-  .stage.on .r-foot-r { animation: foot-tap-r 1.27s ease-in-out 10.5s 22; }
-  @keyframes foot-tap-l {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(-4px) rotate(-4deg); }
-  }
-  @keyframes foot-tap-r {
-    0%, 100% { transform: translateY(-4px) rotate(4deg); }
-    50%      { transform: translateY(0); }
+  /* Eyes — blinking */
+  .b-eyes { transform-box: view-box; transform-origin: 100px 92px; }
+  .b-eyes { animation: blink 5.5s ease-in-out infinite; }
+  @keyframes blink {
+    0%, 92%, 95%, 100% { transform: scaleY(1); }
+    93.5%              { transform: scaleY(0.1); }
   }
 
-  /* MOUTH — syncs to beat (8-step talk pattern) */
-  .r-mouth {
-    transform-box: view-box;
-    transform-origin: 100px 142px;
-    transform: scaleY(0.4);
-  }
-  .stage.on .r-mouth {
-    animation: mouth-sing 1.27s steps(8, jump-none) 10.5s 22;
-  }
-  @keyframes mouth-sing {
-    0%   { transform: scaleY(0.4); }
-    12.5% { transform: scaleY(0.95); }
-    25%   { transform: scaleY(0.55); }
-    37.5% { transform: scaleY(1.05); }
-    50%   { transform: scaleY(0.4); }
-    62.5% { transform: scaleY(0.9); }
-    75%   { transform: scaleY(0.5); }
-    87.5% { transform: scaleY(1); }
-    100%  { transform: scaleY(0.4); }
-  }
-
-  /* Ears — subtle idle wiggle */
-  .r-ear-l { transform-box: view-box; transform-origin: 78px 80px; }
-  .r-ear-r { transform-box: view-box; transform-origin: 122px 80px; }
-  .stage.on .r-ear-l { animation: ear-l-wiggle 3.6s ease-in-out infinite; }
-  .stage.on .r-ear-r { animation: ear-r-wiggle 3.6s ease-in-out infinite; animation-delay: -1.2s; }
-  @keyframes ear-l-wiggle {
-    0%, 100% { transform: rotate(-8deg); }
-    50%      { transform: rotate(-4deg); }
-  }
-  @keyframes ear-r-wiggle {
-    0%, 100% { transform: rotate(6deg); }
-    50%      { transform: rotate(2deg); }
-  }
-
-  /* Gold F-chain */
-  .rabbit-chain {
-    opacity: 0;
-    transform: translate(0, -320px) rotate(-18deg);
-    transform-origin: 100px 168px;
-  }
-  .stage.on .rabbit-chain {
-    animation:
-      chain-drop 1.4s cubic-bezier(.34,1.55,.4,1) 13.0s forwards,
-      chain-sway 2.54s ease-in-out 15.0s 9;
-  }
-  @keyframes chain-drop {
-    0%   { opacity: 0; transform: translate(0, -320px) rotate(-18deg); }
-    40%  { opacity: 1; transform: translate(0, 22px)   rotate(10deg); }
-    58%  { opacity: 1; transform: translate(0, -14px)  rotate(-7deg); }
-    73%  { opacity: 1; transform: translate(0, 8px)    rotate(4deg); }
-    86%  { opacity: 1; transform: translate(0, -3px)   rotate(-2deg); }
-    100% { opacity: 1; transform: translate(0, 0)      rotate(0deg); }
-  }
-  @keyframes chain-sway {
-    0%, 100% { transform: translate(0, 0)  rotate(0deg); }
-    25%      { transform: translate(2px, -2px) rotate(2deg); }
-    50%      { transform: translate(0, 1px) rotate(0deg); }
-    75%      { transform: translate(-2px, -2px) rotate(-2deg); }
-  }
-  .chain-spark { opacity: 0; transform-origin: center; }
-  .stage.on .chain-spark { animation: spark 1.4s ease-in-out 14.6s 12; }
-  @keyframes spark {
-    0%, 100% { opacity: 0; transform: scale(0.5); }
-    50%      { opacity: 1; transform: scale(1.5); }
-  }
-
-  /* ──────────────────  HEART of TICKETS  ────────────────── */
+  /* ───────────────  TICKETS (fly in from background as the reveal)  ─────────────── */
   .heart-wrap {
     position: fixed;
     left: 50%; top: 56%;
-    transform: translate(-50%, -50%) scale(0.4);
-    width: min(78vw, 460px);
+    transform: translate(-50%, -50%) scale(0.5);
+    width: min(82vw, 460px);
     aspect-ratio: 5/4;
-    z-index: 10;
+    z-index: 11;
     pointer-events: none;
     opacity: 0;
+    animation:
+      heart-in 1.1s cubic-bezier(.3,1.4,.3,1) 4.5s forwards,
+      heart-float 4s ease-in-out 5.6s infinite;
   }
-  .stage.on .heart-wrap { animation: heart-in 1.1s cubic-bezier(.3,1.5,.3,1) 40.5s forwards, heart-float 4s ease-in-out 41.6s infinite; }
   @keyframes heart-in {
-    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(-10deg); }
-    100% { opacity: 1; transform: translate(-50%, -50%) scale(1)   rotate(0deg); }
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(-12deg); filter: blur(8px); }
+    100% { opacity: 1; transform: translate(-50%, -50%) scale(1)   rotate(0deg);   filter: blur(0); }
   }
   @keyframes heart-float {
     0%, 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
@@ -771,13 +459,20 @@
   }
   .heart-outline {
     position: absolute;
-    inset: -4% -4% -4% -4%;
+    inset: -4%;
     width: 108%; height: 108%;
     pointer-events: none;
-    opacity: 0.8;
-    filter: drop-shadow(0 8px 24px rgba(197,40,61,0.32));
+    filter: drop-shadow(0 8px 22px rgba(229,72,124,0.32));
   }
   .heart-outline svg { width: 100%; height: 100%; display: block; }
+  .heart-outline path.heart-draw {
+    stroke-dasharray: 800;
+    stroke-dashoffset: 800;
+    animation: heart-draw 1.4s cubic-bezier(.4,0,.3,1) 4.6s forwards;
+  }
+  @keyframes heart-draw {
+    to { stroke-dashoffset: 0; }
+  }
   .ticket {
     position: absolute;
     width: 44%;
@@ -788,47 +483,58 @@
     border: 1.5px solid var(--text);
     border-radius: 12px;
     box-shadow:
-      0 22px 46px rgba(40,28,12,0.55),
-      0 0 30px rgba(255,90,122,0.35),
-      0 0 60px rgba(255,200,90,0.22),
-      0 0 0 1px rgba(0,0,0,0.05),
+      0 22px 46px rgba(40,28,12,0.5),
+      0 0 24px rgba(255,90,122,0.32),
+      0 0 50px rgba(255,200,90,0.2),
       inset 0 1px 0 rgba(255,255,255,0.9);
     padding: 5% 6%;
     display: flex; flex-direction: column;
     overflow: hidden;
+    opacity: 0;
   }
   .ticket::before {
     content: '';
-    position: absolute; left: 0; right: 0; top: 25%;
+    position: absolute; left: 0; right: 0; top: 24%;
     height: 1px;
     background: repeating-linear-gradient(90deg, transparent 0 5px, var(--paper-line) 5px 10px);
     opacity: 0.7;
   }
   .ticket::after {
-    content: ''; position: absolute; top: 25%;
-    width: 16px; height: 16px;
+    content: ''; position: absolute; top: 24%;
+    width: 14px; height: 14px;
     background: var(--sky-low);
     border: 1.5px solid var(--text);
     border-radius: 50%;
   }
   .ticket-filip {
     left: 4%; top: 4%;
-    transform: rotate(-14deg);
+    transform: rotate(-30deg) translateY(80px) scale(0.4);
     transform-origin: 100% 100%;
+    animation: t-fly-l 1.2s cubic-bezier(.3,1.3,.3,1) 5.0s forwards;
   }
-  .ticket-filip::after { right: -10px; }
+  .ticket-filip::after { right: -8px; }
   .ticket-justyna {
     right: 4%; top: 4%;
-    transform: rotate(14deg);
+    transform: rotate(30deg) translateY(80px) scale(0.4);
     transform-origin: 0% 100%;
+    animation: t-fly-r 1.2s cubic-bezier(.3,1.3,.3,1) 5.2s forwards;
   }
-  .ticket-justyna::after { left: -10px; }
-
+  .ticket-justyna::after { left: -8px; }
+  @keyframes t-fly-l {
+    0%   { opacity: 0; transform: rotate(-30deg) translateY(80px) scale(0.4); }
+    60%  { opacity: 1; transform: rotate(-12deg) translateY(-6px) scale(1.05); }
+    100% { opacity: 1; transform: rotate(-14deg) translateY(0) scale(1); }
+  }
+  @keyframes t-fly-r {
+    0%   { opacity: 0; transform: rotate(30deg)  translateY(80px) scale(0.4); }
+    60%  { opacity: 1; transform: rotate(12deg)  translateY(-6px) scale(1.05); }
+    100% { opacity: 1; transform: rotate(14deg)  translateY(0) scale(1); }
+  }
   .ticket .brand-row {
     display: flex; align-items: center; gap: 5px;
     font-family: var(--mono);
     font-size: clamp(7px, 1.6vmin, 11px);
-    letter-spacing: 0.24em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--pink-deep);
     font-weight: 600;
@@ -837,7 +543,7 @@
   .ticket .big-brand {
     font-family: var(--font-disp);
     font-weight: 800;
-    font-size: clamp(15px, 3.6vmin, 26px);
+    font-size: clamp(15px, 3.6vmin, 24px);
     line-height: 0.95;
     letter-spacing: -0.025em;
     color: var(--text);
@@ -862,11 +568,10 @@
   .ticket .name {
     font-family: var(--font-hand);
     font-weight: 700;
-    font-size: clamp(22px, 6.2vmin, 42px);
+    font-size: clamp(22px, 6.2vmin, 38px);
     line-height: 1;
     color: var(--pink-deep);
     margin-top: 2%;
-    letter-spacing: -0.005em;
   }
   .ticket .seat {
     margin-top: 4%;
@@ -877,79 +582,74 @@
     text-transform: uppercase;
   }
 
-  /* ──────────────────  POSTER TEXT (top)  ────────────────── */
-  .reveal-poster {
+  /* ───────────────  POSTER TEXT  ─────────────── */
+  .poster {
     position: fixed;
     left: 50%; top: 3%;
     transform: translateX(-50%);
-    width: min(94vw, 760px);
+    width: min(94vw, 720px);
     text-align: center;
-    z-index: 11;
+    z-index: 12;
     pointer-events: none;
-    opacity: 0;
   }
-  .stage.on .reveal-poster {
-    animation: poster-in 1.2s cubic-bezier(.2,.8,.3,1) 40.5s forwards;
-  }
-  @keyframes poster-in {
-    0%   { opacity: 0; transform: translateX(-50%) translateY(-16px); }
-    100% { opacity: 1; transform: translateX(-50%) translateY(0); }
-  }
-  /* SURPRISE BURST — top headline with pop + wiggle */
   .rp-burst {
+    opacity: 0;
     font-family: var(--font-disp);
     font-weight: 800;
     font-style: italic;
-    font-size: clamp(1.1rem, 4.2vw, 1.6rem);
-    letter-spacing: 0.06em;
+    font-size: clamp(1.4rem, 6vw, 2.1rem);
+    letter-spacing: 0.04em;
     color: #fff;
-    background: linear-gradient(135deg, #ff5a7a 0%, #c5283d 100%);
-    padding: 0.35em 0.95em;
+    background: linear-gradient(135deg, var(--pink) 0%, var(--pink-deep) 100%);
+    padding: 0.4em 1em;
     border-radius: 999px;
     display: inline-block;
-    transform: rotate(-2deg);
+    transform: scale(0) rotate(-12deg);
     box-shadow:
-      0 6px 18px rgba(197,40,61,0.4),
+      0 8px 24px rgba(197,40,61,0.5),
       0 0 0 3px white,
-      0 0 0 4px var(--pink-deep);
-    margin-bottom: 0.55em;
-    animation: burst-wiggle 1.8s ease-in-out infinite;
+      0 0 0 5px var(--pink-deep);
+    margin-bottom: 0.6em;
+    animation: burst-pop 0.6s cubic-bezier(.34,1.6,.4,1) 6.2s forwards, burst-wiggle 1.8s ease-in-out 6.8s infinite;
+  }
+  @keyframes burst-pop {
+    0%   { opacity: 0; transform: scale(0) rotate(-25deg); }
+    60%  { opacity: 1; transform: scale(1.15) rotate(4deg); }
+    100% { opacity: 1; transform: scale(1) rotate(-2deg); }
   }
   @keyframes burst-wiggle {
     0%, 100% { transform: rotate(-2deg) scale(1); }
-    50%      { transform: rotate(2deg) scale(1.04); }
+    50%      { transform: rotate(2deg) scale(1.03); }
   }
-
-  /* Names row */
+  .rp-line {
+    opacity: 0;
+    margin-bottom: 0.15em;
+  }
   .rp-names {
     font-family: var(--font-disp);
     font-weight: 800;
     font-style: italic;
-    font-size: clamp(1.3rem, 5.5vw, 2.1rem);
+    font-size: clamp(1.2rem, 5vw, 1.9rem);
     line-height: 1;
-    letter-spacing: -0.005em;
     color: var(--pink-deep);
     text-shadow: 2px 2px 0 white, -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white;
-    margin-bottom: 0.15em;
+    animation: rp-in 0.6s cubic-bezier(.3,1.2,.3,1) 7.0s forwards;
   }
-  .rp-names .amp { color: var(--gold); font-style: italic; }
-
-  /* "idziecie na" connector */
+  .rp-names .amp { color: var(--gold); font-style: italic; padding: 0 0.15em; }
   .rp-going {
     font-family: var(--font-hand);
     font-weight: 600;
-    font-size: clamp(1.05rem, 3.8vw, 1.5rem);
+    font-size: clamp(0.95rem, 3.6vw, 1.35rem);
     color: var(--text-2);
     text-shadow: 1px 1px 0 white;
     line-height: 1;
     margin-bottom: 0.1em;
+    animation: rp-in 0.6s cubic-bezier(.3,1.2,.3,1) 7.3s forwards;
   }
-
-  /* BAD BUNNY — the main reveal */
   .rp-title {
     font-family: var(--font-disp);
     font-weight: 800;
-    font-size: clamp(2.6rem, 12vw, 5.4rem);
+    font-size: clamp(2.4rem, 11vw, 4.6rem);
     line-height: 0.9;
     letter-spacing: -0.03em;
     color: var(--text);
@@ -958,171 +658,91 @@
       -2px -2px 0 white,
       2px -2px 0 white,
       -2px 2px 0 white,
-      0 6px 0 rgba(0,0,0,0.18),
-      0 10px 30px rgba(255,90,122,0.35);
-    margin-top: 0.05em;
+      0 6px 0 rgba(0,0,0,0.15),
+      0 10px 28px rgba(255,90,122,0.35);
+    animation: rp-pop 0.7s cubic-bezier(.34,1.6,.4,1) 7.6s forwards;
   }
-
-  .rp-tour {
-    margin-top: 0.35em;
-    font-family: var(--font-disp);
-    font-style: italic;
-    font-weight: 600;
-    font-size: clamp(1.05rem, 4vw, 1.55rem);
-    color: var(--pink-deep);
-    text-shadow: 1px 1px 0 white, -1px -1px 0 white;
-    line-height: 1.15;
+  @keyframes rp-pop {
+    0%   { opacity: 0; transform: scale(0.5); }
+    60%  { opacity: 1; transform: scale(1.1); }
+    100% { opacity: 1; transform: scale(1); }
   }
   .rp-divider {
     width: 90px; height: 3px;
     background: linear-gradient(90deg, transparent, var(--pink-deep), transparent);
-    margin: 0.75em auto;
+    margin: 0.7em auto;
     border-radius: 2px;
+    opacity: 0;
+    animation: rp-in 0.5s ease 8.2s forwards;
   }
   .rp-meta {
     font-family: var(--font-disp);
-    font-size: clamp(1.1rem, 4.4vw, 1.7rem);
-    letter-spacing: 0.05em;
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    letter-spacing: 0.04em;
     color: var(--text);
-    line-height: 1.2;
+    line-height: 1.25;
     text-shadow: 1.5px 1.5px 0 white;
     font-weight: 700;
-    margin-bottom: 0.15em;
+    animation: rp-in 0.5s ease 8.4s forwards;
   }
   .rp-meta strong { color: var(--pink-deep); font-weight: 800; }
   .rp-venue {
     font-family: var(--font-disp);
-    font-size: clamp(0.95rem, 3.6vw, 1.35rem);
+    font-size: clamp(0.9rem, 3.4vw, 1.3rem);
     color: var(--text-2);
-    line-height: 1.25;
+    line-height: 1.3;
     text-shadow: 1px 1px 0 white;
-    font-weight: 500;
+    font-weight: 600;
+    margin-top: 0.1em;
+    animation: rp-in 0.5s ease 8.6s forwards;
   }
   .rp-venue strong { color: var(--text); font-weight: 700; }
-
   .rp-cta {
-    margin-top: 0.65em;
+    margin-top: 0.6em;
     font-family: var(--font-hand);
     font-weight: 700;
-    font-size: clamp(1.3rem, 4.8vw, 1.85rem);
+    font-size: clamp(1.2rem, 4.6vw, 1.75rem);
     color: var(--text);
     text-shadow: 1px 1px 0 white;
     line-height: 1.1;
+    animation: rp-in 0.6s cubic-bezier(.3,1.2,.3,1) 9.0s forwards;
   }
   .rp-cta span { color: var(--pink-deep); }
+  @keyframes rp-in {
+    0%   { opacity: 0; transform: translateY(-10px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
 
-  /* ─────────────────  LIGHT RAYS behind reveal  ───────────────── */
-  .light-rays {
+  /* SOUND TOGGLE — discreet corner button (in case music is muted) */
+  .sound-toggle {
     position: fixed;
-    left: 50%; top: 56%;
-    transform: translate(-50%, -50%) scale(0.4);
-    width: min(140vw, 800px);
-    aspect-ratio: 1;
-    z-index: 9;
-    pointer-events: none;
-    opacity: 0;
-    mix-blend-mode: screen;
-  }
-  .light-rays svg { width: 100%; height: 100%; display: block; }
-  .light-rays svg g { animation: rays-spin 14s linear infinite; transform-origin: 200px 200px; }
-  @keyframes rays-spin {
-    0%   { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  .stage.on .light-rays {
-    animation: rays-in 1.4s cubic-bezier(.3,1.4,.3,1) 40.5s forwards;
-  }
-  @keyframes rays-in {
-    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
-    100% { opacity: 0.9; transform: translate(-50%, -50%) scale(1); }
-  }
-
-  /* ─────────────────  CONFETTI  ───────────────── */
-  .confetti-layer {
-    position: fixed; inset: 0;
-    z-index: 12;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  .confetti {
-    position: absolute;
-    top: -20px;
-    width: 10px; height: 16px;
-    opacity: 0;
-    border-radius: 2px;
-    will-change: transform;
-  }
-  .stage.on .confetti {
-    animation:
-      confetti-show 0.001s linear 40.5s forwards,
-      confetti-fall var(--dur, 4s) cubic-bezier(.3,.4,.5,1) 40.5s infinite;
-  }
-  @keyframes confetti-show { to { opacity: 1; } }
-  @keyframes confetti-fall {
-    0%   { transform: translate3d(0, -20px, 0) rotate(0deg); }
-    100% { transform: translate3d(var(--drift, 30px), 110vh, 0) rotate(var(--spin, 720deg)); }
-  }
-
-  /* WIN flash */
-  .win-flash {
-    position: fixed; inset: 0;
-    background: white;
-    opacity: 0;
-    pointer-events: none;
-    z-index: 9;
-  }
-  .stage.on .win-flash { animation: flash 0.22s ease 39.3s 2; }
-  @keyframes flash {
-    0%, 100% { opacity: 0; }
-    50%      { opacity: 0.45; }
-  }
-
-  /* FINAL screen */
-  .final {
-    position: fixed; inset: 0;
-    background:
-      radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.06) 0%, transparent 60%),
-      linear-gradient(180deg, #0a0608 0%, #1a0e0a 100%);
-    color: #f8f4ea;
+    bottom: 50px; right: 14px;
+    z-index: 30;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: rgba(20,15,10,0.62);
+    color: var(--gold);
+    border: 1px solid rgba(212,175,55,0.4);
     display: flex; align-items: center; justify-content: center;
-    flex-direction: column;
-    z-index: 20;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 1.4s cubic-bezier(.4,0,.2,1);
-    padding: 2rem;
-    text-align: center;
+    font-size: 20px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease, background 0.2s ease;
   }
-  .final.on { opacity: 1; pointer-events: auto; }
-  .final .heart {
-    width: 38px; height: 38px;
-    color: var(--pink-deep);
-    margin-bottom: 1.6rem;
-    animation: heartbeat 1.27s ease-in-out infinite;
-  }
-  @keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    20% { transform: scale(1.18); }
-    40% { transform: scale(1); }
-  }
-  .final p {
-    font-family: var(--font-hand);
-    font-weight: 700;
-    font-size: clamp(1.4rem, 5.2vw, 2.1rem);
-    color: #f8f4ea;
-    line-height: 1.3;
-  }
-  .final p span { color: var(--gold); font-family: var(--font-disp); font-weight: 700; font-style: normal; }
-  .final .small {
-    margin-top: 1.6rem;
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.5);
+  .sound-toggle:active { transform: scale(0.92); }
+  .sound-toggle.muted { color: rgba(255,255,255,0.55); }
+  .sound-toggle.muted::after {
+    content: '';
+    position: absolute;
+    left: 8px; right: 8px;
+    top: 50%; height: 2px;
+    background: rgba(255,80,80,0.85);
+    transform: rotate(-32deg);
+    border-radius: 2px;
   }
 
-  /* YouTube */
+  /* YouTube — in viewport, transparent */
   #music-host {
     position: fixed;
     top: 0; right: 0;
@@ -1136,76 +756,51 @@
     width: 100%; height: 100%;
   }
 
-  /* filipOS footer — subtle, single-line, never blocks scene */
-  .filipos-footer {
+  /* filipOS footer — subtle */
+  .footer {
     position: fixed;
     left: 0; right: 0; bottom: 0;
     z-index: 50;
-    padding: 3px 10px 4px;
-    background: rgba(7,6,10,0.32);
+    padding: 4px 12px 6px;
+    background: rgba(7,6,10,0.35);
     text-align: center;
     pointer-events: none;
   }
-  .filipos-footer .row1 {
+  .footer .row {
     font-family: var(--mono);
-    font-size: clamp(0.46rem, 0.95vw, 0.56rem);
+    font-size: clamp(0.48rem, 1vw, 0.58rem);
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: rgba(255,245,225,0.78);
     display: flex; align-items: center; justify-content: center;
-    gap: clamp(6px, 1.8vw, 14px);
+    gap: clamp(8px, 2vw, 16px);
     flex-wrap: wrap;
-    font-weight: 400;
     line-height: 1.4;
   }
-  .filipos-footer .row1 .brand {
+  .footer .brand {
     font-family: var(--font-disp);
     font-style: italic;
     font-weight: 800;
-    font-size: clamp(0.58rem, 1.2vw, 0.7rem);
-    letter-spacing: -0.01em;
+    font-size: clamp(0.6rem, 1.3vw, 0.74rem);
     color: var(--gold);
     text-transform: none;
+    letter-spacing: -0.01em;
   }
-  .filipos-footer .row1 .sep,
-  .filipos-footer .row2 .sep { color: var(--gold); opacity: 0.6; }
-  .filipos-footer .row2 {
-    margin-top: 1px;
-    font-family: var(--mono);
-    font-size: clamp(0.4rem, 0.85vw, 0.5rem);
-    font-weight: 300;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(200,191,168,0.55);
-    display: flex; align-items: center; justify-content: center;
-    gap: 6px; flex-wrap: wrap;
-    line-height: 1.4;
-  }
+  .footer .sep { color: var(--gold); opacity: 0.55; }
 
+  /* Mobile-specific */
   @media (max-width: 480px) {
-    .heart-wrap { width: 92vw; top: 56%; }
-    .boombox { left: 30%; }
-    .towel { left: 30%; }
-    .rabbit { bottom: 9vh; }
-    .reveal-poster { top: 2%; }
+    .rabbit { bottom: 16%; width: clamp(150px, 38vmin, 200px); }
+    .heart-wrap { width: 92vw; top: 54%; }
+    .poster { top: 2.5%; }
+    .stadium { top: 46%; }
   }
 </style>
 </head>
 <body>
 
-<!-- ─────── START SCREEN ─────── -->
-<div id="start">
-  <div class="ring">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-      <path d="M8 5v14l11-7z" fill="currentColor"/>
-    </svg>
-  </div>
-  <div class="wm">Niespodzianka <em>·</em> tap to begin</div>
-  <div class="sub">dla Filipa &amp; Justyny</div>
-</div>
-
-<!-- ─────── STAGE ─────── -->
-<div class="stage" id="stage">
+<!-- ─────── STAGE (autostart, no tap needed) ─────── -->
+<div class="stage">
  <div class="stage-inner">
   <div class="sky"></div>
 
@@ -1218,7 +813,7 @@
       <ellipse cx="180" cy="56" rx="30" ry="18" fill="#fff"/>
       <ellipse cx="64" cy="66" rx="56" ry="14" fill="#fff"/>
       <ellipse cx="148" cy="66" rx="58" ry="14" fill="#fff"/>
-      <ellipse cx="110" cy="74" rx="100" ry="6" fill="#d8e6ec" opacity="0.6"/>
+      <ellipse cx="110" cy="74" rx="100" ry="6" fill="#d8e6ec" opacity="0.5"/>
     </svg>
   </div>
   <div class="cloud cloud-2">
@@ -1227,7 +822,7 @@
       <ellipse cx="108" cy="32" rx="50" ry="28" fill="#fff"/>
       <ellipse cx="160" cy="46" rx="42" ry="24" fill="#fff"/>
       <ellipse cx="110" cy="66" rx="100" ry="14" fill="#fff"/>
-      <ellipse cx="110" cy="74" rx="102" ry="6" fill="#d8e6ec" opacity="0.6"/>
+      <ellipse cx="110" cy="74" rx="102" ry="6" fill="#d8e6ec" opacity="0.5"/>
     </svg>
   </div>
   <div class="cloud cloud-3">
@@ -1236,7 +831,6 @@
       <ellipse cx="118" cy="36" rx="38" ry="24" fill="#fff"/>
       <ellipse cx="162" cy="46" rx="34" ry="20" fill="#fff"/>
       <ellipse cx="110" cy="58" rx="80" ry="12" fill="#fff"/>
-      <ellipse cx="110" cy="66" rx="80" ry="5" fill="#d8e6ec" opacity="0.5"/>
     </svg>
   </div>
   <div class="cloud cloud-4">
@@ -1244,14 +838,6 @@
       <ellipse cx="86" cy="40" rx="50" ry="24" fill="#fff"/>
       <ellipse cx="140" cy="44" rx="38" ry="20" fill="#fff"/>
       <ellipse cx="110" cy="60" rx="88" ry="12" fill="#fff"/>
-      <ellipse cx="110" cy="68" rx="88" ry="4" fill="#d8e6ec" opacity="0.5"/>
-    </svg>
-  </div>
-  <div class="cloud cloud-5">
-    <svg viewBox="0 0 220 90" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="110" cy="42" rx="56" ry="24" fill="#fff"/>
-      <ellipse cx="110" cy="56" rx="78" ry="12" fill="#fff"/>
-      <ellipse cx="110" cy="64" rx="78" ry="4" fill="#d8e6ec" opacity="0.5"/>
     </svg>
   </div>
 
@@ -1268,13 +854,8 @@
       <path d="M 4 12 Q 14 2, 30 13 Q 46 2, 56 12" stroke="#1a1410" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </div>
-  <div class="gull gull-3">
-    <svg viewBox="0 0 60 20" xmlns="http://www.w3.org/2000/svg">
-      <path d="M 4 12 Q 14 4, 30 11 Q 46 4, 56 12" stroke="#1a1410" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </div>
 
-  <!-- STADIUM on horizon -->
+  <!-- STADIUM (subtle, on horizon) -->
   <svg class="stadium" viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
     <defs>
       <linearGradient id="stadiumGrad" x1="0" y1="0" x2="0" y2="1">
@@ -1312,28 +893,7 @@
     <circle cx="400" cy="12" r="2.5" fill="white" fill-opacity="0.95"/>
   </svg>
 
-  <!-- Background palm -->
-  <svg class="palm-back" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="trunkGradBack" x1="0" y1="1" x2="0" y2="0">
-        <stop offset="0%"  stop-color="#3e2410"/>
-        <stop offset="100%" stop-color="#6e4422"/>
-      </linearGradient>
-    </defs>
-    <path d="M 100 320 C 96 240, 108 170, 102 110 C 96 70, 108 40, 106 24"
-          stroke="url(#trunkGradBack)" stroke-width="9" fill="none" stroke-linecap="round"/>
-    <g transform="translate(106, 24)">
-      <path d="M0 0 C -22 -6, -65 -6, -98 8 C -55 -2, -25 6, 0 0 Z" fill="#1f5a22"/>
-      <path d="M0 0 C -24 -22, -65 -34, -100 -26 C -62 -22, -26 -8, 0 0 Z" fill="#3d8a3a"/>
-      <path d="M0 0 C -2 -28, 8 -65, 32 -90 C 14 -56, 4 -28, 0 0 Z" fill="#1f5a22"/>
-      <path d="M0 0 C 20 -22, 60 -32, 90 -24 C 56 -18, 24 -6, 0 0 Z" fill="#3d8a3a"/>
-      <path d="M0 0 C 26 6, 65 10, 95 22 C 60 12, 28 12, 0 0 Z" fill="#1f5a22"/>
-      <ellipse cx="-2" cy="10" rx="5" ry="6" fill="#3a2010"/>
-      <ellipse cx="6" cy="13"  rx="5" ry="6" fill="#3a2010"/>
-    </g>
-  </svg>
-
-  <!-- SEA detail + foam -->
+  <!-- SEA -->
   <div class="sea-detail"></div>
   <div class="sea-waves">
     <svg viewBox="0 0 800 150" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
@@ -1346,32 +906,25 @@
 
   <div class="sand"></div>
 
-  <!-- MAIN PALM (improved layered leaves + nicer trunk) -->
+  <!-- PALM -->
   <svg class="palm" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id="trunkGrad" x1="0" y1="1" x2="0" y2="0">
+      <linearGradient id="trunkG" x1="0" y1="1" x2="0" y2="0">
         <stop offset="0%"  stop-color="#3e2410"/>
-        <stop offset="40%" stop-color="#6e4422"/>
+        <stop offset="50%" stop-color="#6e4422"/>
         <stop offset="100%" stop-color="#946238"/>
       </linearGradient>
       <linearGradient id="leafA" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stop-color="#76c46a"/>
-        <stop offset="60%" stop-color="#3d8a3a"/>
         <stop offset="100%" stop-color="#1f5a22"/>
       </linearGradient>
       <linearGradient id="leafB" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stop-color="#5cab53"/>
         <stop offset="100%" stop-color="#1f5a22"/>
       </linearGradient>
-      <radialGradient id="cocoOnTree" cx="35%" cy="30%" r="75%">
-        <stop offset="0%"  stop-color="#a06a35"/>
-        <stop offset="100%" stop-color="#3e2410"/>
-      </radialGradient>
     </defs>
-    <!-- Trunk -->
     <path d="M 96 320 C 92 240, 110 170, 102 110 C 94 70, 108 38, 106 18"
-          stroke="url(#trunkGrad)" stroke-width="13" fill="none" stroke-linecap="round"/>
-    <!-- Trunk segments (texture) -->
+          stroke="url(#trunkG)" stroke-width="13" fill="none" stroke-linecap="round"/>
     <g stroke="#2a1810" stroke-width="0.9" fill="none" opacity="0.55">
       <path d="M 88 290 q 12 -2, 19 0"/>
       <path d="M 86 252 q 14 -2, 20 0"/>
@@ -1379,368 +932,207 @@
       <path d="M 96 175 q 12 -2, 17 0"/>
       <path d="M 94 140 q 14 -2, 17 0"/>
       <path d="M 96 105 q 12 -2, 16 0"/>
-      <path d="M 102 70 q 8 -1, 12 0"/>
     </g>
-    <!-- Trunk highlight on right side -->
-    <path d="M 102 318 C 98 240, 116 170, 108 110 C 100 70, 114 38, 112 18"
-          stroke="rgba(255,220,170,0.18)" stroke-width="3" fill="none" stroke-linecap="round"/>
-
-    <!-- Leaves crown -->
     <g transform="translate(106, 20)">
-      <!-- Back layer (darker) -->
       <path d="M0 0 C -28 -8, -82 -8, -125 10 C -75 0, -32 8, 0 0 Z" fill="url(#leafB)" stroke="#1a3818" stroke-width="0.6"/>
       <path d="M0 0 C -30 -32, -82 -45, -125 -34 C -78 -30, -32 -12, 0 0 Z" fill="url(#leafA)" stroke="#1a3818" stroke-width="0.6"/>
       <path d="M0 0 C -2 -34, 10 -82, 38 -116 C 18 -72, 4 -34, 0 0 Z" fill="url(#leafB)" stroke="#1a3818" stroke-width="0.6"/>
       <path d="M0 0 C 24 -26, 74 -40, 116 -30 C 70 -24, 30 -8, 0 0 Z" fill="url(#leafA)" stroke="#1a3818" stroke-width="0.6"/>
       <path d="M0 0 C 32 8, 80 12, 118 30 C 74 14, 34 14, 0 0 Z" fill="url(#leafB)" stroke="#1a3818" stroke-width="0.6"/>
       <path d="M0 0 C -20 20, -54 40, -84 60 C -50 36, -20 14, 0 0 Z" fill="url(#leafA)" stroke="#1a3818" stroke-width="0.6"/>
-      <!-- Leaf vein highlights -->
-      <g stroke="#1a3818" stroke-width="0.4" opacity="0.55" fill="none">
-        <line x1="0" y1="0" x2="-110" y2="2"/>
-        <line x1="0" y1="0" x2="-110" y2="-30"/>
-        <line x1="0" y1="0" x2="30" y2="-100"/>
-        <line x1="0" y1="0" x2="104" y2="-26"/>
-        <line x1="0" y1="0" x2="104" y2="22"/>
-        <line x1="0" y1="0" x2="-74" y2="50"/>
+      <!-- Coconuts on palm -->
+      <ellipse cx="-3" cy="10" rx="6.5" ry="7.5" fill="#5a3414" stroke="#1a0e08" stroke-width="0.9"/>
+      <ellipse cx="8"  cy="14" rx="6.5" ry="7.5" fill="#5a3414" stroke="#1a0e08" stroke-width="0.9"/>
+      <ellipse cx="2"  cy="21" rx="6.5" ry="7.5" fill="#5a3414" stroke="#1a0e08" stroke-width="0.9"/>
+    </g>
+  </svg>
+
+  <!-- GLOW (light flash before reveal) -->
+  <div class="glow"></div>
+
+  <!-- Sparkle "noticing" effects -->
+  <div class="notice-spark spark-1">✨</div>
+  <div class="notice-spark spark-2">★</div>
+  <div class="notice-spark spark-3">✦</div>
+  <div class="notice-spark spark-4">✨</div>
+  <div class="notice-spark spark-5">★</div>
+
+  <!-- LIGHT RAYS behind reveal -->
+  <div class="light-rays">
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <radialGradient id="rayGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="rgba(255,235,150,0.55)"/>
+          <stop offset="55%" stop-color="rgba(255,210,90,0.18)"/>
+          <stop offset="100%" stop-color="rgba(255,210,90,0)"/>
+        </radialGradient>
+      </defs>
+      <g transform="translate(200,200)" fill="rgba(255,235,150,0.34)">
+        <polygon points="0,-200 -12,-40 12,-40"/>
+        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(22.5)"/>
+        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(45)"/>
+        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(67.5)"/>
+        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(90)"/>
+        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(112.5)"/>
+        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(135)"/>
+        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(157.5)"/>
+        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(180)"/>
+        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(202.5)"/>
+        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(225)"/>
+        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(247.5)"/>
+        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(270)"/>
+        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(292.5)"/>
+        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(315)"/>
+        <polygon points="0,-200 -12,-40 12,-40" transform="rotate(337.5)"/>
       </g>
-      <!-- Leaf veins (small) -->
-      <g stroke="rgba(255,255,255,0.16)" stroke-width="0.4" fill="none">
-        <line x1="-5" y1="-2" x2="-100" y2="-1"/>
-        <line x1="-5" y1="-3" x2="-100" y2="-28"/>
-        <line x1="-2" y1="-6" x2="28" y2="-95"/>
-        <line x1="2" y1="-2" x2="100" y2="-23"/>
-        <line x1="6" y1="0" x2="100" y2="20"/>
-        <line x1="-4" y1="6" x2="-68" y2="47"/>
-      </g>
-      <!-- Coconut cluster -->
-      <ellipse cx="-3" cy="10" rx="6.5" ry="7.5" fill="url(#cocoOnTree)" stroke="#1a0e08" stroke-width="0.9"/>
-      <ellipse cx="8" cy="14"  rx="6.5" ry="7.5" fill="url(#cocoOnTree)" stroke="#1a0e08" stroke-width="0.9"/>
-      <ellipse cx="2" cy="21"  rx="6.5" ry="7.5" fill="url(#cocoOnTree)" stroke="#1a0e08" stroke-width="0.9"/>
-      <ellipse cx="-3" cy="10" rx="2" ry="2" fill="rgba(255,220,170,0.35)"/>
-      <ellipse cx="8" cy="14" rx="2" ry="2" fill="rgba(255,220,170,0.35)"/>
-    </g>
-  </svg>
+      <circle cx="200" cy="200" r="160" fill="url(#rayGlow)"/>
+    </svg>
+  </div>
 
-  <!-- BEACH TOWEL — under the boombox -->
-  <svg class="towel" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+  <!-- BUNNY MASCOT — cute, app-quality, friendly -->
+  <svg class="rabbit" viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id="towelShade" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"  stop-color="rgba(255,255,255,0.25)"/>
-        <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
-      </linearGradient>
-    </defs>
-    <!-- Ground shadow -->
-    <ellipse cx="100" cy="74" rx="92" ry="6" fill="rgba(0,0,0,0.18)"/>
-    <!-- Towel body -->
-    <rect x="6" y="14" width="188" height="56" rx="4" fill="#ff7560" stroke="#1a0e08" stroke-width="1"/>
-    <!-- Stripes -->
-    <rect x="6" y="20" width="188" height="5" fill="#fff3d6"/>
-    <rect x="6" y="29" width="188" height="5" fill="#5ec5e8"/>
-    <rect x="6" y="38" width="188" height="5" fill="#ffd055"/>
-    <rect x="6" y="47" width="188" height="5" fill="#fff3d6"/>
-    <rect x="6" y="56" width="188" height="5" fill="#5ec5e8"/>
-    <!-- Fringe on edges -->
-    <g stroke="#1a0e08" stroke-width="0.6">
-      <line x1="6"  y1="14" x2="3"  y2="11"/>
-      <line x1="16" y1="14" x2="13" y2="11"/>
-      <line x1="26" y1="14" x2="23" y2="11"/>
-      <line x1="36" y1="14" x2="33" y2="11"/>
-      <line x1="46" y1="14" x2="43" y2="11"/>
-      <line x1="56" y1="14" x2="53" y2="11"/>
-      <line x1="66" y1="14" x2="63" y2="11"/>
-      <line x1="76" y1="14" x2="73" y2="11"/>
-      <line x1="86" y1="14" x2="83" y2="11"/>
-      <line x1="96" y1="14" x2="93" y2="11"/>
-      <line x1="106" y1="14" x2="103" y2="11"/>
-      <line x1="116" y1="14" x2="113" y2="11"/>
-      <line x1="126" y1="14" x2="123" y2="11"/>
-      <line x1="136" y1="14" x2="133" y2="11"/>
-      <line x1="146" y1="14" x2="143" y2="11"/>
-      <line x1="156" y1="14" x2="153" y2="11"/>
-      <line x1="166" y1="14" x2="163" y2="11"/>
-      <line x1="176" y1="14" x2="173" y2="11"/>
-      <line x1="186" y1="14" x2="183" y2="11"/>
-    </g>
-    <!-- Top sheen -->
-    <rect x="6" y="14" width="188" height="6" fill="url(#towelShade)"/>
-  </svg>
-
-  <!-- BOOMBOX — the music maker -->
-  <svg class="boombox" viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
-    <defs>
-      <linearGradient id="bbBody" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"  stop-color="#3a3438"/>
-        <stop offset="100%" stop-color="#1a1418"/>
-      </linearGradient>
-      <radialGradient id="bbSpeaker" cx="50%" cy="50%" r="60%">
-        <stop offset="0%"   stop-color="#5a5560"/>
-        <stop offset="50%"  stop-color="#2a2528"/>
-        <stop offset="100%" stop-color="#0a0608"/>
-      </radialGradient>
-      <linearGradient id="bbScreen" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"  stop-color="#1a3a28"/>
-        <stop offset="100%" stop-color="#0a1a14"/>
-      </linearGradient>
-    </defs>
-    <!-- Ground shadow -->
-    <ellipse cx="130" cy="156" rx="124" ry="6" fill="rgba(0,0,0,0.32)"/>
-    <!-- Antenna -->
-    <line x1="220" y1="34" x2="248" y2="-4" stroke="#5a5560" stroke-width="2.6" stroke-linecap="round"/>
-    <circle cx="248" cy="-4" r="3" fill="#d4af37"/>
-    <!-- Handle -->
-    <path d="M 100 30 Q 130 8, 160 30" fill="none" stroke="#2a2528" stroke-width="6" stroke-linecap="round"/>
-    <path d="M 100 30 Q 130 8, 160 30" fill="none" stroke="#5a5560" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
-    <!-- Body box -->
-    <rect x="14" y="34" width="232" height="112" rx="8" fill="url(#bbBody)" stroke="#0a0608" stroke-width="1.5"/>
-    <!-- Body highlight -->
-    <rect x="18" y="38" width="224" height="4" rx="2" fill="rgba(255,255,255,0.12)"/>
-    <!-- Left speaker grille -->
-    <circle cx="68" cy="92" r="38" fill="url(#bbSpeaker)" stroke="#0a0608" stroke-width="1.6"/>
-    <circle cx="68" cy="92" r="32" fill="none" stroke="#5a5560" stroke-width="0.8" stroke-dasharray="2 1.5"/>
-    <circle cx="68" cy="92" r="26" fill="none" stroke="#5a5560" stroke-width="0.8" stroke-dasharray="2 1.5"/>
-    <circle cx="68" cy="92" r="20" fill="none" stroke="#5a5560" stroke-width="0.8" stroke-dasharray="2 1.5"/>
-    <circle cx="68" cy="92" r="14" fill="none" stroke="#5a5560" stroke-width="0.8" stroke-dasharray="2 1.5"/>
-    <circle cx="68" cy="92" r="9" fill="#1a1418" stroke="#0a0608" stroke-width="0.8"/>
-    <circle cx="64" cy="88" r="3" fill="rgba(255,255,255,0.18)"/>
-    <!-- Right speaker grille -->
-    <circle cx="192" cy="92" r="38" fill="url(#bbSpeaker)" stroke="#0a0608" stroke-width="1.6"/>
-    <circle cx="192" cy="92" r="32" fill="none" stroke="#5a5560" stroke-width="0.8" stroke-dasharray="2 1.5"/>
-    <circle cx="192" cy="92" r="26" fill="none" stroke="#5a5560" stroke-width="0.8" stroke-dasharray="2 1.5"/>
-    <circle cx="192" cy="92" r="20" fill="none" stroke="#5a5560" stroke-width="0.8" stroke-dasharray="2 1.5"/>
-    <circle cx="192" cy="92" r="14" fill="none" stroke="#5a5560" stroke-width="0.8" stroke-dasharray="2 1.5"/>
-    <circle cx="192" cy="92" r="9" fill="#1a1418" stroke="#0a0608" stroke-width="0.8"/>
-    <circle cx="188" cy="88" r="3" fill="rgba(255,255,255,0.18)"/>
-    <!-- Center panel - screen -->
-    <rect x="108" y="50" width="44" height="16" rx="3" fill="url(#bbScreen)" stroke="#0a0608" stroke-width="1"/>
-    <!-- Equalizer bars on screen -->
-    <g transform-origin="130 65">
-      <rect class="bb-bars" x="113" y="55" width="3" height="8" fill="#6fff90" rx="0.5" style="transform-origin: 114px 63px"/>
-      <rect class="bb-bars" x="119" y="55" width="3" height="8" fill="#6fff90" rx="0.5" style="transform-origin: 120px 63px; animation-delay: 0.1s"/>
-      <rect class="bb-bars" x="125" y="55" width="3" height="8" fill="#6fff90" rx="0.5" style="transform-origin: 126px 63px; animation-delay: 0.2s"/>
-      <rect class="bb-bars" x="131" y="55" width="3" height="8" fill="#6fff90" rx="0.5" style="transform-origin: 132px 63px; animation-delay: 0.3s"/>
-      <rect class="bb-bars" x="137" y="55" width="3" height="8" fill="#6fff90" rx="0.5" style="transform-origin: 138px 63px; animation-delay: 0.4s"/>
-      <rect class="bb-bars" x="143" y="55" width="3" height="8" fill="#6fff90" rx="0.5" style="transform-origin: 144px 63px; animation-delay: 0.5s"/>
-    </g>
-    <!-- Power LED -->
-    <circle class="bb-led" cx="100" cy="80" r="3.5" fill="#ff3a55" opacity="0.4"/>
-    <!-- Buttons row -->
-    <g>
-      <circle cx="116" cy="82" r="6" fill="#2a2528" stroke="#0a0608" stroke-width="0.8"/>
-      <polygon points="113,79 113,85 119,82" fill="#d4af37"/>
-      <circle cx="132" cy="82" r="5" fill="#2a2528" stroke="#0a0608" stroke-width="0.8"/>
-      <rect x="129" y="79" width="2.5" height="6" fill="#5a5560"/>
-      <rect x="132.5" y="79" width="2.5" height="6" fill="#5a5560"/>
-      <circle cx="146" cy="82" r="5" fill="#2a2528" stroke="#0a0608" stroke-width="0.8"/>
-      <rect x="144" y="80" width="4" height="4" fill="#5a5560"/>
-    </g>
-    <!-- Cassette window -->
-    <rect x="108" y="100" width="44" height="22" rx="2" fill="#0a0608" stroke="#2a2528" stroke-width="0.8"/>
-    <circle cx="118" cy="111" r="5" fill="none" stroke="#3a3438" stroke-width="1"/>
-    <circle cx="118" cy="111" r="2" fill="#3a3438"/>
-    <circle cx="142" cy="111" r="5" fill="none" stroke="#3a3438" stroke-width="1"/>
-    <circle cx="142" cy="111" r="2" fill="#3a3438"/>
-    <!-- Volume knob -->
-    <circle cx="128" cy="135" r="6" fill="#3a3438" stroke="#0a0608" stroke-width="1"/>
-    <circle cx="128" cy="135" r="3" fill="#5a5560"/>
-    <line x1="128" y1="132" x2="128" y2="129" stroke="#d4af37" stroke-width="1.4" stroke-linecap="round"/>
-    <!-- Brand text -->
-    <text x="190" y="44" font-family="Syne, sans-serif" font-weight="800" font-size="6" fill="#d4af37" letter-spacing="0.4">filipBOOM</text>
-  </svg>
-
-  <!-- COCONUT (falling) -->
-  <svg class="coconut" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <radialGradient id="cocoGrad" cx="32%" cy="28%" r="78%">
-        <stop offset="0%"   stop-color="#a06a35"/>
-        <stop offset="45%"  stop-color="#5a3414"/>
-        <stop offset="100%" stop-color="#1a0e08"/>
-      </radialGradient>
-    </defs>
-    <circle cx="50" cy="50" r="44" fill="url(#cocoGrad)" stroke="#1a0e08" stroke-width="1.4"/>
-    <ellipse cx="38" cy="34" rx="13" ry="7" fill="rgba(255,220,170,0.35)"/>
-    <circle cx="44" cy="58" r="2.4" fill="#1a0e08" opacity="0.8"/>
-    <circle cx="56" cy="60" r="2.4" fill="#1a0e08" opacity="0.8"/>
-    <circle cx="50" cy="50" r="2.4" fill="#1a0e08" opacity="0.8"/>
-  </svg>
-
-  <!-- Cracked shells -->
-  <svg class="coco-shells" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <radialGradient id="shellGrad" cx="35%" cy="30%" r="75%">
-        <stop offset="0%"   stop-color="#a06a35"/>
-        <stop offset="50%"  stop-color="#5a3414"/>
-        <stop offset="100%" stop-color="#1a0e08"/>
-      </radialGradient>
-      <linearGradient id="meatGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"  stop-color="#fffaef"/>
-        <stop offset="100%" stop-color="#e9dcb8"/>
-      </linearGradient>
-    </defs>
-    <g class="shell-half shell-left">
-      <path d="M 86 50 A 36 36 0 0 0 14 50 L 14 60 A 36 36 0 0 0 86 60 Z"
-            fill="url(#shellGrad)" stroke="#1a0e08" stroke-width="1.2"/>
-      <path d="M 80 50 A 32 32 0 0 0 20 50" fill="url(#meatGrad)" opacity="0.95"/>
-    </g>
-    <g class="shell-half shell-right">
-      <path d="M 186 50 A 36 36 0 0 0 114 50 L 114 60 A 36 36 0 0 0 186 60 Z"
-            fill="url(#shellGrad)" stroke="#1a0e08" stroke-width="1.2"/>
-      <path d="M 180 50 A 32 32 0 0 0 120 50" fill="url(#meatGrad)" opacity="0.95"/>
-    </g>
-  </svg>
-
-  <!-- RABBIT (refined cute design, multi-part) -->
-  <svg class="rabbit" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <radialGradient id="rabBody" cx="40%" cy="35%" r="75%">
-        <stop offset="0%"   stop-color="#2a2024"/>
-        <stop offset="55%"  stop-color="#14101a"/>
+      <radialGradient id="rGrad" cx="40%" cy="35%" r="75%">
+        <stop offset="0%"  stop-color="#2a2024"/>
+        <stop offset="55%" stop-color="#14101a"/>
         <stop offset="100%" stop-color="#050308"/>
       </radialGradient>
-      <radialGradient id="rabBelly" cx="50%" cy="50%" r="50%">
+      <radialGradient id="rBelly" cx="50%" cy="50%" r="55%">
         <stop offset="0%"  stop-color="#332834"/>
         <stop offset="100%" stop-color="#1a1418"/>
       </radialGradient>
-      <radialGradient id="eyeShine" cx="40%" cy="35%" r="55%">
-        <stop offset="0%" stop-color="#ffd070"/>
+      <radialGradient id="rEye" cx="40%" cy="35%" r="60%">
+        <stop offset="0%"  stop-color="#fff5b0"/>
+        <stop offset="40%" stop-color="#d4af37"/>
         <stop offset="100%" stop-color="#6a4f12"/>
       </radialGradient>
-      <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
+      <linearGradient id="rGold" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%"  stop-color="#fff0a8"/>
-        <stop offset="35%" stop-color="#f5d97a"/>
-        <stop offset="65%" stop-color="#d4af37"/>
+        <stop offset="40%" stop-color="#f5d97a"/>
+        <stop offset="70%" stop-color="#d4af37"/>
         <stop offset="100%" stop-color="#6a4f12"/>
       </linearGradient>
-      <radialGradient id="goldGradLink" cx="40%" cy="35%" r="65%">
+      <radialGradient id="goldLink" cx="40%" cy="35%" r="65%">
         <stop offset="0%"  stop-color="#fff0a8"/>
         <stop offset="55%" stop-color="#d4af37"/>
         <stop offset="100%" stop-color="#5a3f0a"/>
       </radialGradient>
-      <radialGradient id="sparkGrad" cx="50%" cy="50%" r="50%">
-        <stop offset="0%"  stop-color="#fff5d0"/>
-        <stop offset="60%" stop-color="#ffe9a0" stop-opacity="0.7"/>
-        <stop offset="100%" stop-color="#ffe9a0" stop-opacity="0"/>
-      </radialGradient>
-      <radialGradient id="mouthGrad" cx="50%" cy="40%" r="60%">
-        <stop offset="0%"   stop-color="#5a1020"/>
-        <stop offset="100%" stop-color="#1a0408"/>
-      </radialGradient>
     </defs>
 
     <!-- Ground shadow -->
-    <ellipse cx="100" cy="285" rx="58" ry="6" fill="rgba(0,0,0,0.28)"/>
+    <ellipse cx="100" cy="240" rx="60" ry="6" fill="rgba(0,0,0,0.22)"/>
 
-    <!-- Feet (independent) -->
-    <g class="r-foot-l">
-      <ellipse cx="65" cy="276" rx="22" ry="11" fill="url(#rabBody)"/>
-      <ellipse cx="58" cy="273" rx="4" ry="2.5" fill="#332834"/>
-    </g>
-    <g class="r-foot-r">
-      <ellipse cx="135" cy="276" rx="22" ry="11" fill="url(#rabBody)"/>
-      <ellipse cx="142" cy="273" rx="4" ry="2.5" fill="#332834"/>
-    </g>
+    <!-- Feet -->
+    <ellipse cx="72" cy="232" rx="20" ry="10" fill="url(#rGrad)"/>
+    <ellipse cx="128" cy="232" rx="20" ry="10" fill="url(#rGrad)"/>
+    <ellipse cx="68" cy="234" rx="6" ry="2.5" fill="#ff7a9d" opacity="0.5"/>
+    <ellipse cx="132" cy="234" rx="6" ry="2.5" fill="#ff7a9d" opacity="0.5"/>
 
-    <!-- BODY group: torso + chain + arms -->
-    <g class="r-body-group">
-      <!-- Torso (pear-shaped) -->
-      <path d="M 100 130 Q 48 132, 42 200 Q 38 256, 100 260 Q 162 256, 158 200 Q 152 132, 100 130 Z"
-            fill="url(#rabBody)"/>
-      <!-- Belly highlight -->
-      <ellipse cx="100" cy="220" rx="34" ry="36" fill="url(#rabBelly)" opacity="0.7"/>
-      <!-- Body top highlight -->
-      <ellipse cx="78" cy="160" rx="20" ry="8" fill="rgba(255,255,255,0.06)"/>
+    <!-- Body (rounded pear shape) -->
+    <path d="M 100 130 Q 50 132, 46 192 Q 42 232, 100 234 Q 158 232, 154 192 Q 150 132, 100 130 Z"
+          fill="url(#rGrad)"/>
+    <!-- Belly highlight -->
+    <ellipse cx="100" cy="194" rx="32" ry="32" fill="url(#rBelly)" opacity="0.75"/>
+    <!-- Soft body shine -->
+    <ellipse cx="76" cy="160" rx="18" ry="7" fill="rgba(255,255,255,0.07)"/>
 
-      <!-- Gold Cuban-link chain -->
-      <g class="rabbit-chain">
-        <path d="M 55 158 Q 60 178, 76 190 Q 100 204, 124 190 Q 140 178, 145 158"
-              fill="none" stroke="url(#goldGrad)" stroke-width="6.5" stroke-linecap="round"/>
-        <path d="M 55 158 Q 60 178, 76 190 Q 100 204, 124 190 Q 140 178, 145 158"
-              fill="none" stroke="#2a1f0f" stroke-width="6.6" stroke-linecap="butt"
-              stroke-dasharray="0.4 3.6"/>
-        <path d="M 55 158 Q 60 178, 76 190 Q 100 204, 124 190 Q 140 178, 145 158"
-              fill="none" stroke="#fff5d0" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
-        <g>
-          <ellipse cx="60" cy="166" rx="3.8" ry="2.4" fill="url(#goldGradLink)" stroke="#2a1f0f" stroke-width="0.5"/>
-          <ellipse cx="66" cy="174" rx="2.4" ry="3.8" fill="url(#goldGradLink)" stroke="#2a1f0f" stroke-width="0.5"/>
-          <ellipse cx="74" cy="182" rx="3.8" ry="2.4" fill="url(#goldGradLink)" stroke="#2a1f0f" stroke-width="0.5"/>
-          <ellipse cx="84" cy="192" rx="2.4" ry="3.8" fill="url(#goldGradLink)" stroke="#2a1f0f" stroke-width="0.5"/>
-          <ellipse cx="100" cy="200" rx="3.8" ry="2.4" fill="url(#goldGradLink)" stroke="#2a1f0f" stroke-width="0.5"/>
-          <ellipse cx="116" cy="192" rx="2.4" ry="3.8" fill="url(#goldGradLink)" stroke="#2a1f0f" stroke-width="0.5"/>
-          <ellipse cx="126" cy="182" rx="3.8" ry="2.4" fill="url(#goldGradLink)" stroke="#2a1f0f" stroke-width="0.5"/>
-          <ellipse cx="134" cy="174" rx="2.4" ry="3.8" fill="url(#goldGradLink)" stroke="#2a1f0f" stroke-width="0.5"/>
-          <ellipse cx="140" cy="166" rx="3.8" ry="2.4" fill="url(#goldGradLink)" stroke="#2a1f0f" stroke-width="0.5"/>
-        </g>
-        <ellipse cx="100" cy="207" rx="4.5" ry="3" fill="none" stroke="url(#goldGrad)" stroke-width="2"/>
-        <path d="M 78 213 L 122 213 L 122 251 Q 122 263, 110 267 L 90 267 Q 78 263, 78 251 Z"
-              fill="url(#goldGrad)" stroke="#2a1f0f" stroke-width="2"/>
-        <path d="M 83 218 L 117 218 L 117 249 Q 117 258, 108 261 L 92 261 Q 83 258, 83 249 Z"
-              fill="none" stroke="#2a1f0f" stroke-width="0.8" opacity="0.5"/>
-        <path d="M 85 220 L 115 220" stroke="#fff5d0" stroke-width="1.2" opacity="0.6" stroke-linecap="round"/>
-        <text x="100" y="250" text-anchor="middle"
-              font-family="Syne, sans-serif" font-weight="800" font-size="34"
-              fill="#1a0e08">F</text>
-        <circle class="chain-spark" cx="89"  cy="222" r="2.6" fill="url(#sparkGrad)"/>
-        <circle class="chain-spark" cx="114" cy="232" r="2.9" fill="url(#sparkGrad)" style="animation-delay: 0.45s"/>
-        <circle class="chain-spark" cx="100" cy="246" r="2.3" fill="url(#sparkGrad)" style="animation-delay: 0.9s"/>
+    <!-- Gold Cuban-link chain — always visible -->
+    <g>
+      <path d="M 58 156 Q 62 174, 76 186 Q 100 198, 124 186 Q 138 174, 142 156"
+            fill="none" stroke="url(#rGold)" stroke-width="6" stroke-linecap="round"/>
+      <path d="M 58 156 Q 62 174, 76 186 Q 100 198, 124 186 Q 138 174, 142 156"
+            fill="none" stroke="#2a1f0f" stroke-width="6.1" stroke-linecap="butt"
+            stroke-dasharray="0.4 3.4"/>
+      <path d="M 58 156 Q 62 174, 76 186 Q 100 198, 124 186 Q 138 174, 142 156"
+            fill="none" stroke="#fff5d0" stroke-width="1.4" stroke-linecap="round" opacity="0.65"/>
+      <g>
+        <ellipse cx="62" cy="164" rx="3.4" ry="2.2" fill="url(#goldLink)" stroke="#2a1f0f" stroke-width="0.4"/>
+        <ellipse cx="68" cy="172" rx="2.2" ry="3.4" fill="url(#goldLink)" stroke="#2a1f0f" stroke-width="0.4"/>
+        <ellipse cx="76" cy="178" rx="3.4" ry="2.2" fill="url(#goldLink)" stroke="#2a1f0f" stroke-width="0.4"/>
+        <ellipse cx="86" cy="186" rx="2.2" ry="3.4" fill="url(#goldLink)" stroke="#2a1f0f" stroke-width="0.4"/>
+        <ellipse cx="100" cy="194" rx="3.4" ry="2.2" fill="url(#goldLink)" stroke="#2a1f0f" stroke-width="0.4"/>
+        <ellipse cx="114" cy="186" rx="2.2" ry="3.4" fill="url(#goldLink)" stroke="#2a1f0f" stroke-width="0.4"/>
+        <ellipse cx="124" cy="178" rx="3.4" ry="2.2" fill="url(#goldLink)" stroke="#2a1f0f" stroke-width="0.4"/>
+        <ellipse cx="132" cy="172" rx="2.2" ry="3.4" fill="url(#goldLink)" stroke="#2a1f0f" stroke-width="0.4"/>
+        <ellipse cx="138" cy="164" rx="3.4" ry="2.2" fill="url(#goldLink)" stroke="#2a1f0f" stroke-width="0.4"/>
       </g>
-
-      <!-- ARMS — independent animation -->
-      <g class="r-arm-l">
-        <ellipse cx="48" cy="200" rx="13" ry="26" fill="url(#rabBody)"/>
-        <ellipse cx="44" cy="228" rx="10" ry="10" fill="url(#rabBody)"/>
-      </g>
-      <g class="r-arm-r">
-        <ellipse cx="152" cy="200" rx="13" ry="26" fill="url(#rabBody)"/>
-        <ellipse cx="156" cy="228" rx="10" ry="10" fill="url(#rabBody)"/>
-      </g>
+      <!-- Bail -->
+      <ellipse cx="100" cy="201" rx="4" ry="2.8" fill="none" stroke="url(#rGold)" stroke-width="1.8"/>
+      <!-- Pendant -->
+      <path d="M 80 206 L 120 206 L 120 240 Q 120 252, 108 256 L 92 256 Q 80 252, 80 240 Z"
+            fill="url(#rGold)" stroke="#2a1f0f" stroke-width="1.8"/>
+      <path d="M 85 211 L 115 211 L 115 238 Q 115 247, 107 250 L 93 250 Q 85 247, 85 238 Z"
+            fill="none" stroke="#2a1f0f" stroke-width="0.7" opacity="0.45"/>
+      <path d="M 86 213 L 114 213" stroke="#fff5d0" stroke-width="1.1" opacity="0.6" stroke-linecap="round"/>
+      <text x="100" y="242" text-anchor="middle"
+            font-family="Syne, sans-serif" font-weight="800" font-size="30"
+            fill="#1a0e08">F</text>
     </g>
 
-    <!-- HEAD group -->
-    <g class="r-head-group">
-      <!-- Ears -->
-      <g class="r-ear-l">
-        <ellipse cx="78" cy="60" rx="11" ry="44" fill="url(#rabBody)"/>
-        <ellipse cx="78" cy="66" rx="5" ry="32" fill="#ff9cb5" opacity="0.9"/>
+    <!-- Arms (small, rounded) -->
+    <ellipse cx="50" cy="180" rx="12" ry="20" fill="url(#rGrad)"/>
+    <ellipse cx="46" cy="204" rx="9" ry="9" fill="url(#rGrad)"/>
+    <ellipse cx="150" cy="180" rx="12" ry="20" fill="url(#rGrad)"/>
+    <ellipse cx="154" cy="204" rx="9" ry="9" fill="url(#rGrad)"/>
+
+    <!-- HEAD GROUP — animates independently (looks up at glow) -->
+    <g class="b-head">
+      <!-- Ears (independent) -->
+      <g class="b-ear-l">
+        <ellipse cx="78" cy="48" rx="11" ry="42" fill="url(#rGrad)"/>
+        <ellipse cx="78" cy="54" rx="5" ry="30" fill="#ff9cb5" opacity="0.9"/>
       </g>
-      <g class="r-ear-r">
-        <ellipse cx="122" cy="60" rx="11" ry="44" fill="url(#rabBody)"/>
-        <ellipse cx="122" cy="66" rx="5" ry="32" fill="#ff9cb5" opacity="0.9"/>
+      <g class="b-ear-r">
+        <ellipse cx="122" cy="48" rx="11" ry="42" fill="url(#rGrad)"/>
+        <ellipse cx="122" cy="54" rx="5" ry="30" fill="#ff9cb5" opacity="0.9"/>
       </g>
-      <!-- Head -->
-      <ellipse cx="100" cy="120" rx="50" ry="46" fill="url(#rabBody)"/>
-      <!-- Cheek soft highlight -->
-      <ellipse cx="72" cy="132" rx="14" ry="10" fill="rgba(255,255,255,0.04)"/>
-      <ellipse cx="128" cy="132" rx="14" ry="10" fill="rgba(255,255,255,0.04)"/>
-      <!-- Eyes — big with sparkle highlights -->
-      <ellipse cx="80" cy="116" rx="10" ry="12" fill="white" stroke="#1a0e08" stroke-width="1.2"/>
-      <ellipse cx="120" cy="116" rx="10" ry="12" fill="white" stroke="#1a0e08" stroke-width="1.2"/>
-      <!-- Iris -->
-      <ellipse cx="80" cy="118" rx="5" ry="7" fill="url(#eyeShine)"/>
-      <ellipse cx="120" cy="118" rx="5" ry="7" fill="url(#eyeShine)"/>
-      <!-- Pupil -->
-      <ellipse cx="80" cy="119" rx="2.8" ry="4" fill="#1a0e08"/>
-      <ellipse cx="120" cy="119" rx="2.8" ry="4" fill="#1a0e08"/>
-      <!-- Eye sparkles -->
-      <circle cx="83" cy="113" r="2" fill="white"/>
-      <circle cx="123" cy="113" r="2" fill="white"/>
-      <circle cx="77" cy="121" r="0.9" fill="white"/>
-      <circle cx="117" cy="121" r="0.9" fill="white"/>
-      <!-- Nose -->
-      <path d="M 94 136 L 106 136 L 100 145 Z" fill="#ff5a7a" stroke="#1a0e08" stroke-width="1"/>
-      <ellipse cx="98" cy="138" rx="2" ry="1.2" fill="rgba(255,255,255,0.5)"/>
+
+      <!-- Head (big, round) -->
+      <circle cx="100" cy="110" r="54" fill="url(#rGrad)"/>
+      <!-- Fluffy cheek puffs -->
+      <ellipse cx="58" cy="128" rx="11" ry="13" fill="url(#rGrad)"/>
+      <ellipse cx="142" cy="128" rx="11" ry="13" fill="url(#rGrad)"/>
+      <!-- Cheek blush (subtle pink) -->
+      <ellipse cx="62" cy="130" rx="7" ry="4" fill="#ff7a9d" opacity="0.25"/>
+      <ellipse cx="138" cy="130" rx="7" ry="4" fill="#ff7a9d" opacity="0.25"/>
+
+      <!-- Eyes (big with multi-highlights) -->
+      <g class="b-eyes">
+        <!-- Eye whites -->
+        <ellipse cx="82" cy="105" rx="13" ry="16" fill="white" stroke="#0a0608" stroke-width="1.5"/>
+        <ellipse cx="118" cy="105" rx="13" ry="16" fill="white" stroke="#0a0608" stroke-width="1.5"/>
+        <!-- Iris -->
+        <ellipse cx="82" cy="108" rx="8" ry="10" fill="url(#rEye)"/>
+        <ellipse cx="118" cy="108" rx="8" ry="10" fill="url(#rEye)"/>
+        <!-- Pupils -->
+        <ellipse cx="82" cy="110" rx="4.5" ry="6" fill="#0a0608"/>
+        <ellipse cx="118" cy="110" rx="4.5" ry="6" fill="#0a0608"/>
+        <!-- Big sparkle highlights -->
+        <ellipse cx="85" cy="103" rx="3" ry="4" fill="white"/>
+        <ellipse cx="121" cy="103" rx="3" ry="4" fill="white"/>
+        <!-- Small lower highlights -->
+        <circle cx="79" cy="113" r="1.4" fill="white"/>
+        <circle cx="115" cy="113" r="1.4" fill="white"/>
+        <!-- Tiny lash hints -->
+        <path d="M 70 96 Q 73 92, 76 94" stroke="#0a0608" stroke-width="1" fill="none" stroke-linecap="round"/>
+        <path d="M 130 96 Q 127 92, 124 94" stroke="#0a0608" stroke-width="1" fill="none" stroke-linecap="round"/>
+      </g>
+
+      <!-- Nose (pink) -->
+      <path d="M 92 130 Q 100 124, 108 130 L 100 138 Z" fill="#ff5a7a" stroke="#0a0608" stroke-width="1"/>
+      <ellipse cx="96" cy="128" rx="2" ry="1" fill="rgba(255,255,255,0.55)"/>
+
       <!-- Whiskers -->
-      <g stroke="rgba(255,255,255,0.5)" stroke-width="0.6" stroke-linecap="round">
-        <line x1="64" y1="138" x2="44" y2="136"/>
-        <line x1="64" y1="142" x2="42" y2="146"/>
-        <line x1="136" y1="138" x2="156" y2="136"/>
-        <line x1="136" y1="142" x2="158" y2="146"/>
+      <g stroke="rgba(255,255,255,0.45)" stroke-width="0.7" stroke-linecap="round">
+        <line x1="62" y1="136" x2="42" y2="134"/>
+        <line x1="62" y1="140" x2="40" y2="144"/>
+        <line x1="138" y1="136" x2="158" y2="134"/>
+        <line x1="138" y1="140" x2="160" y2="144"/>
       </g>
-      <!-- MOUTH (animated) -->
-      <g class="r-mouth">
-        <ellipse cx="100" cy="152" rx="11" ry="9" fill="url(#mouthGrad)" stroke="#1a0e08" stroke-width="1.4"/>
-        <ellipse cx="100" cy="155" rx="6" ry="3.5" fill="#ff7a9d"/>
-        <rect x="93" y="143" width="4" height="6" rx="0.8" fill="white" stroke="#1a0e08" stroke-width="0.5"/>
-        <rect x="103" y="143" width="4" height="6" rx="0.8" fill="white" stroke="#1a0e08" stroke-width="0.5"/>
-      </g>
+
+      <!-- Mouth — gentle smile -->
+      <path d="M 100 140 L 100 146 Q 96 152, 90 149" stroke="#0a0608" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M 100 146 Q 104 152, 110 149" stroke="#0a0608" stroke-width="1.5" fill="none" stroke-linecap="round"/>
     </g>
   </svg>
 
@@ -1754,10 +1146,8 @@
             <stop offset="100%" stop-color="#c5283d"/>
           </linearGradient>
         </defs>
-        <path d="M 100 168 C 30 110, -5 60, 38 28 C 65 9, 92 28, 100 55 C 108 28, 135 9, 162 28 C 205 60, 170 110, 100 168 Z"
-              fill="none" stroke="url(#heartGrad)" stroke-width="3.5"/>
-        <path d="M 100 168 C 30 110, -5 60, 38 28 C 65 9, 92 28, 100 55 C 108 28, 135 9, 162 28 C 205 60, 170 110, 100 168 Z"
-              fill="none" stroke="#fff" stroke-width="0.6" opacity="0.5"/>
+        <path class="heart-draw" d="M 100 168 C 30 110, -5 60, 38 28 C 65 9, 92 28, 100 55 C 108 28, 135 9, 162 28 C 205 60, 170 110, 100 168 Z"
+              fill="none" stroke="url(#heartGrad)" stroke-width="3.5" stroke-linecap="round"/>
       </svg>
     </div>
     <div class="ticket ticket-filip">
@@ -1778,97 +1168,50 @@
     </div>
   </div>
 
-  <!-- POSTER TEXT — big reveal hierarchy -->
-  <div class="reveal-poster">
+  <!-- POSTER -->
+  <div class="poster">
     <div class="rp-burst">🎉 NIESPODZIANKA! 🎉</div>
-    <div class="rp-names">FILIP <span class="amp">&amp;</span> JUSTYNA</div>
-    <div class="rp-going">idziecie na</div>
-    <div class="rp-title">BAD BUNNY</div>
-    <div class="rp-tour">DeBÍ TiRAR MáS FOToS · World Tour</div>
+    <div class="rp-line rp-names">FILIP <span class="amp">&amp;</span> JUSTYNA</div>
+    <div class="rp-line rp-going">idziecie na</div>
+    <div class="rp-line rp-title">BAD BUNNY</div>
     <div class="rp-divider"></div>
-    <div class="rp-meta"><strong>14·07·2026</strong></div>
-    <div class="rp-venue"><strong>Stadion Narodowy</strong> · Warszawa</div>
-    <div class="rp-cta">🎟️ Bilety u <span>świadka</span></div>
+    <div class="rp-line rp-meta"><strong>14·07·2026</strong></div>
+    <div class="rp-line rp-venue"><strong>Stadion Narodowy</strong> · Warszawa</div>
+    <div class="rp-line rp-cta">🎟️ Bilety czekają u <span>świadka</span></div>
   </div>
 
-  <!-- Confetti burst -->
+  <!-- CONFETTI layer -->
   <div class="confetti-layer" id="confetti"></div>
-
-  <!-- Light rays behind reveal -->
-  <div class="light-rays">
-    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-      <defs>
-        <radialGradient id="rayGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="rgba(255,235,150,0.55)"/>
-          <stop offset="55%" stop-color="rgba(255,210,90,0.18)"/>
-          <stop offset="100%" stop-color="rgba(255,210,90,0)"/>
-        </radialGradient>
-      </defs>
-      <g transform="translate(200,200)" fill="rgba(255,235,150,0.32)">
-        <polygon points="0,-200 -10,-40 10,-40"/>
-        <polygon points="0,-200 -10,-40 10,-40" transform="rotate(22.5)"/>
-        <polygon points="0,-200 -10,-40 10,-40" transform="rotate(45)"/>
-        <polygon points="0,-200 -10,-40 10,-40" transform="rotate(67.5)"/>
-        <polygon points="0,-200 -10,-40 10,-40" transform="rotate(90)"/>
-        <polygon points="0,-200 -10,-40 10,-40" transform="rotate(112.5)"/>
-        <polygon points="0,-200 -10,-40 10,-40" transform="rotate(135)"/>
-        <polygon points="0,-200 -10,-40 10,-40" transform="rotate(157.5)"/>
-        <polygon points="0,-200 -10,-40 10,-40" transform="rotate(180)"/>
-        <polygon points="0,-200 -10,-40 10,-40" transform="rotate(202.5)"/>
-        <polygon points="0,-200 -10,-40 10,-40" transform="rotate(225)"/>
-        <polygon points="0,-200 -10,-40 10,-40" transform="rotate(247.5)"/>
-        <polygon points="0,-200 -10,-40 10,-40" transform="rotate(270)"/>
-        <polygon points="0,-200 -10,-40 10,-40" transform="rotate(292.5)"/>
-        <polygon points="0,-200 -10,-40 10,-40" transform="rotate(315)"/>
-        <polygon points="0,-200 -10,-40 10,-40" transform="rotate(337.5)"/>
-      </g>
-      <circle cx="200" cy="200" r="160" fill="url(#rayGlow)"/>
-    </svg>
-  </div>
-
-  <div class="win-flash"></div>
  </div>
 </div>
 
-<!-- ─────── FINAL SCREEN ─────── -->
-<div class="final" id="final">
-  <svg class="heart" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 21s-7.5-4.6-9.5-9.2C1 8.4 2.6 5 6 5c2 0 3.5 1.2 4.4 2.6h.2C11.5 6.2 13 5 15 5c3.4 0 5 3.4 3.5 6.8C19.5 16.4 12 21 12 21z"/>
-  </svg>
-  <p>więcej info <span>u świadka</span></p>
-  <div class="small">— Filip &amp; Justyna —</div>
-</div>
+<!-- SOUND TOGGLE (only shown if music can't autoplay) -->
+<button class="sound-toggle muted" id="soundToggle" style="display:none" aria-label="Toggle sound">🔊</button>
 
-<!-- YOUTUBE -->
+<!-- YOUTUBE music host -->
 <div id="music-host">
   <div id="yt-player"></div>
 </div>
 
 <!-- FOOTER -->
-<footer class="filipos-footer">
-  <div class="row1">
+<footer class="footer">
+  <div class="row">
     <span class="brand">filipOS</span>
     <span>Operating Systems</span>
+    <span class="sep">·</span>
     <span>Est. 2026</span>
+    <span class="sep">·</span>
     <span>Earth</span>
-  </div>
-  <div class="row2">
-    <span>@grypserito on Telegram</span>
-    <span class="sep">·</span>
-    <span>Grypsuminati Enterprises™</span>
-    <span class="sep">·</span>
-    <span>Operating Below the Surface</span>
   </div>
 </footer>
 
 <script>
-  // Bad Bunny — DtMF (Official Audio)
+  // ───── Music (YouTube IFrame API) — auto-play attempt ─────
   const YT_VIDEO_ID = "rMcvHSaQISU";
-  const START_SECONDS = 165;   // 02:45
+  const START_SECONDS = 200; // jump straight to 03:20 of the song — matches the reveal moment
 
-  let ytPlayer  = null;
-  let ytReady   = false;
-  let queuedPlay = false;
+  let ytPlayer = null;
+  let ytReady = false;
 
   window.onYouTubeIframeAPIReady = function () {
     ytPlayer = new YT.Player('yt-player', {
@@ -1876,134 +1219,118 @@
       width: '240',
       height: '135',
       playerVars: {
-        autoplay: 0,
+        autoplay: 1,
         controls: 0,
         modestbranding: 1,
         rel: 0,
         iv_load_policy: 3,
         playsinline: 1,
         start: START_SECONDS,
-        disablekb: 1,
-        fs: 0
+        mute: 1
       },
       events: {
         onReady: () => {
           ytReady = true;
-          if (queuedPlay) playMusic();
-        },
-        onStateChange: (e) => {
-          if (e.data === YT.PlayerState.ENDED) {
-            document.getElementById('final').classList.add('on');
-          }
+          try {
+            ytPlayer.mute();
+            ytPlayer.seekTo(START_SECONDS, true);
+            ytPlayer.playVideo();
+            // Try to unmute after ~3 seconds — mobile may still block
+            setTimeout(tryUnmute, 3000);
+          } catch (e) {}
         }
       }
     });
   };
 
-  // Start playback MUTED immediately within the tap gesture (iOS requirement),
-  // then unmute when the bunny presses the boombox.
-  function startMutedNow() {
-    if (ytReady && ytPlayer && ytPlayer.playVideo) {
-      try {
-        ytPlayer.mute();
-        ytPlayer.seekTo(START_SECONDS, true);
-        ytPlayer.playVideo();
-      } catch (e) {}
-    } else {
-      queuedPlay = true;
-    }
+  const soundBtn = document.getElementById('soundToggle');
+
+  function tryUnmute() {
+    if (!ytPlayer || !ytPlayer.unMute) return;
+    try {
+      ytPlayer.unMute();
+      ytPlayer.setVolume(80);
+      ytPlayer.playVideo();
+    } catch(e) {}
+    // After a moment, check if it actually became audible
+    setTimeout(checkAudible, 800);
   }
-  function unmuteMusic() {
-    if (ytPlayer && ytPlayer.unMute) {
-      try {
+  function checkAudible() {
+    if (!ytPlayer) return;
+    try {
+      const muted = ytPlayer.isMuted && ytPlayer.isMuted();
+      const state = ytPlayer.getPlayerState && ytPlayer.getPlayerState();
+      // If still muted OR paused, browser blocked — show sound toggle
+      if (muted || state !== 1) {
+        soundBtn.style.display = 'flex';
+        soundBtn.classList.add('muted');
+      }
+    } catch(e) {}
+  }
+
+  soundBtn.addEventListener('click', () => {
+    if (!ytPlayer) return;
+    try {
+      if (ytPlayer.isMuted && ytPlayer.isMuted()) {
         ytPlayer.unMute();
-        ytPlayer.seekTo(START_SECONDS, true);
+        ytPlayer.setVolume(80);
         ytPlayer.playVideo();
-      } catch (e) {}
-    }
-  }
-  // Legacy alias used by queued playback path
-  function playMusic() { unmuteMusic(); }
+        soundBtn.classList.remove('muted');
+        soundBtn.textContent = '🔊';
+      } else {
+        ytPlayer.mute();
+        soundBtn.classList.add('muted');
+      }
+    } catch(e) {}
+  });
 
-  const start    = document.getElementById('start');
-  const stage    = document.getElementById('stage');
-  const finalScr = document.getElementById('final');
-
-  function begin() {
-    start.classList.add('hide');
-    stage.classList.add('on');
-    // Mobile autoplay: must fire play() synchronously inside the tap handler.
-    startMutedNow();
-
-    // ── TIMELINE ──
-    // 0.5s   stage fully fades in
-    // 0.6s   beach towel fades in
-    // 0.8s   boombox pops in
-    // 1.5s   bunny hops in from right (3.0s walk)
-    // 4.5s   bunny stops next to boombox, leans down, ARM EXTENDS to button (1.0s)
-    // 5.4s   boombox press squish
-    // 5.5s   MUSIC STARTS (song 02:45 = 165s) + LED turns green + EQ bars dance
-    // 5.8s   bunny returns to centre (1.0s)
-    // 6.0s   coconut falls from palm
-    // 7.8s   coconut lands by towel
-    // 9.0s   bunny picks up coconut → lifts overhead
-    // 10.5s  bunny dances on beat (22 cycles × 1.27s = 28s)
-    // 13.0s  gold F-chain drops
-    // 38.5s  coconut anticipate (raised slightly)
-    // 39.2s  coconut cracks open
-    // 39.3s  WIN flash
-    // 39.5s  shells fly out + coconut bursts
-    // 40.0s  STADIUM fades in + HEART of tickets pops in + bunny CELEBRATES
-    // 40.5s  poster text fades in (music at song 03:20)
-    // ~77.5s music ENDED → final screen
-    // Safety fallback: 90s
-
-    setTimeout(() => playMusic(), 5500);
-    setTimeout(() => finalScr.classList.add('on'), 90000);
-  }
-
-  start.addEventListener('click', begin, { once: true });
-  start.addEventListener('touchstart', (e) => { e.preventDefault(); begin(); }, { once: true, passive: false });
-
-  if (typeof YT !== 'undefined' && YT.Player) {
-    window.onYouTubeIframeAPIReady();
-  }
-
-  // Generate 60 confetti pieces with randomized colors, positions, durations
+  // ───── Confetti at 6.0s (when NIESPODZIANKA pops) ─────
   (function makeConfetti(){
     const layer = document.getElementById('confetti');
     if (!layer) return;
     const colors = ['#ff5a7a', '#c5283d', '#d4af37', '#fff0a8', '#5ec5e8', '#76c46a', '#ff9c44', '#ffd055'];
-    const shapes = ['rect', 'circle', 'star'];
-    const COUNT = 60;
+    const shapes = ['rect','circle','star'];
+    const COUNT = 50;
     for (let i = 0; i < COUNT; i++) {
-      const piece = document.createElement('span');
-      piece.className = 'confetti';
-      const color = colors[Math.floor(Math.random() * colors.length)];
+      const p = document.createElement('span');
+      p.className = 'confetti';
+      const color = colors[Math.floor(Math.random()*colors.length)];
       const x = Math.random() * 100;
-      const drift = (Math.random() * 80 - 40);
-      const dur = 3.5 + Math.random() * 3.5;
-      const delay = Math.random() * 1.2;
-      const size = 6 + Math.random() * 8;
-      const spin = (Math.random() * 720 + 360) * (Math.random() < 0.5 ? 1 : -1);
-      const shape = shapes[Math.floor(Math.random() * shapes.length)];
-      piece.style.left = x + '%';
-      piece.style.width = size + 'px';
-      piece.style.height = (size * (shape === 'rect' ? 1.6 : 1)) + 'px';
-      piece.style.background = color;
-      piece.style.setProperty('--drift', drift + 'vw');
-      piece.style.setProperty('--dur', dur + 's');
-      piece.style.setProperty('--spin', spin + 'deg');
-      piece.style.animationDelay = (40.5 + delay) + 's, ' + (40.5 + delay) + 's';
-      if (shape === 'circle') piece.style.borderRadius = '50%';
+      const drift = Math.random() * 80 - 40;
+      const dur = 3 + Math.random() * 3;
+      const delay = 6.2 + Math.random() * 1.4;
+      const size = 6 + Math.random() * 9;
+      const spin = (Math.random()*720+360) * (Math.random()<0.5?1:-1);
+      const shape = shapes[Math.floor(Math.random()*shapes.length)];
+      p.style.left = x + '%';
+      p.style.width = size + 'px';
+      p.style.height = (size * (shape === 'rect' ? 1.6 : 1)) + 'px';
+      p.style.background = color;
+      p.style.setProperty('--drift', drift + 'vw');
+      p.style.setProperty('--dur', dur + 's');
+      p.style.setProperty('--spin', spin + 'deg');
+      p.style.animation = `confetti-fall ${dur}s cubic-bezier(.3,.4,.5,1) ${delay}s infinite, confetti-show 0.001s linear ${delay}s forwards`;
+      if (shape === 'circle') p.style.borderRadius = '50%';
       if (shape === 'star') {
-        piece.style.clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
-        piece.style.background = '#fff0a8';
+        p.style.clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
+        p.style.background = '#fff0a8';
       }
-      layer.appendChild(piece);
+      layer.appendChild(p);
     }
   })();
+
+  // Defensive: if YT API loaded before this script
+  if (typeof YT !== 'undefined' && YT.Player) {
+    window.onYouTubeIframeAPIReady();
+  }
 </script>
+<style>
+  @keyframes confetti-show { to { opacity: 1; } }
+  @keyframes confetti-fall {
+    0%   { transform: translate3d(0, -24px, 0) rotate(0deg); }
+    100% { transform: translate3d(var(--drift, 30px), 112vh, 0) rotate(var(--spin, 720deg)); }
+  }
+</style>
 <script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
