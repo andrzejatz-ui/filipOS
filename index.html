@@ -266,13 +266,16 @@
   /* ────────────────  BEACH TOWEL  ──────────────── */
   .towel {
     position: absolute;
-    right: 4%;
-    bottom: 16%;
-    width: clamp(140px, 32vmin, 260px);
+    right: 10%;
+    bottom: 15%;
+    width: clamp(160px, 36vmin, 280px);
     aspect-ratio: 5/2;
     z-index: 3;
     filter: drop-shadow(0 6px 10px rgba(0,0,0,0.22));
+    /* Towel rolls up / fades when bunny stands and leaves */
+    animation: towel-stay 1s linear infinite;
   }
+  @keyframes towel-stay { 0%, 100% { opacity: 1; } }
   .towel svg { width: 100%; height: 100%; display: block; }
 
   /* ────────────────  SLOT MACHINE — hidden until t=4s  ──────────────── */
@@ -383,16 +386,16 @@
   }
 
   /* ────────────────  BUNNY MASCOT  ──────────────── */
-  /* Bunny journey: lying on towel → stands up → walks to slot → plays */
+  /* Bunny journey: sitting on towel → stands up → walks to slot → plays */
   .rabbit {
     position: absolute;
-    right: 7%; bottom: 17%;
+    right: 12%; bottom: 17%;
     width: clamp(96px, 22vmin, 180px);
     aspect-ratio: 200/250;
     z-index: 5;
     filter: drop-shadow(0 6px 14px rgba(0,0,0,0.28));
-    transform-origin: 50% 90%;
-    transform: scaleY(0.32) translateY(60%);
+    transform-origin: 50% 95%;
+    transform: scaleY(0.78) translateY(12%);
     animation:
       rab-stand 1.0s cubic-bezier(.34,1.5,.4,1) 7.0s forwards,
       rab-walk  4.5s cubic-bezier(.45,.05,.45,1) 9.0s forwards,
@@ -400,18 +403,18 @@
       rab-celebrate 0.5s cubic-bezier(.4,1.6,.4,1) 41.0s 8;
   }
   @keyframes rab-stand {
-    0%   { transform: scaleY(0.32) translateY(60%); }
+    0%   { transform: scaleY(0.78) translateY(12%); }
     60%  { transform: scaleY(1.05) translateY(-4px); }
     100% { transform: scaleY(1) translateY(0); }
   }
   @keyframes rab-walk {
-    0%   { right: 7%; transform: translateY(0); }
-    15%  { right: 14%; transform: translateY(-12px); }
-    25%  { right: 20%; transform: translateY(0); }
-    40%  { right: 28%; transform: translateY(-12px); }
-    50%  { right: 35%; transform: translateY(0); }
+    0%   { right: 12%; transform: translateY(0); }
+    15%  { right: 18%; transform: translateY(-12px); }
+    25%  { right: 24%; transform: translateY(0); }
+    40%  { right: 30%; transform: translateY(-12px); }
+    52%  { right: 36%; transform: translateY(0); }
     65%  { right: 42%; transform: translateY(-10px); }
-    78%  { right: 48%; transform: translateY(0); }
+    80%  { right: 48%; transform: translateY(0); }
     100% { right: 50%; transform: translateY(0); }
   }
   @keyframes rab-pull {
