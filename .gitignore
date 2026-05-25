@@ -1,0 +1,6 @@
+serve.ps1
+.claude/
+.DS_Store
+*.log
+node_modules/
+.vercel/

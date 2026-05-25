@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR — Niespodzianka Filip & Justyna</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #07060a;
+    --card: #14101a;
+    --border: rgba(212,175,55,0.32);
+    --gold: #d4af37;
+    --gold-light: #fff0a8;
+    --text: #f5f1e8;
+    --text-2: #c8bfa8;
+    --text-dim: #837a66;
+    --pink: #c5283d;
+  }
+  html, body {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 50% 30%, rgba(212,175,55,0.07) 0%, transparent 50%), var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 2rem 1rem 4rem;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-style: italic;
+    font-size: clamp(1.4rem, 4vw, 1.9rem);
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+    letter-spacing: -0.01em;
+  }
+  .sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 2rem;
+  }
+  .qr-card {
+    background: #fff;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px var(--border);
+    margin-bottom: 1.4rem;
+  }
+  .qr-card canvas, .qr-card img {
+    display: block;
+    width: clamp(240px, 70vw, 360px);
+    height: clamp(240px, 70vw, 360px);
+  }
+  .url-display {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--text);
+    background: var(--card);
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    margin-bottom: 2rem;
+    max-width: 90vw;
+    word-break: break-all;
+    text-align: center;
+  }
+  .url-display strong { color: var(--gold); }
+  .notice {
+    max-width: 540px;
+    background: rgba(20,16,26,0.7);
+    border: 1px solid rgba(212,175,55,0.18);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-bottom: 1rem;
+  }
+  .notice h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--gold);
+    margin-bottom: 0.5em;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .notice p, .notice li {
+    color: var(--text-2);
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+  .notice ul { padding-left: 1.2em; margin-top: 0.4em; }
+  .notice li { margin-bottom: 0.3em; }
+  .notice code {
+    font-family: 'DM Mono', monospace;
+    background: rgba(212,175,55,0.1);
+    color: var(--gold-light);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.82rem;
+  }
+  .alt-input {
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 540px;
+  }
+  .alt-input label {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.5em;
+  }
+  .alt-input .row { display: flex; gap: 8px; }
+  .alt-input input {
+    flex: 1;
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.88rem;
+  }
+  .alt-input button {
+    background: var(--gold);
+    color: #1a0e08;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.88rem;
+  }
+  .alt-input button:hover { background: var(--gold-light); }
+  .small { font-size: 0.74rem; color: var(--text-dim); margin-top: 0.6em; text-align: center; }
+</style>
+</head>
+<body>
+
+<h1>QR — Niespodzianka 🎟️</h1>
+<div class="sub">Filip &amp; Justyna · 14·07·2026</div>
+
+<div class="qr-card">
+  <div id="qrcode"></div>
+</div>
+
+<div class="url-display">
+  <strong>URL:</strong> <span id="urlText">http://192.168.0.114:3010</span>
+</div>
+
+<div class="notice">
+  <h2>⚠ Aby działało na telefonie znajomego</h2>
+  <p>Powyższy QR wskazuje na <code>http://192.168.0.114:3010</code> — Twój lokalny adres LAN. Zadziała <strong>tylko gdy telefon znajomego jest na Twojej domowej sieci WiFi</strong>.</p>
+  <p style="margin-top:0.6em">Do faktycznego użytku na weselu (gdy znajomy nie jest na Twojej sieci) musisz wdrożyć stronę publicznie. Polecam:</p>
+  <ul>
+    <li><strong>Vercel</strong> — <code>vercel deploy</code> w folderze, dostajesz publiczny URL w ~30 sekund</li>
+    <li><strong>Netlify Drop</strong> — przeciągnij folder na netlify.com/drop</li>
+    <li><strong>Cloudflare Pages</strong> — darmowy hosting</li>
+    <li><strong>GitHub Pages</strong> — jeśli wrzucisz repo</li>
+  </ul>
+  <p style="margin-top:0.6em">Po wdrożeniu — wpisz nowy publiczny URL poniżej i regenruj QR.</p>
+</div>
+
+<div class="alt-input">
+  <label>Inny URL?</label>
+  <div class="row">
+    <input id="customUrl" type="url" placeholder="https://twoj-projekt.vercel.app" value="http://192.168.0.114:3010"/>
+    <button onclick="regenerate()">Generuj QR</button>
+  </div>
+  <div class="small">Wpisz publiczny URL po wdrożeniu — QR się przeładuje</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+<script>
+  let qrInstance = null;
+  function makeQR(url) {
+    const container = document.getElementById('qrcode');
+    container.innerHTML = '';
+    qrInstance = new QRCode(container, {
+      text: url,
+      width: 360,
+      height: 360,
+      colorDark: '#1a0e08',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+    document.getElementById('urlText').textContent = url;
+  }
+  function regenerate() {
+    const v = document.getElementById('customUrl').value.trim();
+    if (v) makeQR(v);
+  }
+  makeQR('http://192.168.0.114:3010');
+</script>
+
+</body>
+</html>
