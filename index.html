@@ -916,6 +916,247 @@
     text-transform: uppercase;
   }
 
+  /* ════════════════════════════════════════════════════════════════════
+     CUPID — Filip's arrow pierces Justyna's heart after the ticket reveal.
+     Timing (offset from .stage-inner.jackpot class trigger):
+       t=2.40s  heart pops up on Justyna ticket
+       t=2.55s  static arrow appears on Filip + draws back (~0.5s tension)
+       t=2.95s  release → flying arrow streaks across with light/heart trail
+       t=3.30s  impact: heart pulses, particles burst, ring expands, tickets bump
+       t=3.30s  stuck arrow lands embedded in heart
+       t=3.80s+ stuck arrow wiggles, heart settles into gentle glow loop
+     ════════════════════════════════════════════════════════════════════ */
+
+  /* ─── Heart on Justyna ticket ─── */
+  .love-heart {
+    position: absolute;
+    left: 50%; top: 40%;
+    width: 38%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 5;
+    opacity: 0;
+    filter: drop-shadow(0 4px 10px rgba(180,20,40,0.55));
+    pointer-events: none;
+  }
+  .love-heart svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .stage-inner.jackpot .love-heart {
+    animation:
+      heart-pop    0.4s  cubic-bezier(.34,1.7,.4,1) 2.4s forwards,
+      heart-impact 0.45s cubic-bezier(.4,1.6,.4,1)  3.3s,
+      heart-glow   2.6s  ease-in-out                3.85s infinite;
+  }
+  @keyframes heart-pop {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0)   rotate(-15deg); }
+    60%  { opacity: 1; transform: translate(-50%, -50%) scale(1.22) rotate(6deg); }
+    100% { opacity: 1; transform: translate(-50%, -50%) scale(1)    rotate(0deg); }
+  }
+  @keyframes heart-impact {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    30%      { transform: translate(-50%, -50%) scale(1.45); }
+    60%      { transform: translate(-50%, -50%) scale(0.92); }
+  }
+  @keyframes heart-glow {
+    0%, 100% { filter: drop-shadow(0 4px 10px rgba(180,20,40,0.55)); }
+    50%      { filter: drop-shadow(0 4px 18px rgba(255,90,122,0.85))
+                       drop-shadow(0 0 10px rgba(255,200,90,0.55)); }
+  }
+
+  /* ─── Static arrow on Filip ticket (draws back, releases) ─── */
+  .love-arrow-static {
+    position: absolute;
+    left: 50%; top: 40%;
+    width: 68%;
+    aspect-ratio: 200/30;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 5;
+    opacity: 0;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.32));
+    pointer-events: none;
+  }
+  .love-arrow-static svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .stage-inner.jackpot .love-arrow-static {
+    animation: arrow-prep 0.65s cubic-bezier(.4,1.2,.4,1) 2.55s forwards;
+  }
+  @keyframes arrow-prep {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0)    rotate(-14deg); }
+    32%  { opacity: 1; transform: translate(-50%, -50%) scale(1)    rotate(0deg); }
+    55%  {             transform: translate(-72%, -50%) scale(1)    rotate(-3deg); }   /* draw back */
+    85%  {             transform: translate(-72%, -50%) scale(1)    rotate(-3deg); }   /* hold tension */
+    100% { opacity: 0; transform: translate(-44%, -50%) scale(0.92) rotate(2deg); }    /* release */
+  }
+
+  /* ─── Flying arrow (in tickets-out wrapper, streaks from Filip to Justyna) ─── */
+  .love-arrow-flight {
+    position: absolute;
+    left: 26%; top: 67%;
+    width: 22%;
+    aspect-ratio: 200/30;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    z-index: 25;
+    pointer-events: none;
+    filter: drop-shadow(0 0 10px rgba(255,200,90,0.7))
+            drop-shadow(0 4px 8px rgba(255,90,122,0.5));
+  }
+  .love-arrow-flight svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .love-arrow-flight::before {
+    content: '';
+    position: absolute;
+    right: 60%;
+    top: 20%; bottom: 20%;
+    width: 220%;
+    background: linear-gradient(90deg,
+      rgba(255,90,122,0)     0%,
+      rgba(255,150,170,0.45) 30%,
+      rgba(255,200,90,0.65)  70%,
+      rgba(255,240,168,0.95) 100%);
+    filter: blur(4px);
+    border-radius: 50%;
+    opacity: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+  .stage-inner.jackpot .love-arrow-flight {
+    animation: arrow-fly 0.36s cubic-bezier(.45,.05,.4,1) 2.95s forwards;
+  }
+  .stage-inner.jackpot .love-arrow-flight::before {
+    animation: trail-fade 0.36s ease 2.95s forwards;
+  }
+  @keyframes arrow-fly {
+    0%   { opacity: 0; left: 26%; transform: translate(-50%, -50%) scale(0.85); }
+    18%  { opacity: 1; left: 30%; transform: translate(-50%, -50%) scale(1.0); }
+    78%  { opacity: 1; left: 70%; transform: translate(-50%, -50%) scale(1.0); }
+    100% { opacity: 0; left: 74%; transform: translate(-50%, -50%) scale(0.92); }
+  }
+  @keyframes trail-fade {
+    0%   { opacity: 0; }
+    25%  { opacity: 1; }
+    80%  { opacity: 0.9; }
+    100% { opacity: 0; }
+  }
+
+  /* Trail sparks (heart particles + sparkle that fade along the arrow's path) */
+  .trail-spark {
+    position: absolute;
+    top: 50%;
+    font-size: clamp(10px, 2vmin, 16px);
+    color: #ff5a7a;
+    text-shadow: 0 0 6px rgba(255,90,122,0.8);
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .trail-spark.s1 { left: -10%; }
+  .trail-spark.s2 { left: -40%; }
+  .trail-spark.s3 { left: -75%; color: #fff0a8; text-shadow: 0 0 6px rgba(255,200,90,0.85); }
+  .stage-inner.jackpot .trail-spark { animation: trail-spark 0.36s ease 2.95s; }
+  @keyframes trail-spark {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+    50%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+  }
+
+  /* ─── Stuck arrow on Justyna ticket (lodged in the heart) ─── */
+  .love-arrow-stuck {
+    position: absolute;
+    left: 50%; top: 40%;
+    width: 86%;
+    aspect-ratio: 200/30;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 6;
+    opacity: 0;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.42));
+    pointer-events: none;
+  }
+  .love-arrow-stuck svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .stage-inner.jackpot .love-arrow-stuck {
+    animation:
+      arrow-land   0.5s cubic-bezier(.34,1.7,.4,1) 3.3s forwards,
+      arrow-wiggle 0.55s ease-in-out                3.8s 3;
+  }
+  @keyframes arrow-land {
+    /* counters Justyna ticket's +14deg rotation at start (arrow appears horizontal in viewer frame),
+       then relaxes to inherit ticket angle (slight lodged-at-angle look) */
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(1.15) rotate(-14deg); }
+    50%  { opacity: 1; transform: translate(-50%, -50%) scale(1.04) rotate(-8deg); }
+    100% { opacity: 1; transform: translate(-50%, -50%) scale(1)    rotate(0deg); }
+  }
+  @keyframes arrow-wiggle {
+    0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+    50%      { transform: translate(-50%, -50%) rotate(-3deg); }
+  }
+
+  /* ─── Impact effects (positioned over Justyna's heart in wrapper coords) ─── */
+  .love-impact {
+    position: absolute;
+    left: 74%; top: 67%;
+    width: 0; height: 0;
+    z-index: 24;
+    pointer-events: none;
+  }
+  .impact-ring {
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 1vmin; height: 1vmin;
+    border-radius: 50%;
+    border: 0.5vmin solid rgba(255,200,90,0.95);
+    box-shadow: 0 0 2vmin rgba(255,150,170,0.7),
+                0 0 5vmin rgba(255,90,122,0.35);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
+  .stage-inner.jackpot .impact-ring {
+    animation: impact-ring 0.7s ease-out 3.3s forwards;
+  }
+  @keyframes impact-ring {
+    0%   { width: 1vmin;  height: 1vmin;  opacity: 0; border-width: 0.5vmin; }
+    25%  { opacity: 1; }
+    100% { width: 30vmin; height: 30vmin; opacity: 0; border-width: 0.05vmin; }
+  }
+  .impact-particle {
+    position: absolute;
+    left: 0; top: 0;
+    font-size: clamp(11px, 2.6vmin, 18px);
+    text-shadow: 0 0 8px currentColor;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  .impact-particle.p1 { --tx: 6.5vmin;  --ty: -5.5vmin; color: #ff5a7a; }
+  .impact-particle.p2 { --tx: -7vmin;   --ty: -3.5vmin; color: #ff5a7a; }
+  .impact-particle.p3 { --tx: 6.8vmin;  --ty: 4.5vmin;  color: #fff0a8; text-shadow: 0 0 8px rgba(255,200,90,0.85); }
+  .impact-particle.p4 { --tx: -6vmin;   --ty: 5vmin;    color: #d4af37; text-shadow: 0 0 8px rgba(212,175,55,0.85); }
+  .impact-particle.p5 { --tx: 0vmin;    --ty: -7.5vmin; color: #ff5a7a; }
+  .impact-particle.p6 { --tx: 0vmin;    --ty: 7vmin;    color: #fff0a8; text-shadow: 0 0 8px rgba(255,200,90,0.85); }
+  .stage-inner.jackpot .impact-particle {
+    animation: particle-burst 0.85s cubic-bezier(.3,.7,.4,1) 3.3s forwards;
+  }
+  @keyframes particle-burst {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(0deg); }
+    25%  { opacity: 1; transform: translate(calc(-50% + var(--tx) * 0.4), calc(-50% + var(--ty) * 0.4)) scale(1.25) rotate(180deg); }
+    100% { opacity: 0; transform: translate(calc(-50% + var(--tx)),       calc(-50% + var(--ty)))       scale(0.6)  rotate(360deg); }
+  }
+
+  /* Ticket bump on impact — override existing rule to add second animation */
+  .stage-inner.jackpot .ticket-filip {
+    animation:
+      t-fly-l       1.6s  cubic-bezier(.3,1.3,.3,1) 0.4s forwards,
+      ticket-bump-l 0.35s ease-in-out               3.3s;
+  }
+  .stage-inner.jackpot .ticket-justyna {
+    animation:
+      t-fly-r       1.6s  cubic-bezier(.3,1.3,.3,1) 0.6s forwards,
+      ticket-bump-r 0.35s ease-in-out               3.3s;
+  }
+  @keyframes ticket-bump-l {
+    0%, 100% { transform: translate(0, 0)    rotate(-14deg) scale(1); }
+    35%      { transform: translate(-3px, -5px) rotate(-16.5deg) scale(1.045); }
+  }
+  @keyframes ticket-bump-r {
+    0%, 100% { transform: translate(0, 0)    rotate(14deg)  scale(1); }
+    35%      { transform: translate(3px, -5px)  rotate(16.5deg)  scale(1.045); }
+  }
+
   /* ────────────────  POSTER TEXT  ──────────────── */
   .poster {
     position: fixed;
@@ -1689,6 +1930,56 @@
 
   <!-- TICKETS (fly out of slot machine on jackpot) -->
   <div class="tickets-out">
+
+    <!-- Shared SVG defs: cupid arrow + heart symbols (referenced via <use>) -->
+    <svg width="0" height="0" style="position:absolute;width:0;height:0;left:-9999px" aria-hidden="true">
+      <defs>
+        <linearGradient id="cArrShaft" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#fff5d0"/>
+          <stop offset="40%"  stop-color="#f5d97a"/>
+          <stop offset="100%" stop-color="#8a6f24"/>
+        </linearGradient>
+        <linearGradient id="cArrHead" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#ffbfca"/>
+          <stop offset="50%"  stop-color="#ff5a7a"/>
+          <stop offset="100%" stop-color="#9a1228"/>
+        </linearGradient>
+        <linearGradient id="cArrFeather" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stop-color="#ff9cb5"/>
+          <stop offset="100%" stop-color="#ff5a7a"/>
+        </linearGradient>
+        <radialGradient id="cHeartGrad" cx="38%" cy="32%" r="75%">
+          <stop offset="0%"   stop-color="#ffd0db"/>
+          <stop offset="35%"  stop-color="#ff5a7a"/>
+          <stop offset="100%" stop-color="#8c0a20"/>
+        </radialGradient>
+        <symbol id="cupidArrow" viewBox="0 0 200 30" preserveAspectRatio="xMidYMid meet">
+          <!-- fletching (feathers) at rear left -->
+          <path d="M 4 15 L 30 5 L 42 12 L 34 15 L 42 18 L 30 25 Z"
+                fill="url(#cArrFeather)" stroke="#8a1a2e" stroke-width="0.7" stroke-linejoin="round"/>
+          <path d="M 14 15 L 32 9 L 38 12 L 36 15 L 38 18 L 32 21 Z"
+                fill="#ffd0d9" opacity="0.55"/>
+          <!-- shaft -->
+          <rect x="34"  y="12.5" width="120" height="5"   rx="2.5"
+                fill="url(#cArrShaft)" stroke="#5a4218" stroke-width="0.45"/>
+          <rect x="34"  y="13"   width="120" height="1.4" fill="rgba(255,255,255,0.55)"/>
+          <!-- decorative bindings -->
+          <rect x="44"  y="11"   width="3"   height="8"   fill="#9a1228" opacity="0.6"/>
+          <rect x="142" y="11"   width="3"   height="8"   fill="#9a1228" opacity="0.6"/>
+          <!-- head (arrow tip) -->
+          <path d="M 154 6 L 194 15 L 154 24 L 162 19 L 162 11 Z"
+                fill="url(#cArrHead)" stroke="#5a0a18" stroke-width="0.8" stroke-linejoin="round"/>
+          <path d="M 154 6 L 180 13 L 154 11 Z" fill="rgba(255,255,255,0.45)"/>
+        </symbol>
+        <symbol id="cupidHeart" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+          <path d="M 50 90 C 12 66, 4 36, 22 20 C 36 9, 48 22, 50 32 C 52 22, 64 9, 78 20 C 96 36, 88 66, 50 90 Z"
+                fill="url(#cHeartGrad)" stroke="#5d0815" stroke-width="1.6" stroke-linejoin="round"/>
+          <ellipse cx="32" cy="32" rx="10"  ry="15" fill="rgba(255,255,255,0.78)" transform="rotate(-22 32 32)"/>
+          <ellipse cx="42" cy="48" rx="4.5" ry="7"  fill="rgba(255,255,255,0.42)" transform="rotate(-22 42 48)"/>
+        </symbol>
+      </defs>
+    </svg>
+
     <div class="ticket ticket-filip">
       <div class="brand-row"><span>BAD BUNNY</span><span class="dot">·</span><span>Ticket</span></div>
       <div class="big-brand">BAD BUNNY</div>
@@ -1696,7 +1987,12 @@
       <div class="for-label">For</div>
       <div class="name">Filip</div>
       <div class="seat">Stadion Narodowy</div>
+      <!-- Filip aims the arrow -->
+      <div class="love-arrow-static" aria-hidden="true">
+        <svg viewBox="0 0 200 30"><use href="#cupidArrow"/></svg>
+      </div>
     </div>
+
     <div class="ticket ticket-justyna">
       <div class="brand-row"><span>BAD BUNNY</span><span class="dot">·</span><span>Ticket</span></div>
       <div class="big-brand">BAD BUNNY</div>
@@ -1704,6 +2000,32 @@
       <div class="for-label">For</div>
       <div class="name">Justyna</div>
       <div class="seat">Stadion Narodowy</div>
+      <!-- Justyna's heart + the arrow that pierces it after impact -->
+      <div class="love-heart" aria-hidden="true">
+        <svg viewBox="0 0 100 100"><use href="#cupidHeart"/></svg>
+      </div>
+      <div class="love-arrow-stuck" aria-hidden="true">
+        <svg viewBox="0 0 200 30"><use href="#cupidArrow"/></svg>
+      </div>
+    </div>
+
+    <!-- Flying arrow streaks from Filip to Justyna with a glowing love trail -->
+    <div class="love-arrow-flight" aria-hidden="true">
+      <span class="trail-spark s1">♥</span>
+      <span class="trail-spark s2">♥</span>
+      <span class="trail-spark s3">✦</span>
+      <svg viewBox="0 0 200 30"><use href="#cupidArrow"/></svg>
+    </div>
+
+    <!-- Impact burst over Justyna's heart -->
+    <div class="love-impact" aria-hidden="true">
+      <span class="impact-ring"></span>
+      <span class="impact-particle p1">♥</span>
+      <span class="impact-particle p2">♥</span>
+      <span class="impact-particle p3">✨</span>
+      <span class="impact-particle p4">★</span>
+      <span class="impact-particle p5">♥</span>
+      <span class="impact-particle p6">✨</span>
     </div>
   </div>
 
