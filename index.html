@@ -103,7 +103,9 @@
   @keyframes stage-in { 0% { opacity: 0; } 100% { opacity: 1; } }
   .stage-inner {
     position: absolute; inset: 0;
-    animation: cam-shake 0.9s cubic-bezier(.36,.07,.19,.97) 41.0s;
+  }
+  .stage-inner.jackpot {
+    animation: cam-shake 0.9s cubic-bezier(.36,.07,.19,.97) 0s;
   }
   @keyframes cam-shake {
     0%, 100% { transform: translate(0); }
@@ -368,7 +370,7 @@
     100% { transform: rotate(15deg); }
   }
 
-  /* Jackpot flash */
+  /* Jackpot flash (full-screen white pulse) */
   .jackpot-flash {
     position: fixed; inset: 0;
     background: white;
@@ -382,6 +384,21 @@
   @keyframes jackpot-flash {
     0%, 100% { opacity: 0; }
     50%      { opacity: 0.55; }
+  }
+  /* Slot machine flash rings on jackpot */
+  .stage-inner.jackpot .slot-flash-outer {
+    animation: slot-flash-outer 1.6s ease-in-out 0s forwards;
+  }
+  .stage-inner.jackpot .slot-flash-inner {
+    animation: slot-flash-inner 1.4s ease-in-out 0.1s forwards;
+  }
+  @keyframes slot-flash-outer {
+    0%, 30%, 60%, 100% { opacity: 0; }
+    15%, 45%, 75%      { opacity: 1; }
+  }
+  @keyframes slot-flash-inner {
+    0%, 40%, 100% { opacity: 0; }
+    20%, 60%      { opacity: 0.85; }
   }
 
   /* ────────────────  BUNNY MASCOT  ──────────────── */
@@ -533,13 +550,18 @@
     left: 4%; top: 24%;
     /* Start from inside slot machine (below view, slightly right) */
     transform: translate(0, 220%) rotate(0deg) scale(0.3);
-    animation: t-fly-l 1.6s cubic-bezier(.3,1.3,.3,1) 41.4s forwards;
+    /* Held in hidden state until .jackpot triggers it (gated by song time 03:21) */
+  }
+  .stage-inner.jackpot .ticket-filip {
+    animation: t-fly-l 1.6s cubic-bezier(.3,1.3,.3,1) 0.4s forwards;
   }
   .ticket-filip::after { right: -9px; }
   .ticket-justyna {
     right: 4%; top: 24%;
     transform: translate(0, 220%) rotate(0deg) scale(0.3);
-    animation: t-fly-r 1.6s cubic-bezier(.3,1.3,.3,1) 41.6s forwards;
+  }
+  .stage-inner.jackpot .ticket-justyna {
+    animation: t-fly-r 1.6s cubic-bezier(.3,1.3,.3,1) 0.6s forwards;
   }
   .ticket-justyna::after { left: -9px; }
   @keyframes t-fly-l {
@@ -634,7 +656,9 @@
       0 0 0 3px white,
       0 0 0 5px var(--pink-deep);
     margin-bottom: 0.6em;
-    animation: burst-pop 0.7s cubic-bezier(.34,1.6,.4,1) 41.0s forwards, burst-wiggle 1.8s ease-in-out 41.7s infinite;
+  }
+  .stage-inner.jackpot .rp-burst {
+    animation: burst-pop 0.7s cubic-bezier(.34,1.6,.4,1) 0s forwards, burst-wiggle 1.8s ease-in-out 0.8s infinite;
   }
   @keyframes burst-pop {
     0%   { opacity: 0; transform: scale(0) rotate(-25deg); }
@@ -657,8 +681,8 @@
     line-height: 1;
     color: var(--pink-deep);
     text-shadow: 2px 2px 0 white, -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white;
-    animation: rp-in 0.8s cubic-bezier(.3,1.2,.3,1) 42.0s forwards;
   }
+  .stage-inner.jackpot .rp-names { animation: rp-in 0.8s cubic-bezier(.3,1.2,.3,1) 1.0s forwards; }
   .rp-names .amp { color: var(--gold); font-style: italic; padding: 0 0.15em; }
   .rp-going {
     font-family: var(--font-hand);
@@ -668,8 +692,8 @@
     text-shadow: 1px 1px 0 white;
     line-height: 1;
     margin-bottom: 0.1em;
-    animation: rp-in 0.8s cubic-bezier(.3,1.2,.3,1) 42.4s forwards;
   }
+  .stage-inner.jackpot .rp-going { animation: rp-in 0.8s cubic-bezier(.3,1.2,.3,1) 1.4s forwards; }
   .rp-title {
     font-family: var(--font-disp);
     font-weight: 800;
@@ -681,7 +705,9 @@
       2px 2px 0 white, -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white,
       0 6px 0 rgba(0,0,0,0.15),
       0 10px 28px rgba(255,90,122,0.35);
-    animation: rp-pop 0.8s cubic-bezier(.34,1.6,.4,1) 42.8s forwards;
+  }
+  .stage-inner.jackpot .rp-title {
+    animation: rp-pop 0.8s cubic-bezier(.34,1.6,.4,1) 1.8s forwards;
   }
   @keyframes rp-pop {
     0%   { opacity: 0; transform: scale(0.5); }
@@ -694,7 +720,9 @@
     margin: 0.7em auto;
     border-radius: 2px;
     opacity: 0;
-    animation: rp-in 0.5s ease 43.4s forwards;
+  }
+  .stage-inner.jackpot .rp-divider {
+    animation: rp-in 0.5s ease 2.4s forwards;
   }
   .rp-meta {
     font-family: var(--font-disp);
@@ -704,8 +732,8 @@
     line-height: 1.25;
     text-shadow: 1.5px 1.5px 0 white;
     font-weight: 700;
-    animation: rp-in 0.6s ease 43.7s forwards;
   }
+  .stage-inner.jackpot .rp-meta { animation: rp-in 0.6s ease 2.7s forwards; }
   .rp-meta strong { color: var(--pink-deep); font-weight: 800; }
   .rp-venue {
     font-family: var(--font-disp);
@@ -715,8 +743,8 @@
     text-shadow: 1px 1px 0 white;
     font-weight: 600;
     margin-top: 0.1em;
-    animation: rp-in 0.6s ease 44.0s forwards;
   }
+  .stage-inner.jackpot .rp-venue { animation: rp-in 0.6s ease 3.0s forwards; }
   .rp-venue strong { color: var(--text); font-weight: 700; }
   .rp-cta {
     margin-top: 0.6em;
@@ -726,15 +754,15 @@
     color: var(--text);
     text-shadow: 1px 1px 0 white;
     line-height: 1.1;
-    animation: rp-in 0.7s cubic-bezier(.3,1.2,.3,1) 44.4s forwards;
   }
+  .stage-inner.jackpot .rp-cta { animation: rp-in 0.7s cubic-bezier(.3,1.2,.3,1) 3.4s forwards; }
   .rp-cta span { color: var(--pink-deep); }
   @keyframes rp-in {
     0%   { opacity: 0; transform: translateY(-10px); }
     100% { opacity: 1; transform: translateY(0); }
   }
 
-  /* CONFETTI */
+  /* CONFETTI — invisible until .jackpot fires */
   .confetti-layer {
     position: fixed; inset: 0;
     z-index: 14;
@@ -748,6 +776,11 @@
     opacity: 0;
     border-radius: 2px;
     will-change: transform;
+  }
+  .stage-inner.jackpot .confetti {
+    animation:
+      confetti-fall var(--cdur, 4s) cubic-bezier(.3,.4,.5,1) var(--cdelay, 0s) infinite,
+      confetti-show 0.001s linear var(--cdelay, 0s) forwards;
   }
   @keyframes confetti-fall {
     0%   { transform: translate3d(0, -24px, 0) rotate(0deg); }
@@ -1261,20 +1294,9 @@
         <circle cx="342" cy="196" r="4" fill="rgba(255,255,255,0.7)"/>
       </g>
 
-      <!-- Jackpot flash overlay around slot -->
-      <rect class="slot-flash" x="28" y="2" width="344" height="448" rx="22" fill="none" stroke="#fff5b0" stroke-width="6" opacity="0">
-        <animate attributeName="opacity"
-                 values="0;1;0;1;0;1;0"
-                 keyTimes="0;0.15;0.3;0.45;0.6;0.75;1"
-                 begin="41.0s" dur="1.6s" fill="freeze"/>
-      </rect>
-      <!-- Jackpot inner glow -->
-      <rect class="slot-flash" x="48" y="22" width="304" height="408" rx="14" fill="none" stroke="#ffe14a" stroke-width="3" opacity="0">
-        <animate attributeName="opacity"
-                 values="0;0.85;0;0.85;0"
-                 keyTimes="0;0.2;0.4;0.6;1"
-                 begin="41.1s" dur="1.4s" fill="freeze"/>
-      </rect>
+      <!-- Jackpot flash overlay around slot (gated on .jackpot class) -->
+      <rect class="slot-flash slot-flash-outer" x="28" y="2" width="344" height="448" rx="22" fill="none" stroke="#fff5b0" stroke-width="6" opacity="0"/>
+      <rect class="slot-flash slot-flash-inner" x="48" y="22" width="304" height="408" rx="14" fill="none" stroke="#ffe14a" stroke-width="3" opacity="0"/>
     </svg>
   </div>
 
@@ -1542,23 +1564,37 @@
     } catch(e) {}
   });
 
-  // ───── Slot machine sequence (41-second build-up) ─────
-  // 0-4s:  bunny lying on towel, calm
-  // 4-5.5s: slot machine descends from sky
-  // 7s:   bunny stands up
-  // 9-13.5s: bunny walks toward slot machine
-  // 15s:  bunny looks at machine
-  // 17s:  bunny pulls lever
-  // 19s:  reels start spinning
-  // 25s:  reel 1 stops on ❤️
-  // 30s:  reel 2 stops on ❤️
-  // 36s:  reel 3 stops on ❤️ — JACKPOT building
-  // 36-41s: machine flashes, suspense
-  // 41s:  REVEAL! Tickets fly out + NIESPODZIANKA pops + drop hits (song 03:21) + music MAX
+  // ───── Slot machine sequence ─────
+  // Build-up uses setTimeout. The REVEAL (jackpot) waits for the actual
+  // song time to hit 03:21 — that way the drop and the reveal are LOCKED
+  // together regardless of how long buffering took.
   const stageInner = document.getElementById('stageInner');
   setTimeout(() => stageInner.classList.add('pulling'),  17000);
   setTimeout(() => stageInner.classList.add('spinning'), 19000);
-  setTimeout(() => stageInner.classList.add('jackpot'),  41000);
+
+  // Watch the song clock and fire reveal at song time 03:21 (201s).
+  // Fallback: if YT API is broken, fire by setTimeout at t=42s (gives 1s buffer slack).
+  let revealFired = false;
+  function fireJackpot() {
+    if (revealFired) return;
+    revealFired = true;
+    stageInner.classList.add('jackpot');
+    try { if (ytPlayer && ytPlayer.setVolume) ytPlayer.setVolume(100); } catch(e){}
+  }
+  const songWatcher = setInterval(() => {
+    if (revealFired) { clearInterval(songWatcher); return; }
+    if (ytPlayer && ytPlayer.getCurrentTime) {
+      try {
+        const t = ytPlayer.getCurrentTime();
+        if (t >= 201) {
+          fireJackpot();
+          clearInterval(songWatcher);
+        }
+      } catch(e) {}
+    }
+  }, 120);
+  // Hard fallback if YT never reaches 03:21 (e.g. video failed to play)
+  setTimeout(fireJackpot, 50000);
 
   // ───── Confetti at jackpot moment ─────
   (function makeConfetti(){
@@ -1574,7 +1610,7 @@
       const x = Math.random() * 100;
       const drift = Math.random() * 80 - 40;
       const dur = 3 + Math.random() * 3;
-      const delay = 41.0 + Math.random() * 1.8;
+      const delay = Math.random() * 1.6;
       const size = 6 + Math.random() * 9;
       const spin = (Math.random()*720+360) * (Math.random()<0.5?1:-1);
       const shape = shapes[Math.floor(Math.random()*shapes.length)];
@@ -1583,9 +1619,9 @@
       p.style.height = (size * (shape === 'rect' ? 1.6 : 1)) + 'px';
       p.style.background = color;
       p.style.setProperty('--drift', drift + 'vw');
-      p.style.setProperty('--dur', dur + 's');
+      p.style.setProperty('--cdur', dur + 's');
+      p.style.setProperty('--cdelay', delay + 's');
       p.style.setProperty('--spin', spin + 'deg');
-      p.style.animation = `confetti-fall ${dur}s cubic-bezier(.3,.4,.5,1) ${delay}s infinite, confetti-show 0.001s linear ${delay}s forwards`;
       if (shape === 'circle') p.style.borderRadius = '50%';
       if (shape === 'star') {
         p.style.clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
