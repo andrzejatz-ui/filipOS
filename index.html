@@ -1537,20 +1537,41 @@
       ytPlayer.setVolume(70);
       ytPlayer.playVideo();
     } catch(e) {}
-    // Check if audio is actually playing audibly
     setTimeout(() => {
       try {
         const muted = ytPlayer.isMuted && ytPlayer.isMuted();
         if (muted) {
-          // Browser blocked autoplay — show subtle sound toggle so user knows
           soundBtn.style.display = 'flex';
         } else {
-          // Sound is playing — hide the hint
           soundHint.classList.add('hide');
         }
       } catch(e) {}
     }, 800);
   }
+
+  // Aggressive: on ANY user event anywhere on the page, force-unmute.
+  // Mobile browsers (iOS Safari especially) block audio autoplay without gesture.
+  // This way the first time the user blinks/scrolls/touches/moves anything, music kicks in.
+  let unmutedByGesture = false;
+  function gestureUnmute() {
+    if (unmutedByGesture || !ytPlayer || !ytPlayer.unMute) return;
+    try {
+      ytPlayer.unMute();
+      ytPlayer.setVolume(80);
+      ytPlayer.playVideo();
+      const stillMuted = ytPlayer.isMuted && ytPlayer.isMuted();
+      if (!stillMuted) {
+        unmutedByGesture = true;
+        soundBtn.classList.remove('muted');
+        soundBtn.textContent = '🔊';
+        soundBtn.style.display = 'none';
+        soundHint.classList.add('hide');
+      }
+    } catch(e) {}
+  }
+  ['click','touchstart','touchend','pointerdown','keydown','mousemove','scroll','wheel','focus','visibilitychange']
+    .forEach(ev => window.addEventListener(ev, gestureUnmute, { capture: true, passive: true }));
+  document.addEventListener('visibilitychange', gestureUnmute);
 
   function handleFirstInteraction() {
     if (userInteracted) return;
