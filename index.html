@@ -436,24 +436,80 @@
      Sub-animations cascade by selector specificity / declaration order.
      ════════════════════════════════════════════════════════════════════ */
 
-  /* Bunny journey: lying sideways on towel → stands up → walks to slot → plays.
-     The bunny lives in stage-inner the whole time (no DOM moves — those broke
-     rab-stand). Its initial right+bottom places its rotated visual center on the
-     towel; rab-stand keyframes then animate it to standing height in place. */
+  /* ════════════════════════════════════════════════════════════════════
+     BUNNY SURFER — rides a wave across the background for the full video.
+     Container .surfer glides left→right + bobs up/down; inner .rabbit
+     rocks slightly on the board (surf-stance). The bunny is purely a
+     background element now — no standing, walking, lever pulling, jackpot
+     reaction. The slot machine + jackpot reveal still trigger on their own
+     timers (lever animates by itself; the bunny just keeps surfing).
+     ════════════════════════════════════════════════════════════════════ */
+  .surfer {
+    position: absolute;
+    left: -25vw;
+    bottom: 32%;                                  /* in the ocean wave band */
+    width: clamp(120px, 22vmin, 200px);
+    height: clamp(150px, 28vmin, 250px);          /* tall enough for board + bunny */
+    z-index: 3;                                   /* in front of sea, behind slot */
+    pointer-events: none;
+    animation:
+      surf-glide 16s linear infinite,
+      surf-bob   1.9s ease-in-out infinite;
+  }
+  @keyframes surf-glide {
+    0%   { left: -25vw; }
+    100% { left: 115vw; }
+  }
+  @keyframes surf-bob {
+    0%, 100% { transform: translateY(0)    rotate(-1.5deg); }
+    50%      { transform: translateY(-8px) rotate(2deg); }
+  }
+
+  .surfboard {
+    position: absolute;
+    left: 50%; bottom: 0;
+    width: 100%;
+    transform: translateX(-50%) rotate(-3deg);
+    z-index: 1;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.35));
+    pointer-events: none;
+  }
+  .surfboard svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+  /* Subtle foam wake under the board */
+  .surf-wake {
+    position: absolute;
+    left: 50%; bottom: -3%;
+    width: 130%;
+    height: 14%;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0) 65%);
+    filter: blur(2.5px);
+    pointer-events: none;
+    z-index: 0;
+    animation: wake-flicker 1.9s ease-in-out infinite;
+  }
+  @keyframes wake-flicker {
+    0%, 100% { opacity: 0.55; transform: translateX(-50%) scaleX(1); }
+    50%      { opacity: 0.85; transform: translateX(-50%) scaleX(1.08); }
+  }
+
+  /* ─── BUNNY — now sits on the board inside .surfer (rocks while surfing) ─── */
   .rabbit {
     position: absolute;
-    right: calc(5% + 7vmin);                /* visual center aligns with towel center */
-    bottom: calc(13% - 6.55vmin);           /* visual center aligns with towel surface */
-    width: clamp(96px, 22vmin, 180px);
+    left: 50%;
+    bottom: 14%;                                  /* feet just above board top */
+    width: 70%;
     aspect-ratio: 200/250;
-    z-index: 5;
-    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.28));
-    transform-origin: 50% 50%;
-    transform: rotate(-90deg) scale(0.72);
-    animation:
-      rab-stand 1.2s cubic-bezier(.34,1.6,.42,1) 7.0s forwards,
-      rab-walk  5.5s ease-in-out 8.5s forwards,
-      rab-pull  1.0s cubic-bezier(.4,1.2,.4,1) 17.0s forwards;
+    z-index: 2;
+    transform-origin: 50% 95%;                    /* pivot near feet for the rocking */
+    transform: translateX(-50%);
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.32));
+    animation: surf-stance 1.9s ease-in-out infinite;
+  }
+  @keyframes surf-stance {
+    0%, 100% { transform: translateX(-50%) rotate(-3.5deg); }
+    50%      { transform: translateX(-50%) rotate(3.5deg); }
   }
 
   /* Stand-up: small coil → smooth push → soft overshoot → settle.
@@ -778,12 +834,8 @@
     50%      { transform: scaleY(1.07); }
   }
 
-  /* ─── JACKPOT (.jackpot — anticipation crouch → big jump → bounce + cheer) ─── */
-  .stage-inner.jackpot .rabbit {
-    animation:
-      rab-jackpot 0.85s cubic-bezier(.34,1.7,.4,1) forwards,
-      rab-bounce  0.55s cubic-bezier(.4,1.6,.4,1) 0.85s 8;
-  }
+  /* ─── JACKPOT — bunny no longer reacts at full-element level (it's surfing).
+     Inner body-part reactions kept below for subtle cheer-while-surfing effect. */
   @keyframes rab-jackpot {
     0%   { transform: translateY(0)    scale(1); }
     18%  { transform: translateY(4px)  scale(0.93, 1.05); }   /* crouch (anticipation squash) */
@@ -1945,7 +1997,35 @@
     </svg>
   </div>
 
-  <!-- ───────────  BUNNY MASCOT  ─────────── -->
+  <!-- ───────────  BUNNY SURFER (background, full-length) ─────────── -->
+  <div class="surfer" aria-hidden="true">
+    <div class="surf-wake"></div>
+    <div class="surfboard">
+      <svg viewBox="0 0 200 32" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="boardTop" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#ffe18a"/>
+            <stop offset="50%"  stop-color="#ffa040"/>
+            <stop offset="100%" stop-color="#c4441e"/>
+          </linearGradient>
+          <linearGradient id="boardStripe" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"   stop-color="#ff5a7a"/>
+            <stop offset="50%"  stop-color="#fff5d0"/>
+            <stop offset="100%" stop-color="#5ec5e8"/>
+          </linearGradient>
+        </defs>
+        <!-- main longboard shape -->
+        <path d="M 8 16 Q 24 4, 60 4 L 140 4 Q 178 4, 192 16 Q 178 28, 140 28 L 60 28 Q 24 28, 8 16 Z"
+              fill="url(#boardTop)" stroke="#5a2810" stroke-width="1.2" stroke-linejoin="round"/>
+        <!-- top highlight -->
+        <ellipse cx="100" cy="9" rx="65" ry="2.5" fill="rgba(255,255,255,0.5)"/>
+        <!-- center stripe -->
+        <rect x="22" y="14.5" width="156" height="3" rx="1" fill="url(#boardStripe)"/>
+        <!-- nose/tail dots -->
+        <circle cx="14"  cy="16" r="1.6" fill="#5a2810" opacity="0.6"/>
+        <circle cx="186" cy="16" r="1.6" fill="#5a2810" opacity="0.6"/>
+      </svg>
+    </div>
   <svg class="rabbit" viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <radialGradient id="rGrad" cx="40%" cy="35%" r="75%">
@@ -2041,6 +2121,7 @@
       <path d="M 100 146 Q 104 152, 110 149" stroke="#0a0608" stroke-width="1.5" fill="none" stroke-linecap="round"/>
     </g>
   </svg>
+  </div><!-- /.surfer -->
 
   <!-- TICKETS (fly out of slot machine on jackpot) -->
   <div class="tickets-out">
@@ -2393,33 +2474,9 @@
     window.onYouTubeIframeAPIReady();
   }
 
-  // ───── Bunny choreographer: phase classes for cutout-puppet animation ─────
-  // The bunny stays in stage-inner the whole time — DOM-moving it between parents
-  // broke the rab-stand CSS animation (bunny stayed lying while sub-anims ran =
-  // "tanzt im liegen"). CSS handles the lying→standing→walking transitions
-  // entirely via the .rabbit base animation list and the phase classes below
-  // layer in per-body-part sub-animations.
-  //   t=0     : lying on towel (.rabbit base position + rotate(-90))
-  //   t=6.5s  : .prep      — ears twitch, eyes glance (anticipation before stand)
-  //   t=7.0s  : .standing  — ears/arms unfold from lying (rab-stand 1.2s)
-  //   t=8.5s  : .walking   — walk cycle (rab-walk 5.5s)
-  //   t=14.0s : .watching  — ACTIVELY hops in place + arms reach + ears spring
-  //   t=17s+  : stage-inner.pulling / .spinning / .jackpot drive reactive sub-anims
-  (function bunnyChoreographer() {
-    const bunny = document.querySelector('.rabbit');
-    if (!bunny) return;
-
-    const PHASES = ['prep', 'standing', 'walking', 'watching'];
-    function setPhase(p) {
-      PHASES.forEach(c => bunny.classList.remove(c));
-      if (p) bunny.classList.add(p);
-    }
-
-    setTimeout(() => setPhase('prep'),     6500);
-    setTimeout(() => setPhase('standing'), 7000);
-    setTimeout(() => setPhase('walking'),  8500);
-    setTimeout(() => setPhase('watching'), 14000);
-  })();
+  // Bunny is now a surfer in the background for the full video — no phase
+  // choreography needed. The .surfer CSS handles glide + bob, .rabbit handles
+  // surf-stance. The slot machine + jackpot reveal trigger on their own timers.
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 
