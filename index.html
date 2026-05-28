@@ -258,13 +258,44 @@
     width: clamp(120px, 30vmin, 280px);
     aspect-ratio: 200/320;
     z-index: 2;
-    transform-origin: bottom center;
-    animation: sway 7s ease-in-out infinite;
+    transform-origin: 50% 95%;                    /* sway pivots at the base of the trunk */
+    animation: sway 7.5s ease-in-out infinite;
     filter: drop-shadow(2px 8px 10px rgba(0,0,0,0.15));
   }
+  /* Whole-palm sway with secondary motion (more organic than a single sine wave) */
   @keyframes sway {
-    0%, 100% { transform: rotate(-1.5deg); }
-    50%      { transform: rotate(1.5deg); }
+    0%, 100% { transform: rotate(-2deg)   translateY(0); }
+    25%      { transform: rotate(0.5deg)  translateY(-1px); }
+    50%      { transform: rotate(2deg)    translateY(0); }
+    75%      { transform: rotate(-0.3deg) translateY(-1px); }
+  }
+  /* Each frond gets its own subtle drift on top of the whole-palm sway —
+     different durations + offsets give the crown a lively, wind-blown feel. */
+  .palm .frond {
+    transform-box: view-box;
+    transform-origin: 106px 22px;                 /* crown center (where fronds attach) */
+  }
+  .palm .frond.f-a { animation: frond-drift-a 5.4s ease-in-out infinite; }
+  .palm .frond.f-b { animation: frond-drift-b 6.1s ease-in-out infinite 0.3s; }
+  .palm .frond.f-c { animation: frond-drift-a 5.8s ease-in-out infinite 0.6s; }
+  .palm .frond.f-d { animation: frond-drift-b 5.2s ease-in-out infinite 0.9s; }
+  .palm .frond.f-e { animation: frond-drift-a 6.3s ease-in-out infinite 1.2s; }
+  .palm .frond.f-f { animation: frond-drift-b 5.6s ease-in-out infinite 1.5s; }
+  .palm .frond.f-g { animation: frond-drift-a 6.0s ease-in-out infinite 1.8s; }
+  .palm .frond.f-h { animation: frond-drift-b 5.4s ease-in-out infinite 2.1s; }
+  .palm .frond.f-i { animation: frond-drift-a 5.9s ease-in-out infinite 2.4s; }
+  /* The frond <use> already carries its own rotate(N) transform — we add
+     a tiny extra rotation around the crown via CSS variable composition.
+     Since CSS `transform` would replace the SVG presentation transform,
+     we use `rotate(...)` keyframes that compose with the inherited one
+     via the SVG attribute (note: transforms here are applied on top). */
+  @keyframes frond-drift-a {
+    0%, 100% { transform: rotate(0deg)   translateY(0); }
+    50%      { transform: rotate(1.5deg) translateY(-0.6px); }
+  }
+  @keyframes frond-drift-b {
+    0%, 100% { transform: rotate(0deg)    translateY(0); }
+    50%      { transform: rotate(-1.5deg) translateY(-0.4px); }
   }
 
   /* Slot machine vanishes after jackpot — transforms into the prize */
@@ -298,8 +329,6 @@
     filter: drop-shadow(0 6px 10px rgba(0,0,0,0.22));
   }
   .beach-spot .towel svg { width: 100%; height: 100%; display: block; }
-  /* Note: bunny is NOT inside .beach-spot — it's its own .surfer container that
-     glides across the whole scene. The towel here is just scenery. */
 
   /* ────────────────  SLOT MACHINE — hidden until t=4s  ──────────────── */
   .slot {
@@ -421,160 +450,6 @@
   @keyframes slot-flash-inner {
     0%, 40%, 100% { opacity: 0; }
     20%, 60%      { opacity: 0.85; }
-  }
-
-  /* ════════════════════════════════════════════════════════════════════
-     BUNNY SURFER — stays in one spot on a cartoon wave for the full video.
-       • .surfer is fixed center-stage (no horizontal glide)
-       • .wave-svg paints a stylised wave with foam crest + spray
-       • .surfboard sits on the wave peak; .rabbit stands on the board
-       • all three rock subtly together to suggest the wave's roll
-       • inner SVG groups keep idle anims (breathing, ear sway, blink, chain)
-     Slot machine + jackpot reveal trigger on their own timers; the bunny
-     just keeps riding the wave.
-     ════════════════════════════════════════════════════════════════════ */
-  .surfer {
-    position: absolute;
-    left: 50%;
-    bottom: 30%;                                  /* in the ocean band (sea spans 22–37.5%) */
-    width: clamp(240px, 40vmin, 380px);
-    aspect-ratio: 5 / 3;                          /* wider than tall — wave-shaped */
-    transform: translateX(-50%);
-    z-index: 3;                                   /* in front of sea, behind slot */
-    pointer-events: none;
-  }
-
-  /* ─── WAVE — sunset-tinted foam crest only, no water body
-     (existing pink/purple ocean gradient remains visible underneath) ─── */
-  .wave-svg {
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    width: 100%;
-    height: 65%;
-    z-index: 1;
-    overflow: visible;
-    filter: drop-shadow(0 4px 6px rgba(80,30,60,0.35));
-    animation: wave-rise 3.4s ease-in-out infinite;
-  }
-  .wave-svg svg { width: 100%; height: 100%; display: block; overflow: visible; }
-  @keyframes wave-rise {
-    0%, 100% { transform: translateY(0)    scaleY(1); }
-    50%      { transform: translateY(-2px) scaleY(1.04); }
-  }
-  /* Splash droplets above the foam — gentle twinkle */
-  .wave-svg .splash {
-    animation: splash-twinkle 1.6s ease-in-out infinite;
-    transform-origin: center;
-    transform-box: fill-box;
-  }
-  .wave-svg .splash:nth-child(odd)  { animation-delay: 0.4s; }
-  .wave-svg .splash:nth-child(3n)   { animation-delay: 0.8s; }
-  @keyframes splash-twinkle {
-    0%, 100% { opacity: 0.95; transform: scale(1); }
-    50%      { opacity: 0.55; transform: scale(0.85); }
-  }
-
-  /* ─── SURFBOARD — sits right on the foam crest of the wave ─── */
-  .surfboard {
-    position: absolute;
-    left: 50%;
-    bottom: 46%;
-    width: 38%;
-    transform: translateX(-50%) rotate(-6deg);
-    transform-origin: 50% 50%;
-    z-index: 2;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
-    pointer-events: none;
-    animation: board-rock 3.4s ease-in-out infinite;
-  }
-  .surfboard svg { width: 100%; height: auto; display: block; overflow: visible; }
-  @keyframes board-rock {
-    0%, 100% { transform: translateX(-50%) rotate(-6deg) translateY(0); }
-    50%      { transform: translateX(-50%) rotate(3deg)  translateY(-4px); }
-  }
-
-  /* ─── BUNNY — stands ON the board, feet planted, arms outstretched ─── */
-  .rabbit {
-    position: absolute;
-    left: 50%;
-    bottom: 50%;                                  /* feet sit on the board top */
-    width: 30%;
-    aspect-ratio: 200/250;
-    z-index: 3;
-    transform-origin: 50% 92%;                    /* pivot at the feet */
-    transform: translateX(-50%);
-    filter: drop-shadow(0 5px 8px rgba(0,0,0,0.35));
-    animation: surf-stance 3.4s ease-in-out infinite;
-  }
-  /* Rhythmic surfer rocking — soft, wave-like, with subtle up-bobbing at the mid-points */
-  @keyframes surf-stance {
-    0%, 100% { transform: translateX(-50%) rotate(-6deg) translateY(0); }
-    25%      { transform: translateX(-50%) rotate(-1deg) translateY(-3px); }
-    50%      { transform: translateX(-50%) rotate(6deg)  translateY(0); }
-    75%      { transform: translateX(-50%) rotate(-1deg) translateY(-3px); }
-  }
-
-  /* ─── Inner-SVG groups: per-part transform-origins (viewBox 200×250 coords) ─── */
-  .b-body, .b-foot-l, .b-foot-r, .b-arm-l, .b-arm-r, .b-head, .b-ear-l, .b-ear-r, .b-chain, .b-eyes {
-    transform-box: view-box;
-  }
-  .b-body   { transform-origin: 100px 220px; }   /* hips — body breathes/waddles around hips */
-  .b-foot-l { transform-origin: 72px 240px; }    /* foot heel */
-  .b-foot-r { transform-origin: 128px 240px; }
-  .b-arm-l  { transform-origin: 52px 162px; }    /* shoulder */
-  .b-arm-r  { transform-origin: 152px 162px; }
-  .b-chain  { transform-origin: 100px 156px; }   /* neckline */
-  .b-head   { transform-origin: 100px 158px; }   /* neck junction — head nods naturally */
-  .b-ear-l  { transform-origin: 78px 84px; }     /* ear base */
-  .b-ear-r  { transform-origin: 122px 84px; }
-  .b-eyes   { transform-origin: 100px 110px; }   /* eye center — clean blink */
-
-  /* ─── ALWAYS-ON IDLE (subtle life: breathing, micro-sway, blink) ─── */
-  .b-body  { animation: body-breathe 3.8s ease-in-out infinite; }
-  .b-head  { animation: head-idle    4.2s ease-in-out infinite; }
-  .b-ear-l { animation: ear-l-idle   3.3s ease-in-out infinite; }
-  .b-ear-r { animation: ear-r-idle   3.7s ease-in-out infinite 0.4s; }   /* asymmetric: ears slightly out of phase */
-  .b-chain { animation: chain-idle   3.8s ease-in-out infinite 0.15s; }  /* chain lags body */
-  .b-arm-l { animation: arm-l-idle   4.0s ease-in-out infinite; }
-  .b-arm-r { animation: arm-r-idle   4.4s ease-in-out infinite 0.2s; }
-  .b-eyes  { animation: blink        5.5s ease-in-out infinite; }
-
-  @keyframes body-breathe {
-    0%, 100% { transform: scale(1); }
-    50%      { transform: scale(1.018, 1.024); }
-  }
-  @keyframes head-idle {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    35%      { transform: translateY(-1.2px) rotate(-0.7deg); }
-    70%      { transform: translateY(-0.4px) rotate(0.5deg); }
-  }
-  @keyframes ear-l-idle {
-    0%, 100% { transform: rotate(0deg); }
-    45%      { transform: rotate(-4.5deg); }
-    72%      { transform: rotate(1.5deg); }
-  }
-  @keyframes ear-r-idle {
-    0%, 100% { transform: rotate(0deg); }
-    50%      { transform: rotate(5deg); }
-    80%      { transform: rotate(-1.5deg); }
-  }
-  @keyframes chain-idle {
-    0%, 100% { transform: rotate(0deg) translateY(0); }
-    50%      { transform: rotate(1.2deg) translateY(0.4px); }
-  }
-  /* Arms held out sideways for surfer balance (rotated around shoulder pivot)
-     + tiny rhythmic micro-adjustment to suggest active balancing on the wave. */
-  @keyframes arm-l-idle {
-    0%, 100% { transform: rotate(85deg); }
-    50%      { transform: rotate(88deg); }
-  }
-  @keyframes arm-r-idle {
-    0%, 100% { transform: rotate(-85deg); }
-    50%      { transform: rotate(-88deg); }
-  }
-  @keyframes blink {
-    0%, 92%, 95%, 100% { transform: scaleY(1); }
-    93.5%              { transform: scaleY(0.08); }
   }
 
   /* ────────────────  TICKETS — fly out of slot machine  ──────────────── */
@@ -1208,10 +1083,6 @@
 
   /* Mobile */
   @media (max-width: 480px) {
-    /* NOTE: .rabbit position is NOT overridden — the base CSS in .rabbit (which uses
-       calc(5% + 7vmin) / calc(13% - 6.55vmin)) auto-aligns the bunny with the towel
-       at every viewport. Old hardcoded right:4%/right:14%/right:18% overrides
-       caused the bunny to float beside the towel instead of on it. */
     .slot   { width: clamp(220px, 70vmin, 380px); }
     .poster { top: 2.5%; }
     .tickets-out { width: 86vw; top: 64%; }
@@ -1287,113 +1158,147 @@
 
   <div class="sand"></div>
 
-  <!-- PALM — feathered fronds + coconut cluster + textured trunk -->
+  <!-- PALM — lush feathered fronds + 6-coconut cluster + sunset-lit textured trunk -->
   <svg class="palm" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id="trunkG" x1="0.15" y1="0" x2="0.85" y2="0">
-        <stop offset="0%"   stop-color="#2a1808"/>
-        <stop offset="22%"  stop-color="#5a3818"/>
-        <stop offset="52%"  stop-color="#a87248"/>
-        <stop offset="78%"  stop-color="#6e4422"/>
-        <stop offset="100%" stop-color="#1f1004"/>
+      <!-- Trunk: cool-dark left → mid → warm-orange-lit right (sunset light from upper right) -->
+      <linearGradient id="trunkG" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%"   stop-color="#1f1004"/>
+        <stop offset="22%"  stop-color="#4a2c12"/>
+        <stop offset="50%"  stop-color="#8f5a30"/>
+        <stop offset="75%"  stop-color="#c98d4e"/>
+        <stop offset="92%"  stop-color="#ff9966"/>
+        <stop offset="100%" stop-color="#5a2c0f"/>
       </linearGradient>
+      <!-- Frond color stops: bright sunlit top → mid green → deep shadow underside -->
       <linearGradient id="leafTop" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"   stop-color="#a8e08a"/>
-        <stop offset="55%"  stop-color="#4ea948"/>
+        <stop offset="0%"   stop-color="#c4ea96"/>
+        <stop offset="40%"  stop-color="#74cc62"/>
         <stop offset="100%" stop-color="#1f5a22"/>
       </linearGradient>
       <linearGradient id="leafSide" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"   stop-color="#7bc468"/>
-        <stop offset="55%"  stop-color="#3d9038"/>
+        <stop offset="0%"   stop-color="#92d570"/>
+        <stop offset="50%"  stop-color="#4ca842"/>
         <stop offset="100%" stop-color="#194818"/>
       </linearGradient>
       <linearGradient id="leafDark" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"   stop-color="#5cab53"/>
-        <stop offset="55%"  stop-color="#2d7530"/>
-        <stop offset="100%" stop-color="#0f3a14"/>
+        <stop offset="0%"   stop-color="#62b855"/>
+        <stop offset="55%"  stop-color="#287230"/>
+        <stop offset="100%" stop-color="#0c2e0f"/>
       </linearGradient>
-      <radialGradient id="cocoG" cx="32%" cy="28%" r="78%">
-        <stop offset="0%"   stop-color="#a06a3a"/>
-        <stop offset="48%"  stop-color="#5a3618"/>
-        <stop offset="100%" stop-color="#160a02"/>
+      <!-- Warm sunset tint that catches the upper edges of the fronds (right side of crown) -->
+      <linearGradient id="leafSunlit" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#ffd9a0"/>
+        <stop offset="40%"  stop-color="#fcb96a"/>
+        <stop offset="100%" stop-color="#7c5118"/>
+      </linearGradient>
+      <radialGradient id="cocoG" cx="30%" cy="25%" r="85%">
+        <stop offset="0%"   stop-color="#b87a42"/>
+        <stop offset="35%"  stop-color="#6a4220"/>
+        <stop offset="100%" stop-color="#100806"/>
       </radialGradient>
-      <!-- Reusable frond shape (rachis going right + feathered leaflets on both sides) -->
+
+      <!-- ─── Reusable frond ─── rachis going right + feathered leaflets on both sides
+           with a subtle vein detail down the spine for life -->
       <g id="palmFrond">
+        <!-- soft drop-shadow shape (slightly offset, darker) -->
+        <path d="M 4 4 C 30 2, 60 -6, 105 -18"
+              stroke="rgba(15,40,15,0.35)" stroke-width="3.2" fill="none" stroke-linecap="round"/>
         <!-- central rachis -->
-        <path d="M 0 0 C 25 -2, 55 -9, 100 -22"
-              stroke="#2d6c2a" stroke-width="1.7" fill="none" stroke-linecap="round" opacity="0.9"/>
-        <!-- upper leaflets (smaller→larger→smaller) -->
-        <path d="M 8 -1 Q 8 -10, 14 -14 Q 14 -7, 13 -1 Z" fill="url(#leafTop)"/>
-        <path d="M 20 -4 Q 16 -18, 30 -22 Q 26 -10, 24 -4 Z" fill="url(#leafTop)"/>
-        <path d="M 34 -8 Q 28 -24, 48 -29 Q 38 -14, 38 -8 Z" fill="url(#leafTop)"/>
-        <path d="M 50 -12 Q 42 -30, 66 -33 Q 54 -20, 54 -12 Z" fill="url(#leafSide)"/>
-        <path d="M 66 -17 Q 58 -33, 84 -33 Q 70 -22, 70 -17 Z" fill="url(#leafSide)"/>
-        <path d="M 82 -21 Q 78 -30, 99 -25 Q 92 -22, 88 -21 Z" fill="url(#leafDark)"/>
-        <!-- lower leaflets -->
-        <path d="M 14 2 Q 18 12, 24 14 Q 20 6, 18 2 Z" fill="url(#leafSide)"/>
-        <path d="M 28 -1 Q 34 10, 42 13 Q 34 4, 32 -1 Z" fill="url(#leafSide)"/>
-        <path d="M 44 -6 Q 52 7, 60 8 Q 50 -1, 48 -6 Z" fill="url(#leafDark)"/>
-        <path d="M 60 -11 Q 70 1, 78 1 Q 66 -6, 64 -11 Z" fill="url(#leafDark)"/>
-        <path d="M 76 -16 Q 84 -7, 92 -8 Q 82 -14, 80 -16 Z" fill="url(#leafDark)"/>
+        <path d="M 0 0 C 28 -2, 58 -10, 108 -24"
+              stroke="#2d6c2a" stroke-width="1.7" fill="none" stroke-linecap="round" opacity="0.92"/>
+        <!-- subtle vein highlight -->
+        <path d="M 2 -0.5 C 28 -2.5, 58 -10.5, 105 -23"
+              stroke="rgba(220,255,180,0.42)" stroke-width="0.55" fill="none" stroke-linecap="round"/>
+        <!-- ── upper leaflets (sunlit side, brightest) ── -->
+        <path d="M 8 -1  Q 8 -11, 14 -15  Q 14 -7, 13 -1 Z"  fill="url(#leafTop)"/>
+        <path d="M 19 -4 Q 15 -19, 30 -23 Q 26 -10, 23 -4 Z" fill="url(#leafTop)"/>
+        <path d="M 32 -8 Q 26 -25, 49 -30 Q 38 -14, 37 -8 Z" fill="url(#leafTop)"/>
+        <path d="M 48 -12 Q 40 -32, 68 -34 Q 54 -20, 53 -12 Z" fill="url(#leafTop)"/>
+        <path d="M 64 -16 Q 56 -34, 86 -34 Q 70 -22, 69 -16 Z" fill="url(#leafSide)"/>
+        <path d="M 80 -20 Q 74 -34, 100 -30 Q 90 -24, 86 -20 Z" fill="url(#leafSide)"/>
+        <path d="M 94 -22 Q 96 -28, 108 -25 Q 102 -22, 98 -22 Z" fill="url(#leafDark)"/>
+        <!-- ── lower leaflets (shadow side, deeper) ── -->
+        <path d="M 12 2  Q 16 13, 24 16  Q 20 8, 18 2 Z" fill="url(#leafSide)"/>
+        <path d="M 26 -1 Q 32 11, 42 14  Q 34 4, 31 -1 Z" fill="url(#leafSide)"/>
+        <path d="M 42 -6 Q 50 8, 60 9 Q 50 -1, 47 -6 Z" fill="url(#leafDark)"/>
+        <path d="M 58 -10 Q 68 2, 78 2 Q 66 -6, 63 -10 Z" fill="url(#leafDark)"/>
+        <path d="M 74 -15 Q 84 -6, 94 -7 Q 82 -13, 79 -15 Z" fill="url(#leafDark)"/>
+        <path d="M 88 -19 Q 96 -14, 104 -16 Q 96 -19, 92 -19 Z" fill="url(#leafDark)"/>
+        <!-- subtle sunlit rim highlight on the topmost leaflets -->
+        <path d="M 30 -22 Q 50 -28, 80 -28" stroke="rgba(255,220,150,0.4)" stroke-width="0.6" fill="none" stroke-linecap="round"/>
       </g>
     </defs>
 
-    <!-- TRUNK — tapered filled shape with side shading -->
+    <!-- ── TRUNK ── -->
     <path d="M 85 320
              C 84 250, 100 175, 92 110
              C 86 70, 102 38, 99 18
              L 113 18
              C 116 38, 122 70, 116 110
              C 110 175, 104 250, 105 320 Z"
-          fill="url(#trunkG)" stroke="#1a0c02" stroke-width="0.8"/>
+          fill="url(#trunkG)" stroke="#160a02" stroke-width="1.0"/>
 
-    <!-- Bark segment rings -->
-    <g stroke="#22130a" stroke-width="0.7" opacity="0.62" fill="none">
-      <path d="M 86 296 Q 95 298, 104 295"/>
-      <path d="M 86 272 Q 96 274, 105 270"/>
-      <path d="M 87 248 Q 96 250, 106 246"/>
-      <path d="M 88 224 Q 97 226, 107 222"/>
-      <path d="M 90 200 Q 98 202, 108 199"/>
-      <path d="M 92 176 Q 100 178, 110 176"/>
-      <path d="M 94 152 Q 102 153, 112 150"/>
-      <path d="M 96 128 Q 103 129, 113 126"/>
-      <path d="M 97 104 Q 104 105, 113 102"/>
-      <path d="M 98 80  Q 105 80, 113 77"/>
-      <path d="M 100 56 Q 106 56, 113 53"/>
-      <path d="M 101 34 Q 107 34, 113 32"/>
+    <!-- Bark segment rings (V-shaped notches for organic look) -->
+    <g stroke="#22130a" stroke-width="0.8" opacity="0.65" fill="none" stroke-linecap="round">
+      <path d="M 86 296 Q 95 299, 104 295"/>
+      <path d="M 86 272 Q 96 275, 105 270"/>
+      <path d="M 87 248 Q 96 251, 106 246"/>
+      <path d="M 88 224 Q 97 227, 107 222"/>
+      <path d="M 90 200 Q 98 203, 108 199"/>
+      <path d="M 92 176 Q 100 179, 110 176"/>
+      <path d="M 94 152 Q 102 154, 112 150"/>
+      <path d="M 96 128 Q 103 130, 113 126"/>
+      <path d="M 97 104 Q 104 106, 113 102"/>
+      <path d="M 98 80  Q 105 81, 113 77"/>
+      <path d="M 100 56 Q 106 57, 113 53"/>
+      <path d="M 101 34 Q 107 35, 113 32"/>
     </g>
 
-    <!-- Trunk highlight stripe (catches the sun) -->
-    <path d="M 93 318 C 91 240, 105 170, 100 100 C 97 65, 106 32, 105 20"
-          stroke="rgba(255,220,180,0.32)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <!-- Sunset rim-light on the right side of the trunk -->
+    <path d="M 112 318 C 113 250, 117 175, 114 100 C 111 65, 113 32, 112 20"
+          stroke="rgba(255,180,110,0.55)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <!-- Cooler inner highlight on the left side -->
+    <path d="M 92 318 C 90 240, 100 170, 96 100 C 93 65, 102 32, 101 20"
+          stroke="rgba(255,235,205,0.18)" stroke-width="1.6" fill="none" stroke-linecap="round"/>
 
-    <!-- COCONUTS — cluster of 4 nestled at the top of the trunk under the fronds -->
+    <!-- Ground shadow under the trunk base (soft ellipse) -->
+    <ellipse cx="99" cy="318" rx="22" ry="3.5" fill="rgba(0,0,0,0.35)"/>
+
+    <!-- ── COCONUTS — cluster of 6, nestled at the top of the trunk under the fronds ── -->
     <g transform="translate(106, 24)">
-      <ellipse cx="-3"  cy="2"   rx="7"   ry="7"   fill="url(#cocoG)" stroke="#0c0602" stroke-width="0.8"/>
-      <ellipse cx="-5"  cy="-0.5" rx="2.2" ry="2"  fill="rgba(255,210,160,0.4)"/>
-      <ellipse cx="-12" cy="6"   rx="6.5" ry="6.5" fill="url(#cocoG)" stroke="#0c0602" stroke-width="0.8"/>
-      <ellipse cx="-14" cy="3.5" rx="2"   ry="1.8" fill="rgba(255,210,160,0.35)"/>
-      <ellipse cx="6"   cy="6"   rx="7"   ry="6.5" fill="url(#cocoG)" stroke="#0c0602" stroke-width="0.8"/>
-      <ellipse cx="4"   cy="3.5" rx="2"   ry="2"   fill="rgba(255,210,160,0.4)"/>
-      <ellipse cx="-7"  cy="10"  rx="5.5" ry="5"   fill="url(#cocoG)" stroke="#0c0602" stroke-width="0.8" opacity="0.95"/>
-      <ellipse cx="-9"  cy="8"   rx="1.6" ry="1.4" fill="rgba(255,210,160,0.3)"/>
+      <!-- main bunch (back to front) -->
+      <ellipse cx="-13" cy="6"   rx="7"   ry="7"   fill="url(#cocoG)" stroke="#0c0602" stroke-width="0.9"/>
+      <ellipse cx="-15" cy="3"   rx="2.4" ry="2.1" fill="rgba(255,210,150,0.5)"/>
+      <ellipse cx="-2"  cy="2"   rx="7.5" ry="7.2" fill="url(#cocoG)" stroke="#0c0602" stroke-width="0.9"/>
+      <ellipse cx="-4"  cy="-1"  rx="2.6" ry="2.2" fill="rgba(255,215,160,0.55)"/>
+      <ellipse cx="9"   cy="6"   rx="7"   ry="6.8" fill="url(#cocoG)" stroke="#0c0602" stroke-width="0.9"/>
+      <ellipse cx="7"   cy="3.5" rx="2.4" ry="2"   fill="rgba(255,210,150,0.5)"/>
+      <!-- lower / front coconuts -->
+      <ellipse cx="-8"  cy="11"  rx="6"   ry="5.5" fill="url(#cocoG)" stroke="#0c0602" stroke-width="0.9"/>
+      <ellipse cx="-10" cy="9"   rx="1.8" ry="1.5" fill="rgba(255,210,150,0.45)"/>
+      <ellipse cx="4"   cy="12"  rx="5.5" ry="5"   fill="url(#cocoG)" stroke="#0c0602" stroke-width="0.9"/>
+      <ellipse cx="2.5" cy="10"  rx="1.7" ry="1.4" fill="rgba(255,210,150,0.45)"/>
+      <ellipse cx="-2"  cy="15"  rx="4.8" ry="4.2" fill="url(#cocoG)" stroke="#0c0602" stroke-width="0.9" opacity="0.95"/>
+      <ellipse cx="-3.5" cy="13.5" rx="1.4" ry="1.2" fill="rgba(255,210,150,0.4)"/>
     </g>
 
-    <!-- FRONDS — 8 spread around the crown.
-         Drawing order: back-most first so the front-side fronds overlap convincingly. -->
+    <!-- ── FRONDS — 9 spread around the crown
+         Each use is wrapped in a <g class="frond"> so CSS drift animation
+         (on the wrapper) composes with the SVG rotate that positions the frond. -->
     <g transform="translate(106, 22)">
-      <!-- Back / drooping fronds (less prominent) -->
-      <use href="#palmFrond" transform="rotate(195) scale(0.9)"  opacity="0.82"/>
-      <use href="#palmFrond" transform="rotate(165) scale(0.95)" opacity="0.88"/>
-      <!-- Side fronds reaching out -->
-      <use href="#palmFrond" transform="rotate(-160) scale(1.0)"/>
-      <use href="#palmFrond" transform="rotate(-115) scale(1.05)"/>
-      <use href="#palmFrond" transform="rotate(-70)  scale(1.1)"/>
-      <!-- Top arching fronds -->
-      <use href="#palmFrond" transform="rotate(-25) scale(1.08)"/>
-      <use href="#palmFrond" transform="rotate(25)  scale(1.05)"/>
-      <use href="#palmFrond" transform="rotate(70)  scale(1.0)"/>
-      <use href="#palmFrond" transform="rotate(115) scale(0.95)"/>
+      <!-- BACK drooping fronds (less prominent) -->
+      <g class="frond f-a"><use href="#palmFrond" transform="rotate(190) scale(0.92)" opacity="0.78"/></g>
+      <g class="frond f-b"><use href="#palmFrond" transform="rotate(160) scale(0.95)" opacity="0.85"/></g>
+      <!-- SIDE fronds reaching outward -->
+      <g class="frond f-c"><use href="#palmFrond" transform="rotate(-165) scale(1.02)"/></g>
+      <g class="frond f-d"><use href="#palmFrond" transform="rotate(-118) scale(1.08)"/></g>
+      <g class="frond f-e"><use href="#palmFrond" transform="rotate(-72)  scale(1.12)"/></g>
+      <!-- TOP arching fronds (catch the sunset) -->
+      <g class="frond f-f"><use href="#palmFrond" transform="rotate(-28) scale(1.10)"/></g>
+      <g class="frond f-g"><use href="#palmFrond" transform="rotate(22)  scale(1.08)"/></g>
+      <g class="frond f-h"><use href="#palmFrond" transform="rotate(68)  scale(1.02)"/></g>
+      <g class="frond f-i"><use href="#palmFrond" transform="rotate(118) scale(0.96)"/></g>
     </g>
   </svg>
 
@@ -1700,228 +1605,6 @@
     </svg>
   </div>
 
-  <!-- ───────────  BUNNY SURFER (fixed center-stage, full-length) ─────────── -->
-  <div class="surfer" aria-hidden="true">
-    <!-- WAVE — proper curling wave in sunset water palette (pink → magenta → deep purple).
-         Solid water body with visible structure: peak, curl, layered surfaces, foam crest. -->
-    <div class="wave-svg">
-      <svg viewBox="0 0 300 200" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="waveBody" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"   stop-color="#ff9cb5"/>
-            <stop offset="35%"  stop-color="#ff5a7a"/>
-            <stop offset="70%"  stop-color="#7c3768"/>
-            <stop offset="100%" stop-color="#3a1841"/>
-          </linearGradient>
-          <linearGradient id="waveShade" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"   stop-color="#c5283d"/>
-            <stop offset="100%" stop-color="#3a1841"/>
-          </linearGradient>
-          <linearGradient id="foamGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"   stop-color="#ffffff"/>
-            <stop offset="55%"  stop-color="#fff0e8"/>
-            <stop offset="100%" stop-color="#ffc4d4"/>
-          </linearGradient>
-        </defs>
-
-        <!-- BACK wave layer (smaller, darker, suggests depth) -->
-        <path d="M 0 200 L 0 158
-                 Q 60 142, 130 138
-                 Q 200 138, 260 145
-                 Q 285 148, 300 152
-                 L 300 200 Z"
-              fill="url(#waveShade)" opacity="0.75"/>
-
-        <!-- MAIN wave body — peak on left-center, curls to right -->
-        <path d="M 0 200 L 0 135
-                 C 20 122, 50 105, 90 88
-                 C 120 75, 155 65, 190 70
-                 C 225 78, 252 95, 268 118
-                 C 274 128, 273 138, 263 142
-                 C 252 145, 244 138, 244 128
-                 C 244 117, 254 113, 263 117
-                 C 277 122, 285 138, 282 158
-                 C 280 168, 282 175, 290 180
-                 L 300 200 Z"
-              fill="url(#waveBody)" stroke="#3a1841" stroke-width="1.6" stroke-linejoin="round"/>
-
-        <!-- Inner shadow of the curl (the hollow tube) -->
-        <path d="M 246 122
-                 C 252 117, 262 119, 264 128
-                 C 264 134, 256 137, 250 133
-                 C 246 130, 244 126, 246 122 Z"
-              fill="url(#waveShade)" opacity="0.85"/>
-
-        <!-- Water surface highlight lines (long curving) -->
-        <path d="M 10 140 Q 70 112, 140 92 Q 200 82, 260 102"
-              stroke="rgba(255,200,215,0.55)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-        <path d="M 25 165 Q 90 142, 160 134 Q 220 134, 275 148"
-              stroke="rgba(255,200,215,0.32)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-
-        <!-- BIG foam crest on top of wave peak -->
-        <path d="M 75 78
-                 C 100 56, 140 46, 180 50
-                 C 215 56, 240 70, 255 90
-                 C 230 75, 200 68, 165 70
-                 C 130 72, 100 75, 75 78 Z"
-              fill="url(#foamGrad)" stroke="rgba(120,30,80,0.45)" stroke-width="0.8" stroke-linejoin="round"/>
-
-        <!-- Bright crest highlight (top of foam) -->
-        <ellipse cx="155" cy="58" rx="50" ry="5" fill="rgba(255,255,255,0.95)"/>
-        <ellipse cx="155" cy="54" rx="32" ry="2.8" fill="white"/>
-
-        <!-- CURL FOAM SPIRAL on the right (the breaking lip) -->
-        <path d="M 230 80
-                 C 250 75, 270 82, 275 95
-                 C 268 88, 258 84, 248 84
-                 C 240 84, 232 84, 230 80 Z"
-              fill="url(#foamGrad)" stroke="rgba(120,30,80,0.4)" stroke-width="0.6"/>
-        <path d="M 248 90 Q 258 88, 268 95 Q 258 93, 248 90 Z"
-              fill="white" opacity="0.85"/>
-
-        <!-- Foam wash ribbon below crest (where board glides) -->
-        <ellipse cx="155" cy="95" rx="80" ry="5" fill="rgba(255,255,255,0.85)"/>
-        <ellipse cx="160" cy="108" rx="95" ry="4" fill="rgba(255,255,255,0.55)"/>
-
-        <!-- Spray droplets above the crest -->
-        <circle class="splash" cx="98"  cy="32" r="3.4" fill="white" opacity="0.95"/>
-        <circle class="splash" cx="130" cy="24" r="2.8" fill="white" opacity="0.9"/>
-        <circle class="splash" cx="165" cy="20" r="3.2" fill="white" opacity="0.95"/>
-        <circle class="splash" cx="200" cy="26" r="2.6" fill="white" opacity="0.9"/>
-        <circle class="splash" cx="232" cy="36" r="2.8" fill="white" opacity="0.88"/>
-        <circle class="splash" cx="115" cy="42" r="1.7" fill="white" opacity="0.8"/>
-        <circle class="splash" cx="180" cy="40" r="1.6" fill="white" opacity="0.78"/>
-        <circle class="splash" cx="148" cy="36" r="1.5" fill="white" opacity="0.76"/>
-
-        <!-- Side spray plumes (wave kicking up sunlit spray) -->
-        <ellipse class="splash" cx="18"  cy="118" rx="4"   ry="14" fill="rgba(255,220,225,0.7)" transform="rotate(-22 18 118)"/>
-        <ellipse class="splash" cx="45"  cy="100" rx="3"   ry="9"  fill="rgba(255,220,225,0.55)" transform="rotate(-15 45 100)"/>
-        <ellipse class="splash" cx="285" cy="135" rx="3.5" ry="11" fill="rgba(255,220,225,0.6)"  transform="rotate(22 285 135)"/>
-      </svg>
-    </div>
-
-    <div class="surfboard">
-      <svg viewBox="0 0 200 32" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="boardTop" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"   stop-color="#ffe18a"/>
-            <stop offset="50%"  stop-color="#ffa040"/>
-            <stop offset="100%" stop-color="#c4441e"/>
-          </linearGradient>
-          <linearGradient id="boardStripe" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%"   stop-color="#ff5a7a"/>
-            <stop offset="50%"  stop-color="#fff5d0"/>
-            <stop offset="100%" stop-color="#5ec5e8"/>
-          </linearGradient>
-        </defs>
-        <!-- main longboard shape -->
-        <path d="M 8 16 Q 24 4, 60 4 L 140 4 Q 178 4, 192 16 Q 178 28, 140 28 L 60 28 Q 24 28, 8 16 Z"
-              fill="url(#boardTop)" stroke="#5a2810" stroke-width="1.2" stroke-linejoin="round"/>
-        <!-- top highlight -->
-        <ellipse cx="100" cy="9" rx="65" ry="2.5" fill="rgba(255,255,255,0.5)"/>
-        <!-- center stripe -->
-        <rect x="22" y="14.5" width="156" height="3" rx="1" fill="url(#boardStripe)"/>
-        <!-- nose/tail dots -->
-        <circle cx="14"  cy="16" r="1.6" fill="#5a2810" opacity="0.6"/>
-        <circle cx="186" cy="16" r="1.6" fill="#5a2810" opacity="0.6"/>
-      </svg>
-    </div>
-  <svg class="rabbit" viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <radialGradient id="rGrad" cx="40%" cy="35%" r="75%">
-        <stop offset="0%"  stop-color="#2a2024"/>
-        <stop offset="55%" stop-color="#14101a"/>
-        <stop offset="100%" stop-color="#050308"/>
-      </radialGradient>
-      <radialGradient id="rBelly" cx="50%" cy="50%" r="55%">
-        <stop offset="0%"  stop-color="#332834"/>
-        <stop offset="100%" stop-color="#1a1418"/>
-      </radialGradient>
-      <radialGradient id="rEye" cx="40%" cy="35%" r="60%">
-        <stop offset="0%"  stop-color="#fff5b0"/>
-        <stop offset="40%" stop-color="#d4af37"/>
-        <stop offset="100%" stop-color="#6a4f12"/>
-      </radialGradient>
-      <linearGradient id="rGold" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"  stop-color="#fff0a8"/>
-        <stop offset="40%" stop-color="#f5d97a"/>
-        <stop offset="70%" stop-color="#d4af37"/>
-        <stop offset="100%" stop-color="#6a4f12"/>
-      </linearGradient>
-    </defs>
-
-    <ellipse cx="100" cy="240" rx="60" ry="6" fill="rgba(0,0,0,0.22)"/>
-    <g class="b-foot-l"><ellipse cx="72" cy="232" rx="20" ry="10" fill="url(#rGrad)"/></g>
-    <g class="b-foot-r"><ellipse cx="128" cy="232" rx="20" ry="10" fill="url(#rGrad)"/></g>
-
-    <g class="b-body">
-      <path d="M 100 130 Q 50 132, 46 192 Q 42 232, 100 234 Q 158 232, 154 192 Q 150 132, 100 130 Z" fill="url(#rGrad)"/>
-      <ellipse cx="100" cy="194" rx="32" ry="32" fill="url(#rBelly)" opacity="0.75"/>
-      <ellipse cx="76" cy="160" rx="18" ry="7" fill="rgba(255,255,255,0.07)"/>
-    </g>
-
-    <!-- Cuban gold chain (no pendant) -->
-    <g class="b-chain">
-      <path d="M 58 156 Q 62 176, 78 188 Q 100 200, 122 188 Q 138 176, 142 156"
-            fill="none" stroke="url(#rGold)" stroke-width="6.5" stroke-linecap="round"/>
-      <path d="M 58 156 Q 62 176, 78 188 Q 100 200, 122 188 Q 138 176, 142 156"
-            fill="none" stroke="#2a1f0f" stroke-width="6.6" stroke-linecap="butt" stroke-dasharray="0.45 3.2"/>
-      <path d="M 58 156 Q 62 176, 78 188 Q 100 200, 122 188 Q 138 176, 142 156"
-            fill="none" stroke="#fff5d0" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
-    </g>
-
-    <!-- Left arm -->
-    <g class="b-arm-l">
-      <ellipse cx="50" cy="180" rx="12" ry="20" fill="url(#rGrad)"/>
-      <ellipse cx="46" cy="204" rx="9" ry="9" fill="url(#rGrad)"/>
-    </g>
-    <!-- Right arm (will animate when pulling lever) -->
-    <g class="b-arm-r">
-      <ellipse cx="150" cy="180" rx="12" ry="20" fill="url(#rGrad)"/>
-      <ellipse cx="154" cy="204" rx="9" ry="9" fill="url(#rGrad)"/>
-    </g>
-
-    <g class="b-head">
-      <g class="b-ear-l">
-        <ellipse cx="78" cy="48" rx="11" ry="42" fill="url(#rGrad)"/>
-        <ellipse cx="78" cy="54" rx="5" ry="30" fill="#ff9cb5" opacity="0.9"/>
-      </g>
-      <g class="b-ear-r">
-        <ellipse cx="122" cy="48" rx="11" ry="42" fill="url(#rGrad)"/>
-        <ellipse cx="122" cy="54" rx="5" ry="30" fill="#ff9cb5" opacity="0.9"/>
-      </g>
-
-      <circle cx="100" cy="110" r="54" fill="url(#rGrad)"/>
-      <ellipse cx="58" cy="128" rx="11" ry="13" fill="url(#rGrad)"/>
-      <ellipse cx="142" cy="128" rx="11" ry="13" fill="url(#rGrad)"/>
-      <ellipse cx="62" cy="130" rx="7" ry="4" fill="#ff7a9d" opacity="0.25"/>
-      <ellipse cx="138" cy="130" rx="7" ry="4" fill="#ff7a9d" opacity="0.25"/>
-
-      <g class="b-eyes">
-        <ellipse cx="82" cy="105" rx="13" ry="16" fill="white" stroke="#0a0608" stroke-width="1.5"/>
-        <ellipse cx="118" cy="105" rx="13" ry="16" fill="white" stroke="#0a0608" stroke-width="1.5"/>
-        <ellipse cx="82" cy="108" rx="8" ry="10" fill="url(#rEye)"/>
-        <ellipse cx="118" cy="108" rx="8" ry="10" fill="url(#rEye)"/>
-        <ellipse cx="82" cy="110" rx="4.5" ry="6" fill="#0a0608"/>
-        <ellipse cx="118" cy="110" rx="4.5" ry="6" fill="#0a0608"/>
-        <ellipse cx="85" cy="103" rx="3" ry="4" fill="white"/>
-        <ellipse cx="121" cy="103" rx="3" ry="4" fill="white"/>
-        <circle cx="79" cy="113" r="1.4" fill="white"/>
-        <circle cx="115" cy="113" r="1.4" fill="white"/>
-      </g>
-
-      <path d="M 92 130 Q 100 124, 108 130 L 100 138 Z" fill="#ff5a7a" stroke="#0a0608" stroke-width="1"/>
-      <g stroke="rgba(255,255,255,0.45)" stroke-width="0.7" stroke-linecap="round">
-        <line x1="62" y1="136" x2="42" y2="134"/>
-        <line x1="62" y1="140" x2="40" y2="144"/>
-        <line x1="138" y1="136" x2="158" y2="134"/>
-        <line x1="138" y1="140" x2="160" y2="144"/>
-      </g>
-      <path d="M 100 140 L 100 146 Q 96 152, 90 149" stroke="#0a0608" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-      <path d="M 100 146 Q 104 152, 110 149" stroke="#0a0608" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    </g>
-  </svg>
-  </div><!-- /.surfer -->
 
   <!-- TICKETS (fly out of slot machine on jackpot) -->
   <div class="tickets-out">
@@ -2274,9 +1957,6 @@
     window.onYouTubeIframeAPIReady();
   }
 
-  // Bunny is now a surfer in the background for the full video — no phase
-  // choreography needed. The .surfer CSS handles glide + bob, .rabbit handles
-  // surf-stance. The slot machine + jackpot reveal trigger on their own timers.
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 
