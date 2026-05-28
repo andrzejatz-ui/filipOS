@@ -307,28 +307,18 @@
     50%  { opacity: 0.4; transform: translateX(-50%) scale(0.7) translateY(40px); filter: blur(2px); }
     100% { opacity: 0; transform: translateX(-50%) scale(0.3) translateY(80px); filter: blur(8px); }
   }
-  /* Bunny on jackpot — slight bounce, stays visible */
-
-  /* ────────────────  BEACH SPOT (towel + lying bunny wrapper) ────────────────
-     Wrapping them ensures bunny is ALWAYS positioned relative to the towel,
-     consistent across iOS Safari / Chrome / desktop, no math-on-viewport-units shenanigans. */
-  .beach-spot {
+  /* ────────────────  COCONUT (bottom-right corner decoration) ──────────────── */
+  .coconut {
     position: absolute;
-    right: 5%;
-    bottom: 13%;
-    width: clamp(160px, 36vmin, 280px);
-    aspect-ratio: 5/3.4;  /* tall enough to fit towel + bunny sitting on it */
+    right: 4%;
+    bottom: 7%;
+    width: clamp(64px, 13vmin, 120px);
+    aspect-ratio: 1;
     z-index: 5;
     pointer-events: none;
+    filter: drop-shadow(0 6px 9px rgba(0,0,0,0.3));
   }
-  .beach-spot .towel {
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    width: 100%;
-    aspect-ratio: 5/2;
-    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.22));
-  }
-  .beach-spot .towel svg { width: 100%; height: 100%; display: block; }
+  .coconut svg { width: 100%; height: 100%; display: block; }
 
   /* ────────────────  SLOT MACHINE — visible from page load, user taps to start  ──────────────── */
   .slot {
@@ -366,97 +356,50 @@
   .reel-strip {
     transform: translateY(0);
   }
-  /* NEW flow: reels start spinning IMMEDIATELY on tap (animations are paused
-     until body.started lands, then they unfreeze from time 0 = no delays).
-     Each reel does 10 fast strip-length cycles, then decelerates into the
-     winning ❤️ position. Reel 3 lands at +40s = song time 03:20 jackpot. */
-  .reel-1 { animation: reel-spin-1 34s linear forwards; }  /* stops at +34s */
-  .reel-2 { animation: reel-spin-2 37s linear forwards; }  /* stops at +37s */
-  .reel-3 { animation: reel-spin-3 40s linear forwards; }  /* stops at +40s = 03:20 */
+  /* 5 reels. They start spinning IMMEDIATELY on tap (animations paused until
+     body.started, then unfreeze from time 0 = no delay). Each reel does 10
+     fast strip cycles, then decelerates onto the ❤️ at cell 9 (translateY
+     -905px). Staggered durations → reels stop one-by-one; reel 5 lands at
+     +40s = song time 03:20 jackpot. All 5 land on ❤️ = the win. */
+  .reel-1 { animation: reel-spin 32s linear forwards; }   /* stops at +32s */
+  .reel-2 { animation: reel-spin 34s linear forwards; }   /* stops at +34s */
+  .reel-3 { animation: reel-spin 36s linear forwards; }   /* stops at +36s */
+  .reel-4 { animation: reel-spin 38s linear forwards; }   /* stops at +38s */
+  .reel-5 { animation: reel-spin 40s linear forwards; }   /* stops at +40s = 03:20 */
 
-  /* Each cycle of fast-spin covers the full 2800px strip in 7.5% of total
-     duration → 2800/(40*0.075) ≈ 933 px/s on reel 3, fast casino spin. */
-  @keyframes reel-spin-1 {
+  /* Single shared keyframe — strip is 11 cells (1100px), cell 10 duplicates
+     cell 0 so the -1000px cycle wraps seamlessly. Final -905px = ❤️ at cell 9. */
+  @keyframes reel-spin {
     0%      { transform: translateY(0); }
-    7.49%   { transform: translateY(-2800px); }
+    7.49%   { transform: translateY(-1000px); }
     7.5%    { transform: translateY(0); }
-    14.99%  { transform: translateY(-2800px); }
+    14.99%  { transform: translateY(-1000px); }
     15%     { transform: translateY(0); }
-    22.49%  { transform: translateY(-2800px); }
+    22.49%  { transform: translateY(-1000px); }
     22.5%   { transform: translateY(0); }
-    29.99%  { transform: translateY(-2800px); }
+    29.99%  { transform: translateY(-1000px); }
     30%     { transform: translateY(0); }
-    37.49%  { transform: translateY(-2800px); }
+    37.49%  { transform: translateY(-1000px); }
     37.5%   { transform: translateY(0); }
-    44.99%  { transform: translateY(-2800px); }
+    44.99%  { transform: translateY(-1000px); }
     45%     { transform: translateY(0); }
-    52.49%  { transform: translateY(-2800px); }
+    52.49%  { transform: translateY(-1000px); }
     52.5%   { transform: translateY(0); }
-    59.99%  { transform: translateY(-2800px); }
+    59.99%  { transform: translateY(-1000px); }
     60%     { transform: translateY(0); }
-    67.49%  { transform: translateY(-2800px); }
+    67.49%  { transform: translateY(-1000px); }
     67.5%   { transform: translateY(0); }
-    74.99%  { transform: translateY(-2800px); }
+    74.99%  { transform: translateY(-1000px); }
     75%     { transform: translateY(0); }
-    87%     { transform: translateY(-1800px); }   /* ease-out start */
-    94%     { transform: translateY(-2350px); }
-    100%    { transform: translateY(-2500px); }   /* lands on ❤️ */
-  }
-  @keyframes reel-spin-2 {
-    0%      { transform: translateY(0); }
-    7.49%   { transform: translateY(-2800px); }
-    7.5%    { transform: translateY(0); }
-    14.99%  { transform: translateY(-2800px); }
-    15%     { transform: translateY(0); }
-    22.49%  { transform: translateY(-2800px); }
-    22.5%   { transform: translateY(0); }
-    29.99%  { transform: translateY(-2800px); }
-    30%     { transform: translateY(0); }
-    37.49%  { transform: translateY(-2800px); }
-    37.5%   { transform: translateY(0); }
-    44.99%  { transform: translateY(-2800px); }
-    45%     { transform: translateY(0); }
-    52.49%  { transform: translateY(-2800px); }
-    52.5%   { transform: translateY(0); }
-    59.99%  { transform: translateY(-2800px); }
-    60%     { transform: translateY(0); }
-    67.49%  { transform: translateY(-2800px); }
-    67.5%   { transform: translateY(0); }
-    74.99%  { transform: translateY(-2800px); }
-    75%     { transform: translateY(0); }
-    87%     { transform: translateY(-2150px); }
-    94%     { transform: translateY(-2820px); }
-    100%    { transform: translateY(-3000px); }   /* lands on ❤️ */
-  }
-  @keyframes reel-spin-3 {
-    0%      { transform: translateY(0); }
-    7.49%   { transform: translateY(-2800px); }
-    7.5%    { transform: translateY(0); }
-    14.99%  { transform: translateY(-2800px); }
-    15%     { transform: translateY(0); }
-    22.49%  { transform: translateY(-2800px); }
-    22.5%   { transform: translateY(0); }
-    29.99%  { transform: translateY(-2800px); }
-    30%     { transform: translateY(0); }
-    37.49%  { transform: translateY(-2800px); }
-    37.5%   { transform: translateY(0); }
-    44.99%  { transform: translateY(-2800px); }
-    45%     { transform: translateY(0); }
-    52.49%  { transform: translateY(-2800px); }
-    52.5%   { transform: translateY(0); }
-    59.99%  { transform: translateY(-2800px); }
-    60%     { transform: translateY(0); }
-    67.49%  { transform: translateY(-2800px); }
-    67.5%   { transform: translateY(0); }
-    74.99%  { transform: translateY(-2800px); }
-    75%     { transform: translateY(0); }
-    87%     { transform: translateY(-2500px); }
-    94%     { transform: translateY(-3300px); }
-    100%    { transform: translateY(-3500px); }   /* lands on ❤️ (= jackpot at 03:20) */
+    88%     { transform: translateY(-640px); }    /* ease-out begins */
+    95%     { transform: translateY(-870px); }
+    100%    { transform: translateY(-905px); }     /* lands on ❤️ (cell 9) */
   }
 
-  /* Highlight winning hearts — gentle pulse, not crazy */
-  .stage-inner.jackpot .winner-1, .stage-inner.jackpot .winner-2, .stage-inner.jackpot .winner-3 {
+  /* Highlight winning hearts — gentle pulse */
+  .stage-inner.jackpot .winner-1, .stage-inner.jackpot .winner-2,
+  .stage-inner.jackpot .winner-3, .stage-inner.jackpot .winner-4,
+  .stage-inner.jackpot .winner-5 {
     transform-origin: center;
     transform-box: fill-box;
     animation: heart-pulse 1.0s ease-in-out infinite;
@@ -548,12 +491,17 @@
     background: repeating-linear-gradient(90deg, transparent 0 5px, var(--paper-line) 5px 10px);
     opacity: 0.7;
   }
+  /* Half-heart on each ticket's facing edge — the two tickets together form a
+     whole heart. The heart is centred exactly on the ticket edge; the ticket's
+     overflow:hidden clips the outer half so only one half shows per ticket. */
   .ticket::after {
-    content: ''; position: absolute; top: 24%;
-    width: 14px; height: 14px;
-    background: var(--sky-low);
-    border: 1.5px solid var(--text);
-    border-radius: 50%;
+    content: '';
+    position: absolute;
+    top: calc(24% - 11px);
+    width: 24px; height: 22px;
+    background: radial-gradient(circle at 36% 28%, #ff9cb5 0%, #ff2a5a 55%, #b01030 100%);
+    clip-path: path('M12 21 C 4 14, 0 7.5, 4.5 3.5 C 8 0.5, 12 2.5, 12 6.5 C 12 2.5, 16 0.5, 19.5 3.5 C 24 7.5, 20 14, 12 21 Z');
+    filter: drop-shadow(0 1px 1px rgba(120,10,40,0.55));
   }
   .ticket-filip {
     left: 4%; top: 24%;
@@ -564,7 +512,7 @@
   .stage-inner.jackpot .ticket-filip {
     animation: t-fly-l 1.6s cubic-bezier(.3,1.3,.3,1) 0.4s forwards;
   }
-  .ticket-filip::after { right: -9px; }
+  .ticket-filip::after { right: -12px; }   /* heart centred on right edge → left half shows */
   .ticket-justyna {
     right: 4%; top: 24%;
     transform: translate(0, 220%) rotate(0deg) scale(0.3);
@@ -572,7 +520,7 @@
   .stage-inner.jackpot .ticket-justyna {
     animation: t-fly-r 1.6s cubic-bezier(.3,1.3,.3,1) 0.6s forwards;
   }
-  .ticket-justyna::after { left: -9px; }
+  .ticket-justyna::after { left: -12px; }   /* heart centred on left edge → right half shows */
   @keyframes t-fly-l {
     0%   { opacity: 0; transform: translate(0, 220%) rotate(0deg) scale(0.3); }
     30%  { opacity: 1; }
@@ -1038,32 +986,6 @@
   }
   @keyframes confetti-show { to { opacity: 1; } }
 
-  /* SOUND HINT — small bubble that shows briefly */
-  .sound-hint {
-    position: fixed;
-    bottom: 70px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 30;
-    background: rgba(20,15,10,0.78);
-    color: var(--gold-light);
-    padding: 10px 20px;
-    border-radius: 999px;
-    font-family: var(--font-hand);
-    font-weight: 700;
-    font-size: clamp(0.95rem, 3vw, 1.2rem);
-    pointer-events: none;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
-    border: 1px solid rgba(212,175,55,0.4);
-    animation: sound-hint-show 5s ease-in-out 1.2s forwards;
-  }
-  @keyframes sound-hint-show {
-    0%   { opacity: 0; transform: translateX(-50%) translateY(10px); }
-    10%  { opacity: 1; transform: translateX(-50%) translateY(0); }
-    80%  { opacity: 1; transform: translateX(-50%) translateY(0); }
-    100% { opacity: 0; transform: translateX(-50%) translateY(-6px); pointer-events: none; }
-  }
-  .sound-hint.hide { display: none; }
 
   /* SOUND TOGGLE BUTTON */
   .sound-toggle {
@@ -1430,45 +1352,42 @@
     </g>
   </svg>
 
-  <!-- ───────────  BEACH SPOT (towel + lying bunny wrapper) ─────────── -->
-  <div class="beach-spot" id="beachSpot">
-  <svg class="towel" viewBox="0 0 250 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- ───────────  COCONUT (bottom-right corner decoration) ─────────── -->
+  <svg class="coconut" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
-      <linearGradient id="towelShade" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"  stop-color="rgba(255,255,255,0.3)"/>
-        <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
-      </linearGradient>
+      <radialGradient id="cocoBody" cx="36%" cy="30%" r="78%">
+        <stop offset="0%"   stop-color="#b48050"/>
+        <stop offset="42%"  stop-color="#6e4422"/>
+        <stop offset="100%" stop-color="#241407"/>
+      </radialGradient>
+      <radialGradient id="cocoShine" cx="35%" cy="28%" r="45%">
+        <stop offset="0%"   stop-color="rgba(255,232,196,0.7)"/>
+        <stop offset="100%" stop-color="rgba(255,232,196,0)"/>
+      </radialGradient>
     </defs>
-    <ellipse cx="125" cy="92" rx="118" ry="6" fill="rgba(0,0,0,0.2)"/>
-    <rect x="6" y="12" width="238" height="72" rx="5" fill="#ff7560" stroke="#1a0e08" stroke-width="1.2"/>
-    <rect x="6" y="20" width="238" height="7" fill="#fff3d6"/>
-    <rect x="6" y="32" width="238" height="7" fill="#5ec5e8"/>
-    <rect x="6" y="44" width="238" height="7" fill="#ffd055"/>
-    <rect x="6" y="56" width="238" height="7" fill="#fff3d6"/>
-    <rect x="6" y="68" width="238" height="7" fill="#5ec5e8"/>
-    <g stroke="#1a0e08" stroke-width="0.8">
-      <line x1="6"   y1="12" x2="3"   y2="8"/>
-      <line x1="20"  y1="12" x2="17"  y2="8"/>
-      <line x1="34"  y1="12" x2="31"  y2="8"/>
-      <line x1="48"  y1="12" x2="45"  y2="8"/>
-      <line x1="62"  y1="12" x2="59"  y2="8"/>
-      <line x1="76"  y1="12" x2="73"  y2="8"/>
-      <line x1="90"  y1="12" x2="87"  y2="8"/>
-      <line x1="104" y1="12" x2="101" y2="8"/>
-      <line x1="118" y1="12" x2="115" y2="8"/>
-      <line x1="132" y1="12" x2="129" y2="8"/>
-      <line x1="146" y1="12" x2="143" y2="8"/>
-      <line x1="160" y1="12" x2="157" y2="8"/>
-      <line x1="174" y1="12" x2="171" y2="8"/>
-      <line x1="188" y1="12" x2="185" y2="8"/>
-      <line x1="202" y1="12" x2="199" y2="8"/>
-      <line x1="216" y1="12" x2="213" y2="8"/>
-      <line x1="230" y1="12" x2="227" y2="8"/>
-      <line x1="244" y1="12" x2="241" y2="8"/>
+    <!-- ground shadow -->
+    <ellipse cx="58" cy="113" rx="44" ry="7" fill="rgba(0,0,0,0.32)"/>
+    <!-- main coconut body -->
+    <circle cx="58" cy="58" r="50" fill="url(#cocoBody)" stroke="#160c03" stroke-width="1.5"/>
+    <!-- fibrous husk texture -->
+    <g stroke="#3a2410" stroke-width="1.1" fill="none" opacity="0.5" stroke-linecap="round">
+      <path d="M 18 42 Q 58 32 96 46"/>
+      <path d="M 12 58 Q 58 53 102 61"/>
+      <path d="M 16 76 Q 58 74 99 79"/>
+      <path d="M 28 95 Q 58 97 88 92"/>
+      <path d="M 40 13 Q 35 58 44 102"/>
+      <path d="M 58 9  Q 56 58 60 106"/>
+      <path d="M 76 15 Q 81 58 72 100"/>
     </g>
-    <rect x="6" y="12" width="238" height="7" fill="url(#towelShade)"/>
+    <!-- three germination "eyes" -->
+    <ellipse cx="48" cy="52" rx="5"   ry="6"   fill="#160c03"/>
+    <ellipse cx="65" cy="47" rx="5"   ry="6"   fill="#160c03"/>
+    <ellipse cx="58" cy="64" rx="5.5" ry="6.2" fill="#160c03"/>
+    <ellipse cx="47" cy="50" rx="1.6" ry="1.8" fill="#5a3a1c"/>
+    <ellipse cx="64" cy="45" rx="1.6" ry="1.8" fill="#5a3a1c"/>
+    <!-- top-left sunlit highlight -->
+    <ellipse cx="40" cy="38" rx="21" ry="14" fill="url(#cocoShine)" transform="rotate(-25 40 38)"/>
   </svg>
-  </div><!-- /.beach-spot — bunny gets appended here via JS at page load -->
 
   <!-- ───────────  SLOT MACHINE  ─────────── -->
   <div class="slot" id="slotMachine" role="button" tabindex="0" aria-label="Stuknij maszynę, aby zacząć">
@@ -1558,7 +1477,7 @@
           </feMerge>
         </filter>
         <clipPath id="reelClip">
-          <rect x="0" y="0" width="80" height="100"/>
+          <rect x="0" y="0" width="48" height="100"/>
         </clipPath>
       </defs>
 
@@ -1617,131 +1536,102 @@
       <!-- Pink neon line under the reel housing -->
       <rect x="64" y="246" width="272" height="1.5" fill="#ff2a5a" filter="url(#neonGlow)" opacity="0.9"/>
 
-      <!-- Reel window 1 — chrome bezel + cream symbol panel + glass reflection -->
-      <rect x="74" y="130" width="80" height="100" rx="3" fill="url(#reelPanelG)" stroke="url(#chromeG)" stroke-width="2.5"/>
-      <g clip-path="url(#reelClip)" transform="translate(74, 130)">
+      <!-- Reel window 1 — chrome bezel + cream symbol panel -->
+      <rect x="70" y="130" width="48" height="100" rx="3" fill="url(#reelPanelG)" stroke="url(#chromeG)" stroke-width="2"/>
+      <g clip-path="url(#reelClip)" transform="translate(70, 130)">
         <g class="reel-strip reel-1">
-          <!-- Each symbol is 100px tall, total 28 symbols of 100px = 2800px. End at -2500 to show heart at y=0 (position 25 in strip) -->
-          <text x="40" y="80" text-anchor="middle" font-size="64">💖</text>
-          <text x="40" y="180" text-anchor="middle" font-size="64">💕</text>
-          <text x="40" y="280" text-anchor="middle" font-size="64">⭐</text>
-          <text x="40" y="380" text-anchor="middle" font-size="64">🥂</text>
-          <text x="40" y="480" text-anchor="middle" font-size="64">🎁</text>
-          <text x="40" y="580" text-anchor="middle" font-size="64">✨</text>
-          <text x="40" y="680" text-anchor="middle" font-size="64">💖</text>
-          <text x="40" y="780" text-anchor="middle" font-size="64">💕</text>
-          <text x="40" y="880" text-anchor="middle" font-size="64">⭐</text>
-          <text x="40" y="980" text-anchor="middle" font-size="64">🥂</text>
-          <text x="40" y="1080" text-anchor="middle" font-size="64">🎁</text>
-          <text x="40" y="1180" text-anchor="middle" font-size="64">✨</text>
-          <text x="40" y="1280" text-anchor="middle" font-size="64">💖</text>
-          <text x="40" y="1380" text-anchor="middle" font-size="64">💕</text>
-          <text x="40" y="1480" text-anchor="middle" font-size="64">⭐</text>
-          <text x="40" y="1580" text-anchor="middle" font-size="64">🥂</text>
-          <text x="40" y="1680" text-anchor="middle" font-size="64">🎁</text>
-          <text x="40" y="1780" text-anchor="middle" font-size="64">✨</text>
-          <text x="40" y="1880" text-anchor="middle" font-size="64">💖</text>
-          <text x="40" y="1980" text-anchor="middle" font-size="64">💕</text>
-          <text x="40" y="2080" text-anchor="middle" font-size="64">⭐</text>
-          <text x="40" y="2180" text-anchor="middle" font-size="64">🥂</text>
-          <text x="40" y="2280" text-anchor="middle" font-size="64">🎁</text>
-          <text x="40" y="2380" text-anchor="middle" font-size="64">✨</text>
-          <text x="40" y="2480" text-anchor="middle" font-size="64">💖</text>
-          <!-- Land here on heart -->
-          <text class="winner-1" x="40" y="2580" text-anchor="middle" font-size="72">❤️</text>
-          <text x="40" y="2680" text-anchor="middle" font-size="64">💖</text>
-          <text x="40" y="2780" text-anchor="middle" font-size="64">⭐</text>
+          <text x="24" y="70"  text-anchor="middle" font-size="34">💖</text>
+          <text x="24" y="170" text-anchor="middle" font-size="34">⭐</text>
+          <text x="24" y="270" text-anchor="middle" font-size="34">🎁</text>
+          <text x="24" y="370" text-anchor="middle" font-size="34">🍀</text>
+          <text x="24" y="470" text-anchor="middle" font-size="34">💎</text>
+          <text x="24" y="570" text-anchor="middle" font-size="34">🥂</text>
+          <text x="24" y="670" text-anchor="middle" font-size="34">✨</text>
+          <text x="24" y="770" text-anchor="middle" font-size="34">💝</text>
+          <text x="24" y="870" text-anchor="middle" font-size="34">⭐</text>
+          <text class="winner-1" x="24" y="972" text-anchor="middle" font-size="42">❤️</text>
+          <text x="24" y="1070" text-anchor="middle" font-size="34">💖</text>
         </g>
       </g>
 
-      <!-- Reel window 2 — chrome bezel -->
-      <rect x="160" y="130" width="80" height="100" rx="3" fill="url(#reelPanelG)" stroke="url(#chromeG)" stroke-width="2.5"/>
-      <g clip-path="url(#reelClip)" transform="translate(160, 130)">
+      <!-- Reel window 2 -->
+      <rect x="123" y="130" width="48" height="100" rx="3" fill="url(#reelPanelG)" stroke="url(#chromeG)" stroke-width="2"/>
+      <g clip-path="url(#reelClip)" transform="translate(123, 130)">
         <g class="reel-strip reel-2">
-          <text x="40" y="80" text-anchor="middle" font-size="64">💕</text>
-          <text x="40" y="180" text-anchor="middle" font-size="64">💖</text>
-          <text x="40" y="280" text-anchor="middle" font-size="64">🥂</text>
-          <text x="40" y="380" text-anchor="middle" font-size="64">⭐</text>
-          <text x="40" y="480" text-anchor="middle" font-size="64">✨</text>
-          <text x="40" y="580" text-anchor="middle" font-size="64">🎁</text>
-          <text x="40" y="680" text-anchor="middle" font-size="64">💕</text>
-          <text x="40" y="780" text-anchor="middle" font-size="64">💖</text>
-          <text x="40" y="880" text-anchor="middle" font-size="64">🥂</text>
-          <text x="40" y="980" text-anchor="middle" font-size="64">⭐</text>
-          <text x="40" y="1080" text-anchor="middle" font-size="64">✨</text>
-          <text x="40" y="1180" text-anchor="middle" font-size="64">🎁</text>
-          <text x="40" y="1280" text-anchor="middle" font-size="64">💕</text>
-          <text x="40" y="1380" text-anchor="middle" font-size="64">💖</text>
-          <text x="40" y="1480" text-anchor="middle" font-size="64">🥂</text>
-          <text x="40" y="1580" text-anchor="middle" font-size="64">⭐</text>
-          <text x="40" y="1680" text-anchor="middle" font-size="64">✨</text>
-          <text x="40" y="1780" text-anchor="middle" font-size="64">🎁</text>
-          <text x="40" y="1880" text-anchor="middle" font-size="64">💕</text>
-          <text x="40" y="1980" text-anchor="middle" font-size="64">💖</text>
-          <text x="40" y="2080" text-anchor="middle" font-size="64">🥂</text>
-          <text x="40" y="2180" text-anchor="middle" font-size="64">⭐</text>
-          <text x="40" y="2280" text-anchor="middle" font-size="64">✨</text>
-          <text x="40" y="2380" text-anchor="middle" font-size="64">🎁</text>
-          <text x="40" y="2480" text-anchor="middle" font-size="64">💕</text>
-          <text x="40" y="2580" text-anchor="middle" font-size="64">💖</text>
-          <text x="40" y="2680" text-anchor="middle" font-size="64">🥂</text>
-          <text x="40" y="2780" text-anchor="middle" font-size="64">⭐</text>
-          <text x="40" y="2880" text-anchor="middle" font-size="64">✨</text>
-          <text x="40" y="2980" text-anchor="middle" font-size="64">🎁</text>
-          <!-- Land on heart at y=3080, but reel-2 stops at -3000 = shows item at y=3000 (heart should be there) -->
-          <text class="winner-2" x="40" y="3080" text-anchor="middle" font-size="72">❤️</text>
-          <text x="40" y="3180" text-anchor="middle" font-size="64">💖</text>
+          <text x="24" y="70"  text-anchor="middle" font-size="34">⭐</text>
+          <text x="24" y="170" text-anchor="middle" font-size="34">🎁</text>
+          <text x="24" y="270" text-anchor="middle" font-size="34">🍀</text>
+          <text x="24" y="370" text-anchor="middle" font-size="34">💖</text>
+          <text x="24" y="470" text-anchor="middle" font-size="34">✨</text>
+          <text x="24" y="570" text-anchor="middle" font-size="34">💎</text>
+          <text x="24" y="670" text-anchor="middle" font-size="34">🥂</text>
+          <text x="24" y="770" text-anchor="middle" font-size="34">💝</text>
+          <text x="24" y="870" text-anchor="middle" font-size="34">🎁</text>
+          <text class="winner-2" x="24" y="972" text-anchor="middle" font-size="42">❤️</text>
+          <text x="24" y="1070" text-anchor="middle" font-size="34">⭐</text>
         </g>
       </g>
 
-      <!-- Reel window 3 — chrome bezel -->
-      <rect x="246" y="130" width="80" height="100" rx="3" fill="url(#reelPanelG)" stroke="url(#chromeG)" stroke-width="2.5"/>
-      <g clip-path="url(#reelClip)" transform="translate(246, 130)">
+      <!-- Reel window 3 -->
+      <rect x="176" y="130" width="48" height="100" rx="3" fill="url(#reelPanelG)" stroke="url(#chromeG)" stroke-width="2"/>
+      <g clip-path="url(#reelClip)" transform="translate(176, 130)">
         <g class="reel-strip reel-3">
-          <text x="40" y="80" text-anchor="middle" font-size="64">⭐</text>
-          <text x="40" y="180" text-anchor="middle" font-size="64">💕</text>
-          <text x="40" y="280" text-anchor="middle" font-size="64">✨</text>
-          <text x="40" y="380" text-anchor="middle" font-size="64">💖</text>
-          <text x="40" y="480" text-anchor="middle" font-size="64">🥂</text>
-          <text x="40" y="580" text-anchor="middle" font-size="64">🎁</text>
-          <text x="40" y="680" text-anchor="middle" font-size="64">⭐</text>
-          <text x="40" y="780" text-anchor="middle" font-size="64">💕</text>
-          <text x="40" y="880" text-anchor="middle" font-size="64">✨</text>
-          <text x="40" y="980" text-anchor="middle" font-size="64">💖</text>
-          <text x="40" y="1080" text-anchor="middle" font-size="64">🥂</text>
-          <text x="40" y="1180" text-anchor="middle" font-size="64">🎁</text>
-          <text x="40" y="1280" text-anchor="middle" font-size="64">⭐</text>
-          <text x="40" y="1380" text-anchor="middle" font-size="64">💕</text>
-          <text x="40" y="1480" text-anchor="middle" font-size="64">✨</text>
-          <text x="40" y="1580" text-anchor="middle" font-size="64">💖</text>
-          <text x="40" y="1680" text-anchor="middle" font-size="64">🥂</text>
-          <text x="40" y="1780" text-anchor="middle" font-size="64">🎁</text>
-          <text x="40" y="1880" text-anchor="middle" font-size="64">⭐</text>
-          <text x="40" y="1980" text-anchor="middle" font-size="64">💕</text>
-          <text x="40" y="2080" text-anchor="middle" font-size="64">✨</text>
-          <text x="40" y="2180" text-anchor="middle" font-size="64">💖</text>
-          <text x="40" y="2280" text-anchor="middle" font-size="64">🥂</text>
-          <text x="40" y="2380" text-anchor="middle" font-size="64">🎁</text>
-          <text x="40" y="2480" text-anchor="middle" font-size="64">⭐</text>
-          <text x="40" y="2580" text-anchor="middle" font-size="64">💕</text>
-          <text x="40" y="2680" text-anchor="middle" font-size="64">✨</text>
-          <text x="40" y="2780" text-anchor="middle" font-size="64">💖</text>
-          <text x="40" y="2880" text-anchor="middle" font-size="64">🥂</text>
-          <text x="40" y="2980" text-anchor="middle" font-size="64">🎁</text>
-          <text x="40" y="3080" text-anchor="middle" font-size="64">⭐</text>
-          <text x="40" y="3180" text-anchor="middle" font-size="64">💕</text>
-          <text x="40" y="3280" text-anchor="middle" font-size="64">✨</text>
-          <text x="40" y="3380" text-anchor="middle" font-size="64">💖</text>
-          <text x="40" y="3480" text-anchor="middle" font-size="64">🥂</text>
-          <text class="winner-3" x="40" y="3580" text-anchor="middle" font-size="72">❤️</text>
-          <text x="40" y="3680" text-anchor="middle" font-size="64">🎁</text>
+          <text x="24" y="70"  text-anchor="middle" font-size="34">🎁</text>
+          <text x="24" y="170" text-anchor="middle" font-size="34">💖</text>
+          <text x="24" y="270" text-anchor="middle" font-size="34">⭐</text>
+          <text x="24" y="370" text-anchor="middle" font-size="34">💎</text>
+          <text x="24" y="470" text-anchor="middle" font-size="34">🍀</text>
+          <text x="24" y="570" text-anchor="middle" font-size="34">✨</text>
+          <text x="24" y="670" text-anchor="middle" font-size="34">💝</text>
+          <text x="24" y="770" text-anchor="middle" font-size="34">🥂</text>
+          <text x="24" y="870" text-anchor="middle" font-size="34">💖</text>
+          <text class="winner-3" x="24" y="972" text-anchor="middle" font-size="42">❤️</text>
+          <text x="24" y="1070" text-anchor="middle" font-size="34">🎁</text>
         </g>
       </g>
 
-      <!-- ── GLASS REFLECTION over the reel windows ── (top-half gloss) -->
-      <rect x="74"  y="130" width="80" height="50" rx="3" fill="url(#glassReflect)" opacity="0.45" pointer-events="none"/>
-      <rect x="160" y="130" width="80" height="50" rx="3" fill="url(#glassReflect)" opacity="0.45" pointer-events="none"/>
-      <rect x="246" y="130" width="80" height="50" rx="3" fill="url(#glassReflect)" opacity="0.45" pointer-events="none"/>
+      <!-- Reel window 4 -->
+      <rect x="229" y="130" width="48" height="100" rx="3" fill="url(#reelPanelG)" stroke="url(#chromeG)" stroke-width="2"/>
+      <g clip-path="url(#reelClip)" transform="translate(229, 130)">
+        <g class="reel-strip reel-4">
+          <text x="24" y="70"  text-anchor="middle" font-size="34">🍀</text>
+          <text x="24" y="170" text-anchor="middle" font-size="34">⭐</text>
+          <text x="24" y="270" text-anchor="middle" font-size="34">💖</text>
+          <text x="24" y="370" text-anchor="middle" font-size="34">🎁</text>
+          <text x="24" y="470" text-anchor="middle" font-size="34">💎</text>
+          <text x="24" y="570" text-anchor="middle" font-size="34">🥂</text>
+          <text x="24" y="670" text-anchor="middle" font-size="34">✨</text>
+          <text x="24" y="770" text-anchor="middle" font-size="34">💝</text>
+          <text x="24" y="870" text-anchor="middle" font-size="34">⭐</text>
+          <text class="winner-4" x="24" y="972" text-anchor="middle" font-size="42">❤️</text>
+          <text x="24" y="1070" text-anchor="middle" font-size="34">🍀</text>
+        </g>
+      </g>
+
+      <!-- Reel window 5 -->
+      <rect x="282" y="130" width="48" height="100" rx="3" fill="url(#reelPanelG)" stroke="url(#chromeG)" stroke-width="2"/>
+      <g clip-path="url(#reelClip)" transform="translate(282, 130)">
+        <g class="reel-strip reel-5">
+          <text x="24" y="70"  text-anchor="middle" font-size="34">💎</text>
+          <text x="24" y="170" text-anchor="middle" font-size="34">🎁</text>
+          <text x="24" y="270" text-anchor="middle" font-size="34">⭐</text>
+          <text x="24" y="370" text-anchor="middle" font-size="34">💖</text>
+          <text x="24" y="470" text-anchor="middle" font-size="34">🍀</text>
+          <text x="24" y="570" text-anchor="middle" font-size="34">✨</text>
+          <text x="24" y="670" text-anchor="middle" font-size="34">🥂</text>
+          <text x="24" y="770" text-anchor="middle" font-size="34">💝</text>
+          <text x="24" y="870" text-anchor="middle" font-size="34">🎁</text>
+          <text class="winner-5" x="24" y="972" text-anchor="middle" font-size="42">❤️</text>
+          <text x="24" y="1070" text-anchor="middle" font-size="34">💎</text>
+        </g>
+      </g>
+
+      <!-- ── GLASS REFLECTION over the 5 reel windows (top-half gloss) ── -->
+      <rect x="70"  y="130" width="48" height="46" rx="3" fill="url(#glassReflect)" opacity="0.4" pointer-events="none"/>
+      <rect x="123" y="130" width="48" height="46" rx="3" fill="url(#glassReflect)" opacity="0.4" pointer-events="none"/>
+      <rect x="176" y="130" width="48" height="46" rx="3" fill="url(#glassReflect)" opacity="0.4" pointer-events="none"/>
+      <rect x="229" y="130" width="48" height="46" rx="3" fill="url(#glassReflect)" opacity="0.4" pointer-events="none"/>
+      <rect x="282" y="130" width="48" height="46" rx="3" fill="url(#glassReflect)" opacity="0.4" pointer-events="none"/>
 
       <!-- ── LED DISPLAY ── narrow ribbon -->
       <rect x="106" y="260" width="188" height="24" rx="3" fill="url(#ledBgG)" stroke="#000" stroke-width="1.5"/>
@@ -1909,9 +1799,6 @@
   <div class="confetti-layer" id="confetti"></div>
  </div>
 </div>
-
-<!-- SOUND HINT (briefly visible at start) -->
-<div class="sound-hint" id="soundHint">🔊 stuknij gdziekolwiek dla dźwięku</div>
 
 <!-- SOUND TOGGLE -->
 <button class="sound-toggle muted" id="soundToggle" style="display:none" aria-label="Toggle sound">🔊</button>
