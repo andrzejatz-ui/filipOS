@@ -366,24 +366,93 @@
   .reel-strip {
     transform: translateY(0);
   }
-  .reel-1 { animation: reel-spin-1 12.0s cubic-bezier(.22,.5,.32,1) 19.0s forwards; }  /* stops at 31s */
-  .reel-2 { animation: reel-spin-2 16.5s cubic-bezier(.22,.5,.32,1) 19.0s forwards; }  /* stops at 35.5s */
-  .reel-3 { animation: reel-spin-3 21.0s cubic-bezier(.22,.5,.32,1) 19.0s forwards; }  /* stops at 40s = song 03:20 */
-  /* Reel strip is 600px tall (6 symbols × 100px). End on HEART at position -100 from top */
+  /* NEW flow: reels start spinning IMMEDIATELY on tap (animations are paused
+     until body.started lands, then they unfreeze from time 0 = no delays).
+     Each reel does 10 fast strip-length cycles, then decelerates into the
+     winning ❤️ position. Reel 3 lands at +40s = song time 03:20 jackpot. */
+  .reel-1 { animation: reel-spin-1 34s linear forwards; }  /* stops at +34s */
+  .reel-2 { animation: reel-spin-2 37s linear forwards; }  /* stops at +37s */
+  .reel-3 { animation: reel-spin-3 40s linear forwards; }  /* stops at +40s = 03:20 */
+
+  /* Each cycle of fast-spin covers the full 2800px strip in 7.5% of total
+     duration → 2800/(40*0.075) ≈ 933 px/s on reel 3, fast casino spin. */
   @keyframes reel-spin-1 {
-    0%   { transform: translateY(0); }
-    85%  { transform: translateY(-2400px); }
-    100% { transform: translateY(-2500px); } /* lands on heart */
+    0%      { transform: translateY(0); }
+    7.49%   { transform: translateY(-2800px); }
+    7.5%    { transform: translateY(0); }
+    14.99%  { transform: translateY(-2800px); }
+    15%     { transform: translateY(0); }
+    22.49%  { transform: translateY(-2800px); }
+    22.5%   { transform: translateY(0); }
+    29.99%  { transform: translateY(-2800px); }
+    30%     { transform: translateY(0); }
+    37.49%  { transform: translateY(-2800px); }
+    37.5%   { transform: translateY(0); }
+    44.99%  { transform: translateY(-2800px); }
+    45%     { transform: translateY(0); }
+    52.49%  { transform: translateY(-2800px); }
+    52.5%   { transform: translateY(0); }
+    59.99%  { transform: translateY(-2800px); }
+    60%     { transform: translateY(0); }
+    67.49%  { transform: translateY(-2800px); }
+    67.5%   { transform: translateY(0); }
+    74.99%  { transform: translateY(-2800px); }
+    75%     { transform: translateY(0); }
+    87%     { transform: translateY(-1800px); }   /* ease-out start */
+    94%     { transform: translateY(-2350px); }
+    100%    { transform: translateY(-2500px); }   /* lands on ❤️ */
   }
   @keyframes reel-spin-2 {
-    0%   { transform: translateY(0); }
-    85%  { transform: translateY(-2900px); }
-    100% { transform: translateY(-3000px); } /* lands on heart */
+    0%      { transform: translateY(0); }
+    7.49%   { transform: translateY(-2800px); }
+    7.5%    { transform: translateY(0); }
+    14.99%  { transform: translateY(-2800px); }
+    15%     { transform: translateY(0); }
+    22.49%  { transform: translateY(-2800px); }
+    22.5%   { transform: translateY(0); }
+    29.99%  { transform: translateY(-2800px); }
+    30%     { transform: translateY(0); }
+    37.49%  { transform: translateY(-2800px); }
+    37.5%   { transform: translateY(0); }
+    44.99%  { transform: translateY(-2800px); }
+    45%     { transform: translateY(0); }
+    52.49%  { transform: translateY(-2800px); }
+    52.5%   { transform: translateY(0); }
+    59.99%  { transform: translateY(-2800px); }
+    60%     { transform: translateY(0); }
+    67.49%  { transform: translateY(-2800px); }
+    67.5%   { transform: translateY(0); }
+    74.99%  { transform: translateY(-2800px); }
+    75%     { transform: translateY(0); }
+    87%     { transform: translateY(-2150px); }
+    94%     { transform: translateY(-2820px); }
+    100%    { transform: translateY(-3000px); }   /* lands on ❤️ */
   }
   @keyframes reel-spin-3 {
-    0%   { transform: translateY(0); }
-    85%  { transform: translateY(-3400px); }
-    100% { transform: translateY(-3500px); } /* lands on heart */
+    0%      { transform: translateY(0); }
+    7.49%   { transform: translateY(-2800px); }
+    7.5%    { transform: translateY(0); }
+    14.99%  { transform: translateY(-2800px); }
+    15%     { transform: translateY(0); }
+    22.49%  { transform: translateY(-2800px); }
+    22.5%   { transform: translateY(0); }
+    29.99%  { transform: translateY(-2800px); }
+    30%     { transform: translateY(0); }
+    37.49%  { transform: translateY(-2800px); }
+    37.5%   { transform: translateY(0); }
+    44.99%  { transform: translateY(-2800px); }
+    45%     { transform: translateY(0); }
+    52.49%  { transform: translateY(-2800px); }
+    52.5%   { transform: translateY(0); }
+    59.99%  { transform: translateY(-2800px); }
+    60%     { transform: translateY(0); }
+    67.49%  { transform: translateY(-2800px); }
+    67.5%   { transform: translateY(0); }
+    74.99%  { transform: translateY(-2800px); }
+    75%     { transform: translateY(0); }
+    87%     { transform: translateY(-2500px); }
+    94%     { transform: translateY(-3300px); }
+    100%    { transform: translateY(-3500px); }   /* lands on ❤️ (= jackpot at 03:20) */
   }
 
   /* Highlight winning hearts — gentle pulse, not crazy */
@@ -1131,17 +1200,17 @@
   }
   .footer .sep { color: var(--gold); opacity: 0.55; }
 
-  /* Mobile — slot machine FILLS the screen as the central attention object */
+  /* Mobile — slot machine takes the whole viewport on phone */
   @media (max-width: 480px) {
     .slot {
-      width: 92vw;
-      max-width: 460px;
+      width: min(98vw, 78vh);   /* dominates the screen, never spills off */
+      max-width: none;
       left: 50%;
       top: 50%;
       bottom: auto;
       transform: translate(-50%, -50%);
     }
-    body:not(.started) .slot:hover  { transform: translate(-50%, -50%) scale(1.025); }
+    body:not(.started) .slot:hover  { transform: translate(-50%, -50%) scale(1.02); }
     body:not(.started) .slot:active { transform: translate(-50%, -50%) scale(0.97); }
     .poster { top: 2.5%; }
     .tickets-out { width: 86vw; top: 64%; }
@@ -1406,73 +1475,74 @@
     <div class="slot-hint" id="slotHint">stuknij, aby zacząć</div>
     <svg viewBox="0 0 400 480" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
       <defs>
-        <!-- Body: glossy cream → soft coral → warm sand (kept warm to match sunset) -->
+        <!-- Body: dark metallic violet → near-black (gunmetal cabinet) -->
         <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stop-color="#fff5e8"/>
-          <stop offset="40%"  stop-color="#fce0c0"/>
-          <stop offset="100%" stop-color="#d8a070"/>
+          <stop offset="0%"   stop-color="#2b1838"/>
+          <stop offset="48%"  stop-color="#170820"/>
+          <stop offset="100%" stop-color="#06020a"/>
         </linearGradient>
-        <!-- Chrome: polished silver -->
+        <!-- Body sheen — subtle metallic highlight across the cabinet -->
+        <linearGradient id="bodySheen" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stop-color="rgba(255,255,255,0)"/>
+          <stop offset="30%"  stop-color="rgba(255,200,220,0.06)"/>
+          <stop offset="50%"  stop-color="rgba(255,200,220,0.14)"/>
+          <stop offset="70%"  stop-color="rgba(255,200,220,0.06)"/>
+          <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+        </linearGradient>
+        <!-- Brushed chrome — cooler / more industrial than before -->
         <linearGradient id="chromeG" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stop-color="#fafcff"/>
-          <stop offset="22%"  stop-color="#dbe2ec"/>
-          <stop offset="55%"  stop-color="#a8b0bc"/>
-          <stop offset="80%"  stop-color="#dbe2ec"/>
-          <stop offset="100%" stop-color="#7e8590"/>
+          <stop offset="0%"   stop-color="#eef2f7"/>
+          <stop offset="22%"  stop-color="#bfc6d0"/>
+          <stop offset="50%"  stop-color="#6f7681"/>
+          <stop offset="78%"  stop-color="#bfc6d0"/>
+          <stop offset="100%" stop-color="#3e444e"/>
         </linearGradient>
-        <!-- Hot pink neon for accents -->
+        <!-- Magenta neon — sharper, less candy -->
         <linearGradient id="neonPink" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stop-color="#ffc0d0"/>
-          <stop offset="50%"  stop-color="#ff5a7a"/>
-          <stop offset="100%" stop-color="#9a1228"/>
+          <stop offset="0%"   stop-color="#ff7a96"/>
+          <stop offset="50%"  stop-color="#ff2a5a"/>
+          <stop offset="100%" stop-color="#6a0820"/>
         </linearGradient>
-        <!-- Warm gold for accents -->
+        <!-- Gold — refined, less yellow -->
         <linearGradient id="goldG" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stop-color="#fff0a8"/>
-          <stop offset="40%"  stop-color="#f5d97a"/>
-          <stop offset="80%"  stop-color="#d4af37"/>
-          <stop offset="100%" stop-color="#7a5a18"/>
+          <stop offset="0%"   stop-color="#ffeaa0"/>
+          <stop offset="50%"  stop-color="#d4af37"/>
+          <stop offset="100%" stop-color="#6a4f12"/>
         </linearGradient>
-        <!-- LED screen background: deep purple → near-black -->
+        <!-- LED screen — pure deep black -->
         <linearGradient id="ledBgG" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stop-color="#1d0a30"/>
-          <stop offset="100%" stop-color="#06030e"/>
+          <stop offset="0%"   stop-color="#0a0414"/>
+          <stop offset="100%" stop-color="#000000"/>
         </linearGradient>
-        <!-- Reel glass: deep gradient under the chrome bezel -->
+        <!-- Reel glass interior — even darker -->
         <linearGradient id="reelGlassG" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stop-color="#3a1838"/>
-          <stop offset="100%" stop-color="#160620"/>
+          <stop offset="0%"   stop-color="#0e0418"/>
+          <stop offset="100%" stop-color="#000000"/>
         </linearGradient>
-        <!-- 3D pink dome button -->
-        <radialGradient id="pinkBtnG" cx="38%" cy="28%" r="78%">
+        <!-- SPIN button — deep crimson 3D dome -->
+        <radialGradient id="pinkBtnG" cx="35%" cy="25%" r="80%">
+          <stop offset="0%"   stop-color="#ff8aa0"/>
+          <stop offset="35%"  stop-color="#dc1a3a"/>
+          <stop offset="100%" stop-color="#3a040e"/>
+        </radialGradient>
+        <!-- Lever crystal ball -->
+        <radialGradient id="leverBall" cx="35%" cy="25%" r="80%">
           <stop offset="0%"   stop-color="#ffd0d9"/>
-          <stop offset="42%"  stop-color="#ff5a7a"/>
-          <stop offset="100%" stop-color="#7a0e22"/>
+          <stop offset="45%"  stop-color="#ff4a72"/>
+          <stop offset="100%" stop-color="#3a081c"/>
         </radialGradient>
-        <!-- Glowing pink lever ball -->
-        <radialGradient id="leverBall" cx="36%" cy="28%" r="78%">
-          <stop offset="0%"   stop-color="#fff0f4"/>
-          <stop offset="45%"  stop-color="#ff6a90"/>
-          <stop offset="100%" stop-color="#7a1438"/>
-        </radialGradient>
-        <!-- Pink + gold bulbs -->
-        <radialGradient id="bulbPink" cx="40%" cy="32%" r="68%">
-          <stop offset="0%"   stop-color="#fff0f4"/>
-          <stop offset="50%"  stop-color="#ff7a96"/>
-          <stop offset="100%" stop-color="#a01838"/>
-        </radialGradient>
-        <radialGradient id="bulbGold" cx="40%" cy="32%" r="68%">
-          <stop offset="0%"   stop-color="#fff8d6"/>
-          <stop offset="50%"  stop-color="#ffe14a"/>
-          <stop offset="100%" stop-color="#a07820"/>
-        </radialGradient>
-        <!-- Coin tray: deep chrome -->
-        <linearGradient id="trayG" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stop-color="#d8dfe8"/>
-          <stop offset="50%"  stop-color="#7d8492"/>
-          <stop offset="100%" stop-color="#2a2f3a"/>
+        <!-- Warm cream symbol panel inside each reel window -->
+        <linearGradient id="reelPanelG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#fff8e8"/>
+          <stop offset="100%" stop-color="#e8d8b8"/>
         </linearGradient>
-        <!-- Neon glow filter for accents (small halo) -->
+        <!-- Glass reflection — top half of windows -->
+        <linearGradient id="glassReflect" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="rgba(255,255,255,0.5)"/>
+          <stop offset="60%"  stop-color="rgba(255,255,255,0)"/>
+          <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+        </linearGradient>
+        <!-- Filters -->
         <filter id="neonGlow" x="-60%" y="-60%" width="220%" height="220%">
           <feGaussianBlur stdDeviation="2.4" result="blur"/>
           <feMerge>
@@ -1480,9 +1550,8 @@
             <feMergeNode in="SourceGraphic"/>
           </feMerge>
         </filter>
-        <!-- Soft glow filter (stronger halo for the JACKPOT sign + display text) -->
         <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="4.2" result="blur"/>
+          <feGaussianBlur stdDeviation="5" result="blur"/>
           <feMerge>
             <feMergeNode in="blur"/>
             <feMergeNode in="SourceGraphic"/>
@@ -1493,100 +1562,63 @@
         </clipPath>
       </defs>
 
-      <!-- Soft drop shadow on the sand -->
-      <ellipse cx="200" cy="465" rx="170" ry="11" fill="rgba(0,0,0,0.42)" filter="url(#neonGlow)"/>
+      <!-- Deep drop shadow on the sand -->
+      <ellipse cx="200" cy="475" rx="180" ry="12" fill="rgba(0,0,0,0.55)" filter="url(#neonGlow)"/>
 
-      <!-- ── COIN TRAY — chrome slot with pink LED edge ── -->
-      <path d="M 60 388 L 340 388 Q 360 388 360 408 L 360 432 Q 360 446 340 446 L 60 446 Q 40 446 40 432 L 40 408 Q 40 388 60 388 Z"
-            fill="url(#trayG)" stroke="#1a1c24" stroke-width="2"/>
-      <!-- Chrome highlight strip on the tray -->
-      <path d="M 60 390 Q 200 384 340 390 L 340 396 Q 200 392 60 396 Z" fill="rgba(255,255,255,0.85)"/>
-      <!-- Coin slot opening (deep black with subtle inner pink glow) -->
-      <rect x="118" y="406" width="164" height="14" rx="5" fill="#08040e"/>
-      <rect x="122" y="409" width="156" height="6" rx="2" fill="rgba(255,90,122,0.45)"/>
-      <!-- Pink LED edge along the bottom of the tray -->
-      <rect x="58" y="448" width="284" height="2" rx="1" fill="#ff5a7a" filter="url(#neonGlow)" opacity="0.85"/>
+      <!-- ── HEAVY CHROME PLINTH at the base ── (real industrial weight) -->
+      <rect x="36" y="386" width="328" height="78" rx="4" fill="url(#chromeG)" stroke="#1c2028" stroke-width="2"/>
+      <rect x="36" y="386" width="328" height="6"  rx="2" fill="rgba(255,255,255,0.7)"/>
+      <rect x="36" y="458" width="328" height="6"  rx="2" fill="rgba(0,0,0,0.45)"/>
+      <!-- Coin slot — deep recessed -->
+      <rect x="130" y="412" width="140" height="14" rx="2" fill="#08040e"/>
+      <rect x="133" y="415" width="134" height="3"  rx="1" fill="rgba(255,90,122,0.4)"/>
+      <!-- Pink LED edge just under the body -->
+      <rect x="48" y="396" width="304" height="1.5" fill="#ff2a5a" filter="url(#neonGlow)" opacity="0.95"/>
 
-      <!-- ── MAIN BODY — glossy rounded panel with chrome border ── -->
-      <rect x="50" y="100" width="300" height="296" rx="22" fill="url(#bodyG)" stroke="url(#chromeG)" stroke-width="4"/>
-      <!-- Inner chrome edge highlight -->
-      <rect x="54" y="104" width="292" height="288" rx="19" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1.5"/>
-      <!-- Glossy diagonal top sheen -->
-      <path d="M 60 110 Q 200 102 340 110 L 340 132 Q 200 124 60 132 Z" fill="rgba(255,255,255,0.55)"/>
-      <!-- Subtle inner bottom shadow -->
-      <ellipse cx="200" cy="394" rx="146" ry="10" fill="rgba(120,40,40,0.18)"/>
+      <!-- ── MAIN BODY ── dark metallic cabinet with brushed-chrome edge -->
+      <rect x="48" y="100" width="304" height="296" rx="10" fill="url(#bodyG)" stroke="url(#chromeG)" stroke-width="3"/>
+      <!-- Subtle inner chrome edge -->
+      <rect x="52" y="104" width="296" height="288" rx="8" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="1.2"/>
+      <!-- Metallic sheen across the cabinet -->
+      <rect x="56" y="108" width="288" height="280" rx="6" fill="url(#bodySheen)" pointer-events="none"/>
+      <!-- Magenta neon edge strips (sharp + thin) -->
+      <rect x="55" y="130" width="2"   height="250" rx="1" fill="#ff2a5a" filter="url(#neonGlow)" opacity="0.95"/>
+      <rect x="343" y="130" width="2"  height="250" rx="1" fill="#ff2a5a" filter="url(#neonGlow)" opacity="0.95"/>
 
-      <!-- Pink neon stripes along both side edges of the body -->
-      <rect class="slot-neon-stripe" x="56" y="125" width="3" height="262" rx="1.5"
-            fill="url(#neonPink)" filter="url(#neonGlow)" opacity="0.95"/>
-      <rect class="slot-neon-stripe" x="341" y="125" width="3" height="262" rx="1.5"
-            fill="url(#neonPink)" filter="url(#neonGlow)" opacity="0.95"/>
-      <!-- Gold inner border -->
-      <rect x="105" y="248" width="190" height="138" rx="14" fill="none" stroke="url(#goldG)" stroke-width="2" opacity="0.7"/>
-
-      <!-- ── TOP CROWN — LED-style JACKPOT sign with chrome frame ── -->
-      <!-- Chrome outer frame -->
-      <rect x="28" y="14" width="344" height="86" rx="20" fill="url(#chromeG)" stroke="#3a3a48" stroke-width="2.5"/>
-      <!-- LED screen background -->
-      <rect x="42" y="28" width="316" height="58" rx="11" fill="url(#ledBgG)" stroke="#080414" stroke-width="2"/>
-      <!-- Inner neon pink border on the LED screen -->
-      <rect x="46" y="32" width="308" height="50" rx="8" fill="none" stroke="rgba(255,90,122,0.55)" stroke-width="0.9"/>
-      <!-- JACKPOT text — bright neon pink with strong soft glow -->
+      <!-- ── TOP CROWN ── single sleek LED panel with JACKPOT sign in chrome frame -->
+      <rect x="28" y="18" width="344" height="78" rx="6" fill="url(#chromeG)" stroke="#1c2028" stroke-width="2.5"/>
+      <!-- LED display screen — deep black -->
+      <rect x="44" y="32" width="312" height="50" rx="3" fill="url(#ledBgG)" stroke="#000" stroke-width="2"/>
+      <!-- Faint pixel grid hint -->
+      <rect x="46" y="34" width="308" height="46" rx="2" fill="none" stroke="rgba(255,42,90,0.35)" stroke-width="0.5"/>
+      <!-- JACKPOT — sharp modern LED-pink with soft glow halo -->
       <text x="200" y="62" text-anchor="middle"
-            font-family="Syne, sans-serif" font-weight="800" font-size="32"
-            fill="#ffd0db" letter-spacing="6"
-            filter="url(#softGlow)"
-            style="paint-order: stroke; stroke: #ff2a5a; stroke-width: 1.4;">JACKPOT</text>
-      <!-- Subtitle in soft gold -->
-      <text x="200" y="80" text-anchor="middle"
-            font-family="DM Mono, monospace" font-size="10" font-weight="500"
-            fill="#ffd86a" opacity="0.95" letter-spacing="3"
-            filter="url(#neonGlow)">LUCKY HEARTS · EST. 2026</text>
-      <!-- Tiny LED dots on the LED frame edges -->
-      <g fill="#ff5a7a" filter="url(#neonGlow)">
-        <circle cx="52"  cy="38" r="1.3"/>
-        <circle cx="52"  cy="56" r="1.3"/>
-        <circle cx="52"  cy="74" r="1.3"/>
-        <circle cx="348" cy="38" r="1.3"/>
-        <circle cx="348" cy="56" r="1.3"/>
-        <circle cx="348" cy="74" r="1.3"/>
+            font-family="Syne, sans-serif" font-weight="800" font-size="30"
+            fill="#ff7a96" letter-spacing="8"
+            filter="url(#softGlow)">JACKPOT</text>
+      <!-- Refined gold subtitle (no overdone glow) -->
+      <text x="200" y="78" text-anchor="middle"
+            font-family="DM Mono, monospace" font-size="9" font-weight="500"
+            fill="#d4af37" opacity="0.92" letter-spacing="3.2">★ LUCKY HEARTS ★ EST 2026</text>
+
+      <!-- Minimal LED accent dots — only 6 total, sleek (replaces the 20 candy bulbs) -->
+      <g fill="#ff2a5a" filter="url(#neonGlow)">
+        <circle class="slot-light" cx="38"  cy="22" r="2.4"/>
+        <circle class="slot-light" cx="38"  cy="56" r="2.4" style="animation-delay:0.2s"/>
+        <circle class="slot-light" cx="38"  cy="92" r="2.4" style="animation-delay:0.4s"/>
+        <circle class="slot-light" cx="362" cy="22" r="2.4"/>
+        <circle class="slot-light" cx="362" cy="56" r="2.4" style="animation-delay:0.2s"/>
+        <circle class="slot-light" cx="362" cy="92" r="2.4" style="animation-delay:0.4s"/>
       </g>
 
-      <!-- ── BULB ARC ── alternating pink + gold neon bulbs with glow -->
-      <g>
-        <circle class="slot-light" cx="44"  cy="14" r="5.5" fill="url(#bulbPink)" filter="url(#neonGlow)"/>
-        <circle class="slot-light" cx="84"  cy="6"  r="5.5" fill="url(#bulbGold)" filter="url(#neonGlow)" style="animation-delay:0.1s"/>
-        <circle class="slot-light" cx="128" cy="0"  r="5.5" fill="url(#bulbPink)" filter="url(#neonGlow)" style="animation-delay:0.2s"/>
-        <circle class="slot-light" cx="172" cy="-3" r="5.5" fill="url(#bulbGold)" filter="url(#neonGlow)" style="animation-delay:0.3s"/>
-        <circle class="slot-light" cx="200" cy="-4" r="5.5" fill="url(#bulbPink)" filter="url(#neonGlow)" style="animation-delay:0.4s"/>
-        <circle class="slot-light" cx="228" cy="-3" r="5.5" fill="url(#bulbGold)" filter="url(#neonGlow)" style="animation-delay:0.3s"/>
-        <circle class="slot-light" cx="272" cy="0"  r="5.5" fill="url(#bulbPink)" filter="url(#neonGlow)" style="animation-delay:0.2s"/>
-        <circle class="slot-light" cx="316" cy="6"  r="5.5" fill="url(#bulbGold)" filter="url(#neonGlow)" style="animation-delay:0.1s"/>
-        <circle class="slot-light" cx="356" cy="14" r="5.5" fill="url(#bulbPink)" filter="url(#neonGlow)"/>
-      </g>
-      <!-- Decorative side bulbs (smaller, integrated into body sides) -->
-      <g>
-        <circle class="slot-light" cx="74"  cy="148" r="4.5" fill="url(#bulbPink)" filter="url(#neonGlow)" style="animation-delay:0.2s"/>
-        <circle class="slot-light" cx="74"  cy="206" r="4.5" fill="url(#bulbGold)" filter="url(#neonGlow)" style="animation-delay:0.4s"/>
-        <circle class="slot-light" cx="74"  cy="264" r="4.5" fill="url(#bulbPink)" filter="url(#neonGlow)" style="animation-delay:0.1s"/>
-        <circle class="slot-light" cx="74"  cy="322" r="4.5" fill="url(#bulbGold)" filter="url(#neonGlow)" style="animation-delay:0.3s"/>
-        <circle class="slot-light" cx="74"  cy="380" r="4.5" fill="url(#bulbPink)" filter="url(#neonGlow)" style="animation-delay:0.2s"/>
-        <circle class="slot-light" cx="326" cy="148" r="4.5" fill="url(#bulbGold)" filter="url(#neonGlow)" style="animation-delay:0.1s"/>
-        <circle class="slot-light" cx="326" cy="206" r="4.5" fill="url(#bulbPink)" filter="url(#neonGlow)" style="animation-delay:0.3s"/>
-        <circle class="slot-light" cx="326" cy="264" r="4.5" fill="url(#bulbGold)" filter="url(#neonGlow)" style="animation-delay:0.2s"/>
-        <circle class="slot-light" cx="326" cy="322" r="4.5" fill="url(#bulbPink)" filter="url(#neonGlow)" style="animation-delay:0.4s"/>
-        <circle class="slot-light" cx="326" cy="380" r="4.5" fill="url(#bulbGold)" filter="url(#neonGlow)" style="animation-delay:0.1s"/>
-      </g>
+      <!-- ── REEL HOUSING ── chrome bezel + black glass interior -->
+      <rect x="62" y="118" width="276" height="128" rx="4" fill="url(#chromeG)" stroke="#1c2028" stroke-width="2"/>
+      <rect x="68" y="124" width="264" height="116" rx="2" fill="url(#reelGlassG)" stroke="#000" stroke-width="1.5"/>
+      <!-- Pink neon line under the reel housing -->
+      <rect x="64" y="246" width="272" height="1.5" fill="#ff2a5a" filter="url(#neonGlow)" opacity="0.9"/>
 
-      <!-- ── REEL HOUSING ── chrome bezel + dark glass interior -->
-      <rect x="64" y="118" width="272" height="128" rx="14" fill="url(#chromeG)" stroke="#3a3a48" stroke-width="2"/>
-      <rect x="70" y="124" width="260" height="116" rx="10" fill="url(#reelGlassG)" stroke="#160620" stroke-width="1.5"/>
-      <!-- Pink neon underline on the housing -->
-      <rect x="72" y="240" width="256" height="2" rx="1" fill="#ff5a7a" filter="url(#neonGlow)" opacity="0.9"/>
-
-      <!-- Reel window 1 — chrome bezel + cream symbol panel -->
-      <rect x="74" y="130" width="80" height="100" rx="7" fill="#fff8e8" stroke="url(#chromeG)" stroke-width="2.5"/>
-      <rect x="76" y="132" width="76" height="96"  rx="5" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="0.8"/>
+      <!-- Reel window 1 — chrome bezel + cream symbol panel + glass reflection -->
+      <rect x="74" y="130" width="80" height="100" rx="3" fill="url(#reelPanelG)" stroke="url(#chromeG)" stroke-width="2.5"/>
       <g clip-path="url(#reelClip)" transform="translate(74, 130)">
         <g class="reel-strip reel-1">
           <!-- Each symbol is 100px tall, total 28 symbols of 100px = 2800px. End at -2500 to show heart at y=0 (position 25 in strip) -->
@@ -1623,8 +1655,7 @@
       </g>
 
       <!-- Reel window 2 — chrome bezel -->
-      <rect x="160" y="130" width="80" height="100" rx="7" fill="#fff8e8" stroke="url(#chromeG)" stroke-width="2.5"/>
-      <rect x="162" y="132" width="76" height="96"  rx="5" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="0.8"/>
+      <rect x="160" y="130" width="80" height="100" rx="3" fill="url(#reelPanelG)" stroke="url(#chromeG)" stroke-width="2.5"/>
       <g clip-path="url(#reelClip)" transform="translate(160, 130)">
         <g class="reel-strip reel-2">
           <text x="40" y="80" text-anchor="middle" font-size="64">💕</text>
@@ -1664,8 +1695,7 @@
       </g>
 
       <!-- Reel window 3 — chrome bezel -->
-      <rect x="246" y="130" width="80" height="100" rx="7" fill="#fff8e8" stroke="url(#chromeG)" stroke-width="2.5"/>
-      <rect x="248" y="132" width="76" height="96"  rx="5" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="0.8"/>
+      <rect x="246" y="130" width="80" height="100" rx="3" fill="url(#reelPanelG)" stroke="url(#chromeG)" stroke-width="2.5"/>
       <g clip-path="url(#reelClip)" transform="translate(246, 130)">
         <g class="reel-strip reel-3">
           <text x="40" y="80" text-anchor="middle" font-size="64">⭐</text>
@@ -1708,60 +1738,56 @@
         </g>
       </g>
 
-      <!-- ── LED DISPLAY ── modern dark with neon pink "LUCKY" text ── -->
-      <rect x="110" y="258" width="180" height="32" rx="8" fill="url(#ledBgG)" stroke="#080414" stroke-width="2"/>
-      <rect x="113" y="261" width="174" height="26" rx="6" fill="none" stroke="rgba(255,90,122,0.4)" stroke-width="0.8"/>
-      <text x="200" y="280" text-anchor="middle"
-            font-family="DM Mono, monospace" font-size="14" font-weight="700"
-            fill="#ff9ab4" letter-spacing="3.5"
-            filter="url(#softGlow)">★ LUCKY ★</text>
+      <!-- ── GLASS REFLECTION over the reel windows ── (top-half gloss) -->
+      <rect x="74"  y="130" width="80" height="50" rx="3" fill="url(#glassReflect)" opacity="0.45" pointer-events="none"/>
+      <rect x="160" y="130" width="80" height="50" rx="3" fill="url(#glassReflect)" opacity="0.45" pointer-events="none"/>
+      <rect x="246" y="130" width="80" height="50" rx="3" fill="url(#glassReflect)" opacity="0.45" pointer-events="none"/>
 
-      <!-- ── HEART ORNAMENTS on left + right of the display ── -->
-      <g filter="url(#neonGlow)">
-        <path d="M 92 268 C 86 261, 78 261, 78 270 C 78 277, 92 286, 92 286 C 92 286, 106 277, 106 270 C 106 261, 98 261, 92 268 Z"
-              fill="url(#neonPink)" stroke="#a01838" stroke-width="0.8" opacity="0.95"/>
-        <path d="M 308 268 C 302 261, 294 261, 294 270 C 294 277, 308 286, 308 286 C 308 286, 322 277, 322 270 C 322 261, 314 261, 308 268 Z"
-              fill="url(#neonPink)" stroke="#a01838" stroke-width="0.8" opacity="0.95"/>
-      </g>
+      <!-- ── LED DISPLAY ── narrow ribbon -->
+      <rect x="106" y="260" width="188" height="24" rx="3" fill="url(#ledBgG)" stroke="#000" stroke-width="1.5"/>
+      <text x="200" y="277" text-anchor="middle"
+            font-family="DM Mono, monospace" font-size="12" font-weight="700"
+            fill="#ff7a96" letter-spacing="4"
+            filter="url(#neonGlow)">★ LUCKY ★</text>
 
-      <!-- ── SPIN BUTTON — premium 3D glossy dome with chrome ring ── -->
-      <!-- Soft pink glow halo under the button -->
-      <ellipse cx="200" cy="385" rx="48" ry="6" fill="rgba(255,90,122,0.45)" filter="url(#softGlow)"/>
+      <!-- ── SPIN BUTTON ── premium 3D crimson dome on a chrome ring (smaller, sleeker) -->
+      <!-- Pink halo shadow underneath -->
+      <ellipse cx="200" cy="380" rx="42" ry="5" fill="rgba(255,42,90,0.4)" filter="url(#softGlow)"/>
       <!-- Chrome outer ring -->
-      <circle cx="200" cy="342" r="44" fill="url(#chromeG)" stroke="#3a3a48" stroke-width="2.5"/>
-      <!-- Inner deep ring (depth shadow) -->
-      <circle cx="200" cy="342" r="37" fill="#3a0810"/>
-      <!-- Glossy pink dome -->
-      <circle cx="200" cy="341" r="33" fill="url(#pinkBtnG)" stroke="#3a0810" stroke-width="2"/>
-      <!-- White specular highlight -->
-      <ellipse cx="188" cy="328" rx="13" ry="7" fill="rgba(255,255,255,0.7)"/>
-      <ellipse cx="190" cy="332" rx="7" ry="3" fill="rgba(255,255,255,0.95)"/>
+      <circle cx="200" cy="338" r="40" fill="url(#chromeG)" stroke="#1c2028" stroke-width="2.5"/>
+      <!-- Deep recess (depth shadow) -->
+      <circle cx="200" cy="338" r="33" fill="#1a020a"/>
+      <!-- 3D crimson dome -->
+      <circle cx="200" cy="337" r="29" fill="url(#pinkBtnG)" stroke="#3a040e" stroke-width="1.6"/>
+      <!-- White specular -->
+      <ellipse cx="190" cy="326" rx="11" ry="6" fill="rgba(255,255,255,0.7)"/>
+      <ellipse cx="192" cy="330" rx="6" ry="2.5" fill="rgba(255,255,255,0.95)"/>
       <!-- SPIN text -->
-      <text x="200" y="348" text-anchor="middle"
-            font-family="Syne, sans-serif" font-weight="800" font-size="16"
-            fill="#fff" letter-spacing="1.5"
-            style="paint-order: stroke; stroke: #5a0a18; stroke-width: 1;">SPIN</text>
+      <text x="200" y="343" text-anchor="middle"
+            font-family="Syne, sans-serif" font-weight="800" font-size="14"
+            fill="#fff" letter-spacing="2.5"
+            style="paint-order: stroke; stroke: #3a040e; stroke-width: 1;">SPIN</text>
 
-      <!-- ── LEVER — chrome shaft + glowing pink crystal ball ── -->
+      <!-- ── LEVER ── chrome shaft + crystal ball -->
       <g class="slot-lever">
-        <!-- Lever base mount -->
-        <rect x="338" y="276" width="16" height="14" rx="3" fill="url(#chromeG)" stroke="#3a3a48" stroke-width="1.5"/>
+        <!-- Base mount -->
+        <rect x="338" y="278" width="16" height="14" rx="2" fill="url(#chromeG)" stroke="#1c2028" stroke-width="1.5"/>
         <!-- Chrome shaft -->
-        <line x1="346" y1="200" x2="346" y2="278" stroke="url(#chromeG)" stroke-width="7" stroke-linecap="round"/>
-        <!-- Shaft white highlight -->
-        <line x1="344" y1="206" x2="344" y2="270" stroke="rgba(255,255,255,0.85)" stroke-width="1.5" stroke-linecap="round"/>
-        <!-- Outer pink halo around the ball -->
-        <circle cx="346" cy="195" r="18" fill="none" stroke="rgba(255,90,122,0.45)" stroke-width="3" filter="url(#softGlow)"/>
-        <!-- Glowing pink crystal ball -->
-        <circle cx="346" cy="195" r="14" fill="url(#leverBall)" stroke="#7a1438" stroke-width="2"/>
-        <!-- Specular highlight on the ball -->
-        <ellipse cx="341" cy="190" rx="5" ry="3" fill="rgba(255,255,255,0.9)"/>
-        <circle cx="343" cy="191" r="1.4" fill="white"/>
+        <line x1="346" y1="208" x2="346" y2="280" stroke="url(#chromeG)" stroke-width="6" stroke-linecap="round"/>
+        <!-- White highlight stripe on the shaft -->
+        <line x1="343.5" y1="212" x2="343.5" y2="276" stroke="rgba(255,255,255,0.7)" stroke-width="1.3" stroke-linecap="round"/>
+        <!-- Pink halo around the ball -->
+        <circle cx="346" cy="200" r="17" fill="none" stroke="rgba(255,42,90,0.4)" stroke-width="3" filter="url(#softGlow)"/>
+        <!-- Crystal ball -->
+        <circle cx="346" cy="200" r="13" fill="url(#leverBall)" stroke="#3a081c" stroke-width="1.5"/>
+        <!-- Specular -->
+        <ellipse cx="342" cy="196" rx="4.5" ry="2.8" fill="rgba(255,255,255,0.9)"/>
+        <circle cx="344" cy="198" r="1.2" fill="white"/>
       </g>
 
-      <!-- Jackpot flash overlay around slot (gated on .jackpot class) -->
-      <rect class="slot-flash slot-flash-outer" x="24" y="6" width="352" height="450" rx="24" fill="none" stroke="#fff5b0" stroke-width="6" opacity="0"/>
-      <rect class="slot-flash slot-flash-inner" x="44" y="26" width="312" height="410" rx="16" fill="none" stroke="#ffe14a" stroke-width="3" opacity="0"/>
+      <!-- Jackpot flash overlay (kept, slimmer corners) -->
+      <rect class="slot-flash slot-flash-outer" x="24" y="6" width="352" height="464" rx="12" fill="none" stroke="#fff5b0" stroke-width="6" opacity="0"/>
+      <rect class="slot-flash slot-flash-inner" x="44" y="26" width="312" height="424" rx="8"  fill="none" stroke="#ffe14a" stroke-width="3" opacity="0"/>
     </svg>
   </div>
 
@@ -2014,9 +2040,10 @@
     setTimeout(() => { try { ytPlayer.setVolume(95);  } catch(e){} }, 33000);
     setTimeout(() => { try { ytPlayer.setVolume(100); } catch(e){} }, 41000);
 
-    // Slot machine phases
-    setTimeout(() => stageInner.classList.add('pulling'),  17000);
-    setTimeout(() => stageInner.classList.add('spinning'), 19000);
+    // Lever yanks IMMEDIATELY when user taps the machine — reels start spinning
+    // right away (their CSS animations unfreeze with body.started). Reel 3 lands
+    // on the third ❤️ at +40s, which lines up with song time 03:20 → jackpot.
+    setTimeout(() => stageInner.classList.add('pulling'), 200);
 
     // Watch the song clock and fire the reveal at song time 03:20 (200s).
     const songWatcher = setInterval(() => {
