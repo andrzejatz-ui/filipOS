@@ -474,11 +474,11 @@
     50%      { opacity: 0.55; transform: scale(0.85); }
   }
 
-  /* ─── SURFBOARD — sits on the foam crest ─── */
+  /* ─── SURFBOARD — sits right on the foam crest of the wave ─── */
   .surfboard {
     position: absolute;
     left: 50%;
-    bottom: 38%;
+    bottom: 46%;
     width: 38%;
     transform: translateX(-50%) rotate(-6deg);
     transform-origin: 50% 50%;
@@ -490,15 +490,15 @@
   .surfboard svg { width: 100%; height: auto; display: block; overflow: visible; }
   @keyframes board-rock {
     0%, 100% { transform: translateX(-50%) rotate(-6deg) translateY(0); }
-    50%      { transform: translateX(-50%) rotate(2deg)  translateY(-4px); }
+    50%      { transform: translateX(-50%) rotate(3deg)  translateY(-4px); }
   }
 
-  /* ─── BUNNY — stands ON the board, feet planted ─── */
+  /* ─── BUNNY — stands ON the board, feet planted, arms outstretched ─── */
   .rabbit {
     position: absolute;
     left: 50%;
-    bottom: 42%;                                  /* feet sit on the board top */
-    width: 26%;
+    bottom: 50%;                                  /* feet sit on the board top */
+    width: 30%;
     aspect-ratio: 200/250;
     z-index: 3;
     transform-origin: 50% 92%;                    /* pivot at the feet */
@@ -506,9 +506,12 @@
     filter: drop-shadow(0 5px 8px rgba(0,0,0,0.35));
     animation: surf-stance 3.4s ease-in-out infinite;
   }
+  /* Rhythmic surfer rocking — soft, wave-like, with subtle up-bobbing at the mid-points */
   @keyframes surf-stance {
-    0%, 100% { transform: translateX(-50%) rotate(-7deg); }
-    50%      { transform: translateX(-50%) rotate(7deg); }
+    0%, 100% { transform: translateX(-50%) rotate(-6deg) translateY(0); }
+    25%      { transform: translateX(-50%) rotate(-1deg) translateY(-3px); }
+    50%      { transform: translateX(-50%) rotate(6deg)  translateY(0); }
+    75%      { transform: translateX(-50%) rotate(-1deg) translateY(-3px); }
   }
 
   /* ─── Inner-SVG groups: per-part transform-origins (viewBox 200×250 coords) ─── */
@@ -559,13 +562,15 @@
     0%, 100% { transform: rotate(0deg) translateY(0); }
     50%      { transform: rotate(1.2deg) translateY(0.4px); }
   }
+  /* Arms held out sideways for surfer balance (rotated around shoulder pivot)
+     + tiny rhythmic micro-adjustment to suggest active balancing on the wave. */
   @keyframes arm-l-idle {
-    0%, 100% { transform: rotate(0deg); }
-    50%      { transform: rotate(-2deg); }
+    0%, 100% { transform: rotate(85deg); }
+    50%      { transform: rotate(88deg); }
   }
   @keyframes arm-r-idle {
-    0%, 100% { transform: rotate(0deg); }
-    50%      { transform: rotate(2deg); }
+    0%, 100% { transform: rotate(-85deg); }
+    50%      { transform: rotate(-88deg); }
   }
   @keyframes blink {
     0%, 92%, 95%, 100% { transform: scaleY(1); }
@@ -1697,60 +1702,101 @@
 
   <!-- ───────────  BUNNY SURFER (fixed center-stage, full-length) ─────────── -->
   <div class="surfer" aria-hidden="true">
-    <!-- WAVE — foam crest only, sunset-tinted, no opaque water body
-         (existing pink/purple ocean gradient stays visible underneath) -->
+    <!-- WAVE — proper curling wave in sunset water palette (pink → magenta → deep purple).
+         Solid water body with visible structure: peak, curl, layered surfaces, foam crest. -->
     <div class="wave-svg">
-      <svg viewBox="0 0 300 180" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 300 200" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
         <defs>
+          <linearGradient id="waveBody" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#ff9cb5"/>
+            <stop offset="35%"  stop-color="#ff5a7a"/>
+            <stop offset="70%"  stop-color="#7c3768"/>
+            <stop offset="100%" stop-color="#3a1841"/>
+          </linearGradient>
+          <linearGradient id="waveShade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#c5283d"/>
+            <stop offset="100%" stop-color="#3a1841"/>
+          </linearGradient>
           <linearGradient id="foamGrad" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%"   stop-color="#ffffff"/>
             <stop offset="55%"  stop-color="#fff0e8"/>
-            <stop offset="100%" stop-color="#ffc8d0"/>
+            <stop offset="100%" stop-color="#ffc4d4"/>
           </linearGradient>
-          <radialGradient id="foamGlow" cx="50%" cy="40%" r="55%">
-            <stop offset="0%"   stop-color="rgba(255,255,255,0.95)"/>
-            <stop offset="60%"  stop-color="rgba(255,210,210,0.5)"/>
-            <stop offset="100%" stop-color="rgba(255,150,180,0)"/>
-          </radialGradient>
         </defs>
-        <!-- Soft pink-tinted halo behind everything (suggests wave volume without hard edge) -->
-        <ellipse cx="150" cy="105" rx="135" ry="42" fill="url(#foamGlow)" opacity="0.85"/>
-        <!-- Wide lower foam wash (where the wave breaks) -->
-        <ellipse cx="150" cy="120" rx="125" ry="14" fill="rgba(255,255,255,0.5)"/>
-        <ellipse cx="150" cy="132" rx="105" ry="10" fill="rgba(255,255,255,0.35)"/>
-        <!-- MAIN foam crest — large curling wave top -->
-        <path d="M 35 100
-                 C 60 70, 100 50, 150 50
-                 C 200 50, 240 70, 265 100
-                 C 240 85, 200 75, 150 75
-                 C 100 75, 60 85, 35 100 Z"
-              fill="url(#foamGrad)" stroke="rgba(180,90,120,0.45)" stroke-width="0.8" stroke-linejoin="round"/>
-        <!-- Crest highlight (bright white on top of foam) -->
-        <ellipse cx="150" cy="62" rx="80" ry="7" fill="rgba(255,255,255,0.95)"/>
-        <ellipse cx="150" cy="58" rx="55" ry="3.5" fill="white"/>
-        <!-- Mid foam ribbon (where board sits) -->
-        <ellipse cx="150" cy="85" rx="95" ry="6" fill="rgba(255,255,255,0.85)"/>
-        <!-- Curl detail on the right side (suggests the wave breaking) -->
-        <path d="M 230 78 Q 260 78, 270 92 Q 256 84, 240 84 Q 232 82, 230 78 Z"
-              fill="rgba(255,255,255,0.85)"/>
-        <!-- Curl detail on the left side -->
-        <path d="M 70 78 Q 40 78, 30 92 Q 44 84, 60 84 Q 68 82, 70 78 Z"
-              fill="rgba(255,255,255,0.85)"/>
-        <!-- Splash droplets above the crest -->
-        <circle class="splash" cx="80"  cy="36" r="3.6" fill="white" opacity="0.95"/>
-        <circle class="splash" cx="115" cy="28" r="3.0" fill="white" opacity="0.9"/>
-        <circle class="splash" cx="150" cy="22" r="3.4" fill="white" opacity="0.95"/>
-        <circle class="splash" cx="183" cy="28" r="2.8" fill="white" opacity="0.88"/>
-        <circle class="splash" cx="215" cy="36" r="3.2" fill="white" opacity="0.92"/>
-        <circle class="splash" cx="98"  cy="46" r="2.0" fill="white" opacity="0.8"/>
-        <circle class="splash" cx="200" cy="46" r="2.0" fill="white" opacity="0.8"/>
-        <circle class="splash" cx="135" cy="38" r="1.6" fill="white" opacity="0.78"/>
-        <circle class="splash" cx="165" cy="38" r="1.6" fill="white" opacity="0.78"/>
-        <!-- Side spray plumes (wave kicking up spray) -->
-        <ellipse class="splash" cx="22"  cy="98"  rx="5"   ry="14" fill="rgba(255,255,255,0.65)" transform="rotate(-25 22 98)"/>
-        <ellipse class="splash" cx="50"  cy="84"  rx="3.5" ry="10" fill="rgba(255,255,255,0.55)" transform="rotate(-18 50 84)"/>
-        <ellipse class="splash" cx="278" cy="98"  rx="5"   ry="14" fill="rgba(255,255,255,0.65)" transform="rotate(25 278 98)"/>
-        <ellipse class="splash" cx="250" cy="84"  rx="3.5" ry="10" fill="rgba(255,255,255,0.55)" transform="rotate(18 250 84)"/>
+
+        <!-- BACK wave layer (smaller, darker, suggests depth) -->
+        <path d="M 0 200 L 0 158
+                 Q 60 142, 130 138
+                 Q 200 138, 260 145
+                 Q 285 148, 300 152
+                 L 300 200 Z"
+              fill="url(#waveShade)" opacity="0.75"/>
+
+        <!-- MAIN wave body — peak on left-center, curls to right -->
+        <path d="M 0 200 L 0 135
+                 C 20 122, 50 105, 90 88
+                 C 120 75, 155 65, 190 70
+                 C 225 78, 252 95, 268 118
+                 C 274 128, 273 138, 263 142
+                 C 252 145, 244 138, 244 128
+                 C 244 117, 254 113, 263 117
+                 C 277 122, 285 138, 282 158
+                 C 280 168, 282 175, 290 180
+                 L 300 200 Z"
+              fill="url(#waveBody)" stroke="#3a1841" stroke-width="1.6" stroke-linejoin="round"/>
+
+        <!-- Inner shadow of the curl (the hollow tube) -->
+        <path d="M 246 122
+                 C 252 117, 262 119, 264 128
+                 C 264 134, 256 137, 250 133
+                 C 246 130, 244 126, 246 122 Z"
+              fill="url(#waveShade)" opacity="0.85"/>
+
+        <!-- Water surface highlight lines (long curving) -->
+        <path d="M 10 140 Q 70 112, 140 92 Q 200 82, 260 102"
+              stroke="rgba(255,200,215,0.55)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        <path d="M 25 165 Q 90 142, 160 134 Q 220 134, 275 148"
+              stroke="rgba(255,200,215,0.32)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+        <!-- BIG foam crest on top of wave peak -->
+        <path d="M 75 78
+                 C 100 56, 140 46, 180 50
+                 C 215 56, 240 70, 255 90
+                 C 230 75, 200 68, 165 70
+                 C 130 72, 100 75, 75 78 Z"
+              fill="url(#foamGrad)" stroke="rgba(120,30,80,0.45)" stroke-width="0.8" stroke-linejoin="round"/>
+
+        <!-- Bright crest highlight (top of foam) -->
+        <ellipse cx="155" cy="58" rx="50" ry="5" fill="rgba(255,255,255,0.95)"/>
+        <ellipse cx="155" cy="54" rx="32" ry="2.8" fill="white"/>
+
+        <!-- CURL FOAM SPIRAL on the right (the breaking lip) -->
+        <path d="M 230 80
+                 C 250 75, 270 82, 275 95
+                 C 268 88, 258 84, 248 84
+                 C 240 84, 232 84, 230 80 Z"
+              fill="url(#foamGrad)" stroke="rgba(120,30,80,0.4)" stroke-width="0.6"/>
+        <path d="M 248 90 Q 258 88, 268 95 Q 258 93, 248 90 Z"
+              fill="white" opacity="0.85"/>
+
+        <!-- Foam wash ribbon below crest (where board glides) -->
+        <ellipse cx="155" cy="95" rx="80" ry="5" fill="rgba(255,255,255,0.85)"/>
+        <ellipse cx="160" cy="108" rx="95" ry="4" fill="rgba(255,255,255,0.55)"/>
+
+        <!-- Spray droplets above the crest -->
+        <circle class="splash" cx="98"  cy="32" r="3.4" fill="white" opacity="0.95"/>
+        <circle class="splash" cx="130" cy="24" r="2.8" fill="white" opacity="0.9"/>
+        <circle class="splash" cx="165" cy="20" r="3.2" fill="white" opacity="0.95"/>
+        <circle class="splash" cx="200" cy="26" r="2.6" fill="white" opacity="0.9"/>
+        <circle class="splash" cx="232" cy="36" r="2.8" fill="white" opacity="0.88"/>
+        <circle class="splash" cx="115" cy="42" r="1.7" fill="white" opacity="0.8"/>
+        <circle class="splash" cx="180" cy="40" r="1.6" fill="white" opacity="0.78"/>
+        <circle class="splash" cx="148" cy="36" r="1.5" fill="white" opacity="0.76"/>
+
+        <!-- Side spray plumes (wave kicking up sunlit spray) -->
+        <ellipse class="splash" cx="18"  cy="118" rx="4"   ry="14" fill="rgba(255,220,225,0.7)" transform="rotate(-22 18 118)"/>
+        <ellipse class="splash" cx="45"  cy="100" rx="3"   ry="9"  fill="rgba(255,220,225,0.55)" transform="rotate(-15 45 100)"/>
+        <ellipse class="splash" cx="285" cy="135" rx="3.5" ry="11" fill="rgba(255,220,225,0.6)"  transform="rotate(22 285 135)"/>
       </svg>
     </div>
 
