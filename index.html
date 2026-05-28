@@ -330,28 +330,18 @@
   }
   .beach-spot .towel svg { width: 100%; height: 100%; display: block; }
 
-  /* ────────────────  SLOT MACHINE — hidden until t=4s  ──────────────── */
+  /* ────────────────  SLOT MACHINE — visible from page load, user taps to start  ──────────────── */
   .slot {
     position: absolute;
     left: 36%; bottom: 22%;
-    transform: translateX(-50%) translateY(-100vh) scale(0.6);
     width: clamp(200px, 50vmin, 380px);
     aspect-ratio: 5/6;
     z-index: 4;
+    transform: translateX(-50%);
     filter: drop-shadow(0 16px 22px rgba(0,0,0,0.4));
-    opacity: 0;
-    animation: slot-drop 1.4s cubic-bezier(.34,1.5,.4,1) 4.0s forwards, slot-idle 3.5s ease-in-out 5.6s infinite;
+    transition: transform 0.18s ease;
   }
-  .slot svg { width: 100%; height: 100%; display: block; overflow: visible; }
-  @keyframes slot-drop {
-    0%   { opacity: 0; transform: translateX(-50%) translateY(-100vh) scale(0.6) rotate(-8deg); }
-    60%  { opacity: 1; transform: translateX(-50%) translateY(8px) scale(1.05) rotate(2deg); }
-    100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1) rotate(0deg); }
-  }
-  @keyframes slot-idle {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50%      { transform: translateX(-50%) translateY(-3px); }
-  }
+  .slot svg { width: 100%; height: 100%; display: block; overflow: visible; pointer-events: none; }
 
   /* Lights twinkle on the slot machine — opacity only, so the pink/gold
      gradient fills + neon-glow filter on each bulb stay intact. */
@@ -1035,82 +1025,65 @@
     border-radius: 2px;
   }
 
-  /* Play overlay — gates music + scene animations until user taps (mobile-safe) */
-  .play-overlay {
-    position: fixed; inset: 0;
-    z-index: 9999;
-    background:
-      radial-gradient(ellipse at center, rgba(40,15,40,0.88) 0%, rgba(8,2,16,0.96) 100%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: clamp(20px, 4vmin, 36px);
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+  /* ── Pause stage animations until user taps the slot machine ── */
+  body:not(.started) .stage * { animation-play-state: paused; }
+  /* …but the slot itself stays alive (attract glow + bulbs twinkle to invite the tap) */
+  body:not(.started) .slot,
+  body:not(.started) .slot-light,
+  body:not(.started) .slot-hint { animation-play-state: running; }
+
+  /* "stuknij, aby zacząć" hint floating above the SPIN button before start */
+  .slot-hint {
+    position: absolute;
+    left: 50%;
+    top: -8%;
+    transform: translateX(-50%);
+    z-index: 11;
+    font-family: var(--mono);
+    font-size: clamp(0.78rem, 2vmin, 1rem);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #fff5e8;
+    text-shadow:
+      0 0 10px rgba(255,90,122,0.85),
+      0 0 20px rgba(255,90,122,0.4),
+      0 2px 4px rgba(0,0,0,0.55);
+    pointer-events: none;
+    white-space: nowrap;
+    animation: slot-hint-pulse 1.5s ease-in-out infinite;
+    transition: opacity 0.4s ease, transform 0.4s ease;
   }
-  .play-overlay.fade-out {
+  @keyframes slot-hint-pulse {
+    0%, 100% { opacity: 0.88; transform: translateX(-50%) translateY(0); }
+    50%      { opacity: 1;    transform: translateX(-50%) translateY(-4px); }
+  }
+  body.started .slot-hint {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
   }
-  .play-btn {
-    width:  clamp(110px, 24vmin, 200px);
-    height: clamp(110px, 24vmin, 200px);
-    border-radius: 50%;
-    border: 4px solid var(--gold);
-    background:
-      radial-gradient(circle at 35% 30%, #fff0a8 0%, #ff7a9a 45%, #c5283d 80%);
-    box-shadow:
-      0 0 0 6px rgba(212,175,55,0.16),
-      0 0 60px rgba(255,90,122,0.55),
-      0 18px 44px rgba(0,0,0,0.55);
+
+  /* Slot itself is the clickable trigger before start */
+  body:not(.started) .slot {
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    animation: play-pulse 2s ease-in-out infinite;
-    transition: transform 0.15s ease;
+    animation: slot-attract 1.8s ease-in-out infinite;
     -webkit-tap-highlight-color: transparent;
   }
-  .play-btn:hover  { transform: scale(1.04); }
-  .play-btn:active { transform: scale(0.95); }
-  .play-btn:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 6px; }
-  .play-triangle {
-    width: 0; height: 0;
-    border-style: solid;
-    border-width: clamp(18px, 4.5vmin, 32px) 0 clamp(18px, 4.5vmin, 32px) clamp(30px, 7.5vmin, 52px);
-    border-color: transparent transparent transparent #fff;
-    margin-left: clamp(6px, 1.5vmin, 12px);
-    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.35));
-  }
-  @keyframes play-pulse {
+  body:not(.started) .slot:hover  { transform: translateX(-50%) scale(1.025); }
+  body:not(.started) .slot:active { transform: translateX(-50%) scale(0.97); }
+  /* Soft pink glow halo that pulses around the whole machine */
+  @keyframes slot-attract {
     0%, 100% {
-      box-shadow:
-        0 0 0 6px rgba(212,175,55,0.18),
-        0 0 60px rgba(255,90,122,0.55),
-        0 18px 44px rgba(0,0,0,0.55);
+      filter:
+        drop-shadow(0 16px 22px rgba(0,0,0,0.4))
+        drop-shadow(0 0 24px rgba(255,90,122,0.45));
     }
     50% {
-      box-shadow:
-        0 0 0 14px rgba(212,175,55,0.05),
-        0 0 84px rgba(255,90,122,0.85),
-        0 18px 44px rgba(0,0,0,0.55);
+      filter:
+        drop-shadow(0 16px 22px rgba(0,0,0,0.4))
+        drop-shadow(0 0 52px rgba(255,90,122,0.95));
     }
   }
-  .play-hint {
-    font-family: var(--mono);
-    font-size: clamp(0.78rem, 2.2vmin, 1rem);
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: rgba(255, 245, 225, 0.85);
-    text-align: center;
-  }
-
-  /* Critical: pause every CSS animation inside the stage until user taps play.
-     Without this, the slot machine drops + scene fades while the user is still
-     looking at the play button. */
-  body:not(.started) .stage * { animation-play-state: paused; }
 
   /* YouTube */
   #music-host {
@@ -1158,33 +1131,34 @@
   }
   .footer .sep { color: var(--gold); opacity: 0.55; }
 
-  /* Mobile */
+  /* Mobile — slot machine FILLS the screen as the central attention object */
   @media (max-width: 480px) {
-    .slot   { width: clamp(220px, 70vmin, 380px); }
+    .slot {
+      width: 92vw;
+      max-width: 460px;
+      left: 50%;
+      top: 50%;
+      bottom: auto;
+      transform: translate(-50%, -50%);
+    }
+    body:not(.started) .slot:hover  { transform: translate(-50%, -50%) scale(1.025); }
+    body:not(.started) .slot:active { transform: translate(-50%, -50%) scale(0.97); }
     .poster { top: 2.5%; }
     .tickets-out { width: 86vw; top: 64%; }
     .palm { left: 1%; bottom: 20%; }
   }
-  /* Tablet */
+  /* Tablet — large slot, still left-positioned */
   @media (min-width: 768px) and (orientation: portrait) {
-    .slot { width: clamp(280px, 50vmin, 460px); }
+    .slot { width: clamp(320px, 55vmin, 500px); }
   }
   @media (min-width: 900px) and (orientation: landscape) {
-    .slot { width: clamp(280px, 40vmin, 460px); bottom: 18%; }
+    .slot { width: clamp(300px, 42vmin, 480px); bottom: 18%; }
     .palm { left: 8%; bottom: 14%; }
     .tickets-out { width: 60vmin; }
   }
 </style>
 </head>
 <body>
-
-<!-- Play overlay — gates music + scene animations until user taps (mobile-safe) -->
-<div class="play-overlay" id="playOverlay" role="dialog" aria-label="Start">
-  <button class="play-btn" id="playBtn" type="button" aria-label="Start the show">
-    <span class="play-triangle"></span>
-  </button>
-  <div class="play-hint">stuknij, aby zacząć</div>
-</div>
 
 <div class="stage">
  <div class="stage-inner" id="stageInner">
@@ -1428,7 +1402,8 @@
   </div><!-- /.beach-spot — bunny gets appended here via JS at page load -->
 
   <!-- ───────────  SLOT MACHINE  ─────────── -->
-  <div class="slot">
+  <div class="slot" id="slotMachine" role="button" tabindex="0" aria-label="Stuknij maszynę, aby zacząć">
+    <div class="slot-hint" id="slotHint">stuknij, aby zacząć</div>
     <svg viewBox="0 0 400 480" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
       <defs>
         <!-- Body: glossy cream → soft coral → warm sand (kept warm to match sunset) -->
@@ -1950,10 +1925,9 @@
   let experienceStarted = false;
   let pendingAutoStart = false;        // user tapped play before YT was ready
 
-  const soundBtn   = document.getElementById('soundToggle');
-  const soundHint  = document.getElementById('soundHint');
-  const playOverlay = document.getElementById('playOverlay');
-  const playBtn     = document.getElementById('playBtn');
+  const soundBtn    = document.getElementById('soundToggle');
+  const soundHint   = document.getElementById('soundHint');
+  const slotMachine = document.getElementById('slotMachine');
   const stageInner  = document.getElementById('stageInner');
 
   // Load the YT iframe but DON'T autoplay — we wait for the user's tap.
@@ -2027,7 +2001,6 @@
     experienceStarted = true;
 
     document.body.classList.add('started');
-    if (playOverlay) playOverlay.classList.add('fade-out');
 
     // Start the music (or queue it if YT isn't ready yet)
     if (ytReady) playMusic();
@@ -2072,10 +2045,17 @@
     try { if (ytPlayer && ytPlayer.setVolume) ytPlayer.setVolume(100); } catch(e){}
   }
 
-  // Wire the play button — single user gesture starts everything
-  if (playBtn) {
-    playBtn.addEventListener('click',      startExperience, { once: true });
-    playBtn.addEventListener('touchstart', startExperience, { once: true, passive: true });
+  // Tap the slot machine to start everything (single user gesture)
+  if (slotMachine) {
+    slotMachine.addEventListener('click',      startExperience, { once: true });
+    slotMachine.addEventListener('touchstart', startExperience, { once: true, passive: true });
+    // Allow keyboard start (Enter / Space) for accessibility
+    slotMachine.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        startExperience();
+      }
+    }, { once: true });
   }
 
   // ───── Confetti at jackpot moment ─────
