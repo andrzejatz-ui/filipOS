@@ -456,16 +456,16 @@
       rab-pull  1.0s cubic-bezier(.4,1.2,.4,1) 17.0s forwards;
   }
 
-  /* Stand-up: coil down (anticipation) → push off → overshoot → settle back.
+  /* Stand-up: small coil → smooth push → soft overshoot → settle.
+     Smoother curve than before — fewer harsh direction changes in rotation.
      Bottom interpolates from lying (13% - 6.55vmin) to standing (17%). */
   @keyframes rab-stand {
     0%   { transform: rotate(-90deg) scale(0.72); bottom: calc(13% - 6.55vmin); }
-    10%  { transform: rotate(-86deg) scale(0.74); }                              /* lift head */
-    22%  { transform: rotate(-94deg) scale(0.70); bottom: calc(13% - 6.8vmin); } /* coil down (anticipation) */
-    45%  { transform: rotate(-50deg) scale(0.88); bottom: calc(13% - 2vmin); }   /* mid push */
-    65%  { transform: rotate(-15deg) scale(1.02); bottom: calc(15% + 1vmin); }   /* nearly up */
-    78%  { transform: rotate(9deg)   scale(1.06); bottom: 17.6%; }               /* overshoot lean fwd */
-    90%  { transform: rotate(-4deg)  scale(0.99); bottom: 16.7%; }               /* counter-settle */
+    15%  { transform: rotate(-92deg) scale(0.72); bottom: calc(13% - 6.8vmin); } /* small coil-down */
+    40%  { transform: rotate(-55deg) scale(0.88); bottom: calc(13% - 3vmin); }   /* mid push */
+    62%  { transform: rotate(-18deg) scale(1.01); bottom: 15.4%; }               /* nearly upright */
+    80%  { transform: rotate(5deg)   scale(1.04); bottom: 17.4%; }               /* gentle overshoot */
+    93%  { transform: rotate(-2deg)  scale(0.99); bottom: 16.85%; }              /* counter-settle */
     100% { transform: rotate(0deg)   scale(1);    bottom: 17%; }
   }
 
@@ -1453,7 +1453,10 @@
 
   /* Mobile */
   @media (max-width: 480px) {
-    .rabbit { right: 4%; bottom: 22%; width: clamp(96px, 26vmin, 160px); }
+    /* NOTE: .rabbit position is NOT overridden — the base CSS in .rabbit (which uses
+       calc(5% + 7vmin) / calc(13% - 6.55vmin)) auto-aligns the bunny with the towel
+       at every viewport. Old hardcoded right:4%/right:14%/right:18% overrides
+       caused the bunny to float beside the towel instead of on it. */
     .slot   { width: clamp(220px, 70vmin, 380px); }
     .poster { top: 2.5%; }
     .tickets-out { width: 86vw; top: 64%; }
@@ -1462,11 +1465,9 @@
   /* Tablet */
   @media (min-width: 768px) and (orientation: portrait) {
     .slot { width: clamp(280px, 50vmin, 460px); }
-    .rabbit { right: 14%; }
   }
   @media (min-width: 900px) and (orientation: landscape) {
     .slot { width: clamp(280px, 40vmin, 460px); bottom: 18%; }
-    .rabbit { right: 18%; bottom: 16%; }
     .palm { left: 8%; bottom: 14%; }
     .tickets-out { width: 60vmin; }
   }
