@@ -1035,6 +1035,83 @@
     border-radius: 2px;
   }
 
+  /* Play overlay — gates music + scene animations until user taps (mobile-safe) */
+  .play-overlay {
+    position: fixed; inset: 0;
+    z-index: 9999;
+    background:
+      radial-gradient(ellipse at center, rgba(40,15,40,0.88) 0%, rgba(8,2,16,0.96) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(20px, 4vmin, 36px);
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+  }
+  .play-overlay.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .play-btn {
+    width:  clamp(110px, 24vmin, 200px);
+    height: clamp(110px, 24vmin, 200px);
+    border-radius: 50%;
+    border: 4px solid var(--gold);
+    background:
+      radial-gradient(circle at 35% 30%, #fff0a8 0%, #ff7a9a 45%, #c5283d 80%);
+    box-shadow:
+      0 0 0 6px rgba(212,175,55,0.16),
+      0 0 60px rgba(255,90,122,0.55),
+      0 18px 44px rgba(0,0,0,0.55);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    animation: play-pulse 2s ease-in-out infinite;
+    transition: transform 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .play-btn:hover  { transform: scale(1.04); }
+  .play-btn:active { transform: scale(0.95); }
+  .play-btn:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 6px; }
+  .play-triangle {
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: clamp(18px, 4.5vmin, 32px) 0 clamp(18px, 4.5vmin, 32px) clamp(30px, 7.5vmin, 52px);
+    border-color: transparent transparent transparent #fff;
+    margin-left: clamp(6px, 1.5vmin, 12px);
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.35));
+  }
+  @keyframes play-pulse {
+    0%, 100% {
+      box-shadow:
+        0 0 0 6px rgba(212,175,55,0.18),
+        0 0 60px rgba(255,90,122,0.55),
+        0 18px 44px rgba(0,0,0,0.55);
+    }
+    50% {
+      box-shadow:
+        0 0 0 14px rgba(212,175,55,0.05),
+        0 0 84px rgba(255,90,122,0.85),
+        0 18px 44px rgba(0,0,0,0.55);
+    }
+  }
+  .play-hint {
+    font-family: var(--mono);
+    font-size: clamp(0.78rem, 2.2vmin, 1rem);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: rgba(255, 245, 225, 0.85);
+    text-align: center;
+  }
+
+  /* Critical: pause every CSS animation inside the stage until user taps play.
+     Without this, the slot machine drops + scene fades while the user is still
+     looking at the play button. */
+  body:not(.started) .stage * { animation-play-state: paused; }
+
   /* YouTube */
   #music-host {
     position: fixed;
@@ -1100,6 +1177,14 @@
 </style>
 </head>
 <body>
+
+<!-- Play overlay — gates music + scene animations until user taps (mobile-safe) -->
+<div class="play-overlay" id="playOverlay" role="dialog" aria-label="Start">
+  <button class="play-btn" id="playBtn" type="button" aria-label="Start the show">
+    <span class="play-triangle"></span>
+  </button>
+  <div class="play-hint">tippe um zu starten</div>
+</div>
 
 <div class="stage">
  <div class="stage-inner" id="stageInner">
@@ -1762,140 +1847,123 @@
 
   let ytPlayer = null;
   let ytReady = false;
-  let userInteracted = false;
+  let experienceStarted = false;
+  let pendingAutoStart = false;        // user tapped play before YT was ready
 
-  const soundBtn = document.getElementById('soundToggle');
-  const soundHint = document.getElementById('soundHint');
+  const soundBtn   = document.getElementById('soundToggle');
+  const soundHint  = document.getElementById('soundHint');
+  const playOverlay = document.getElementById('playOverlay');
+  const playBtn     = document.getElementById('playBtn');
+  const stageInner  = document.getElementById('stageInner');
 
+  // Load the YT iframe but DON'T autoplay — we wait for the user's tap.
   window.onYouTubeIframeAPIReady = function () {
     ytPlayer = new YT.Player('yt-player', {
       videoId: YT_VIDEO_ID,
       width: '240',
       height: '135',
       playerVars: {
-        autoplay: 1,
+        autoplay: 0,                  // user click handles play
         controls: 0,
         modestbranding: 1,
         rel: 0,
         iv_load_policy: 3,
         playsinline: 1,
         start: START_SECONDS,
-        mute: 1
+        mute: 1                       // start muted; we unmute on user tap
       },
       events: {
         onReady: () => {
           ytReady = true;
-          try {
-            ytPlayer.mute();
-            ytPlayer.setVolume(30);
-            ytPlayer.seekTo(START_SECONDS, true);
-            ytPlayer.playVideo();
-          } catch (e) {}
-          // Volume ramp over 41-second build-up — quiet → MAX at jackpot
-          setTimeout(() => { try { ytPlayer.setVolume(40); } catch(e){} }, 4000);
-          setTimeout(() => { try { ytPlayer.setVolume(50); } catch(e){} }, 12000);
-          setTimeout(() => { try { ytPlayer.setVolume(60); } catch(e){} }, 19000);
-          setTimeout(() => { try { ytPlayer.setVolume(70); } catch(e){} }, 26000);
-          setTimeout(() => { try { ytPlayer.setVolume(85); } catch(e){} }, 33000);
-          setTimeout(() => { try { ytPlayer.setVolume(95); } catch(e){} }, 38000);
-          setTimeout(() => { try { ytPlayer.setVolume(100); } catch(e){} }, 41000);
-          // Try to unmute automatically (works on desktop + some Android)
-          setTimeout(unmuteIfPossible, 600);
+          try { ytPlayer.seekTo(START_SECONDS, true); } catch (e) {}
+          // If the user already tapped play before YT finished loading,
+          // kick the music off now.
+          if (pendingAutoStart) {
+            pendingAutoStart = false;
+            playMusic();
+          }
         }
       }
     });
   };
 
-  function unmuteIfPossible() {
-    if (!ytPlayer || !ytPlayer.unMute) return;
+  function playMusic() {
+    if (!ytPlayer || !ytPlayer.playVideo) return;
     try {
       ytPlayer.unMute();
       ytPlayer.setVolume(70);
+      ytPlayer.seekTo(START_SECONDS, true);
       ytPlayer.playVideo();
     } catch(e) {}
-    setTimeout(() => {
+    if (soundBtn) { soundBtn.classList.remove('muted'); soundBtn.textContent = '🔊'; }
+    if (soundHint) soundHint.classList.add('hide');
+  }
+
+  // ───── Sound toggle (still works as manual mute/unmute) ─────
+  if (soundBtn) {
+    soundBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!ytPlayer) return;
       try {
-        const muted = ytPlayer.isMuted && ytPlayer.isMuted();
-        if (muted) {
-          soundBtn.style.display = 'flex';
+        if (ytPlayer.isMuted && ytPlayer.isMuted()) {
+          ytPlayer.unMute();
+          ytPlayer.setVolume(80);
+          ytPlayer.playVideo();
+          soundBtn.classList.remove('muted');
         } else {
-          soundHint.classList.add('hide');
+          ytPlayer.mute();
+          soundBtn.classList.add('muted');
         }
       } catch(e) {}
-    }, 800);
+    });
   }
 
-  // Aggressive: on ANY user event anywhere on the page, force-unmute.
-  // Mobile browsers (iOS Safari especially) block audio autoplay without gesture.
-  // This way the first time the user blinks/scrolls/touches/moves anything, music kicks in.
-  let unmutedByGesture = false;
-  function gestureUnmute() {
-    if (unmutedByGesture || !ytPlayer || !ytPlayer.unMute) return;
-    try {
-      ytPlayer.unMute();
-      ytPlayer.setVolume(80);
-      ytPlayer.playVideo();
-      const stillMuted = ytPlayer.isMuted && ytPlayer.isMuted();
-      if (!stillMuted) {
-        unmutedByGesture = true;
-        soundBtn.classList.remove('muted');
-        soundBtn.textContent = '🔊';
-        soundBtn.style.display = 'none';
-        soundHint.classList.add('hide');
+  // ───── Start everything on the play-button tap ─────
+  // CSS animations are paused (body:not(.started) .stage *) until .started lands.
+  // setTimeout-based slot phases + the song-time watcher only register here too,
+  // so the whole timeline lines up with the music regardless of when the user taps.
+  function startExperience() {
+    if (experienceStarted) return;
+    experienceStarted = true;
+
+    document.body.classList.add('started');
+    if (playOverlay) playOverlay.classList.add('fade-out');
+
+    // Start the music (or queue it if YT isn't ready yet)
+    if (ytReady) playMusic();
+    else pendingAutoStart = true;
+
+    // Volume ramp over the 41s build-up: quiet → max at jackpot
+    setTimeout(() => { try { ytPlayer.setVolume(75);  } catch(e){} },  4000);
+    setTimeout(() => { try { ytPlayer.setVolume(80);  } catch(e){} }, 12000);
+    setTimeout(() => { try { ytPlayer.setVolume(85);  } catch(e){} }, 19000);
+    setTimeout(() => { try { ytPlayer.setVolume(90);  } catch(e){} }, 26000);
+    setTimeout(() => { try { ytPlayer.setVolume(95);  } catch(e){} }, 33000);
+    setTimeout(() => { try { ytPlayer.setVolume(100); } catch(e){} }, 41000);
+
+    // Slot machine phases
+    setTimeout(() => stageInner.classList.add('pulling'),  17000);
+    setTimeout(() => stageInner.classList.add('spinning'), 19000);
+
+    // Watch the song clock and fire the reveal at song time 03:20 (200s).
+    const songWatcher = setInterval(() => {
+      if (revealFired) { clearInterval(songWatcher); return; }
+      if (ytPlayer && ytPlayer.getCurrentTime) {
+        try {
+          const t = ytPlayer.getCurrentTime();
+          if (t >= JACKPOT_AT_SONG_TIME) {
+            fireJackpot();
+            clearInterval(songWatcher);
+          }
+        } catch(e) {}
       }
-    } catch(e) {}
-  }
-  ['click','touchstart','touchend','pointerdown','keydown','mousemove','scroll','wheel','focus','visibilitychange']
-    .forEach(ev => window.addEventListener(ev, gestureUnmute, { capture: true, passive: true }));
-  document.addEventListener('visibilitychange', gestureUnmute);
+    }, 120);
 
-  function handleFirstInteraction() {
-    if (userInteracted) return;
-    userInteracted = true;
-    if (ytPlayer && ytPlayer.unMute) {
-      try {
-        ytPlayer.unMute();
-        ytPlayer.setVolume(80);
-        ytPlayer.playVideo();
-      } catch(e) {}
-    }
-    soundBtn.classList.remove('muted');
-    soundBtn.textContent = '🔊';
-    soundHint.classList.add('hide');
+    // Hard fallback if YT never reaches 03:20 (e.g. video failed to play)
+    setTimeout(fireJackpot, 50000);
   }
 
-  // Whole document acts as "tap anywhere for sound" — single trigger
-  ['click','touchstart','pointerdown'].forEach(ev => {
-    document.addEventListener(ev, handleFirstInteraction, { once: true, passive: true });
-  });
-
-  // Sound toggle button (manual)
-  soundBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    if (!ytPlayer) return;
-    try {
-      if (ytPlayer.isMuted && ytPlayer.isMuted()) {
-        ytPlayer.unMute();
-        ytPlayer.setVolume(80);
-        ytPlayer.playVideo();
-        soundBtn.classList.remove('muted');
-      } else {
-        ytPlayer.mute();
-        soundBtn.classList.add('muted');
-      }
-    } catch(e) {}
-  });
-
-  // ───── Slot machine sequence ─────
-  // Build-up uses setTimeout. The REVEAL (jackpot) waits for the actual
-  // song time to hit 03:21 — that way the drop and the reveal are LOCKED
-  // together regardless of how long buffering took.
-  const stageInner = document.getElementById('stageInner');
-  setTimeout(() => stageInner.classList.add('pulling'),  17000);
-  setTimeout(() => stageInner.classList.add('spinning'), 19000);
-
-  // Watch the song clock and fire reveal at song time 03:20 (200s).
-  // Fallback: if YT API is broken, fire by setTimeout at t=42s (gives 1s buffer slack).
+  // ───── Jackpot trigger (called by the song watcher or the fallback timer) ─────
   let revealFired = false;
   function fireJackpot() {
     if (revealFired) return;
@@ -1903,20 +1971,12 @@
     stageInner.classList.add('jackpot');
     try { if (ytPlayer && ytPlayer.setVolume) ytPlayer.setVolume(100); } catch(e){}
   }
-  const songWatcher = setInterval(() => {
-    if (revealFired) { clearInterval(songWatcher); return; }
-    if (ytPlayer && ytPlayer.getCurrentTime) {
-      try {
-        const t = ytPlayer.getCurrentTime();
-        if (t >= 200) {
-          fireJackpot();
-          clearInterval(songWatcher);
-        }
-      } catch(e) {}
-    }
-  }, 120);
-  // Hard fallback if YT never reaches 03:21 (e.g. video failed to play)
-  setTimeout(fireJackpot, 50000);
+
+  // Wire the play button — single user gesture starts everything
+  if (playBtn) {
+    playBtn.addEventListener('click',      startExperience, { once: true });
+    playBtn.addEventListener('touchstart', startExperience, { once: true, passive: true });
+  }
 
   // ───── Confetti at jackpot moment ─────
   (function makeConfetti(){
