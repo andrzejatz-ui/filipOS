@@ -424,81 +424,90 @@
   }
 
   /* ════════════════════════════════════════════════════════════════════
-     BUNNY SURFER — rides a wave across the background for the full video.
-       • .surfer container glides left→right + bobs up/down on the wave
-       • .rabbit rocks ±3.5° on the board (surf-stance) inside .surfer
-       • inner SVG groups (.b-body / .b-head / .b-ears / .b-arms / .b-chain
-         / .b-eyes) keep subtle always-on idle anims (breathing, ear sway,
-         blink, chain drift) so the surfing bunny stays alive
-     The slot machine + jackpot reveal trigger on their own timers — the
-     bunny just keeps surfing; lever animates by itself.
+     BUNNY SURFER — stays in one spot on a cartoon wave for the full video.
+       • .surfer is fixed center-stage (no horizontal glide)
+       • .wave-svg paints a stylised wave with foam crest + spray
+       • .surfboard sits on the wave peak; .rabbit stands on the board
+       • all three rock subtly together to suggest the wave's roll
+       • inner SVG groups keep idle anims (breathing, ear sway, blink, chain)
+     Slot machine + jackpot reveal trigger on their own timers; the bunny
+     just keeps riding the wave.
      ════════════════════════════════════════════════════════════════════ */
   .surfer {
     position: absolute;
-    left: -25vw;
-    bottom: 32%;                                  /* in the ocean wave band */
-    width: clamp(120px, 22vmin, 200px);
-    height: clamp(150px, 28vmin, 250px);          /* tall enough for board + bunny */
+    left: 50%;
+    bottom: 22%;                                  /* mid-ocean, well visible */
+    width: clamp(220px, 38vmin, 360px);
+    aspect-ratio: 1 / 1;                          /* square — room for wave + bunny stack */
+    transform: translateX(-50%);
     z-index: 3;                                   /* in front of sea, behind slot */
     pointer-events: none;
-    animation:
-      surf-glide 16s linear infinite,
-      surf-bob   1.9s ease-in-out infinite;
-  }
-  @keyframes surf-glide {
-    0%   { left: -25vw; }
-    100% { left: 115vw; }
-  }
-  @keyframes surf-bob {
-    0%, 100% { transform: translateY(0)    rotate(-1.5deg); }
-    50%      { transform: translateY(-8px) rotate(2deg); }
   }
 
+  /* ─── WAVE — cartoon wave with foam crest + spray droplets ─── */
+  .wave-svg {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    width: 100%;
+    height: 60%;
+    z-index: 1;
+    overflow: visible;
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.25));
+    animation: wave-rise 3.4s ease-in-out infinite;
+  }
+  .wave-svg svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  @keyframes wave-rise {
+    0%, 100% { transform: translateY(0)    scaleY(1); }
+    50%      { transform: translateY(-3px) scaleY(1.03); }
+  }
+  /* Splash droplets above the foam — gentle twinkle */
+  .wave-svg .splash {
+    animation: splash-twinkle 1.6s ease-in-out infinite;
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+  .wave-svg .splash:nth-child(odd)  { animation-delay: 0.4s; }
+  .wave-svg .splash:nth-child(3n)   { animation-delay: 0.8s; }
+  @keyframes splash-twinkle {
+    0%, 100% { opacity: 0.95; transform: scale(1); }
+    50%      { opacity: 0.55; transform: scale(0.85); }
+  }
+
+  /* ─── SURFBOARD — sits on the wave peak ─── */
   .surfboard {
     position: absolute;
-    left: 50%; bottom: 0;
-    width: 100%;
-    transform: translateX(-50%) rotate(-3deg);
-    z-index: 1;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.35));
+    left: 50%;
+    bottom: 30%;                                  /* on the foam crest */
+    width: 56%;
+    transform: translateX(-50%) rotate(-6deg);
+    transform-origin: 50% 50%;
+    z-index: 2;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
     pointer-events: none;
+    animation: board-rock 3.4s ease-in-out infinite;
   }
   .surfboard svg { width: 100%; height: auto; display: block; overflow: visible; }
-
-  /* Subtle foam wake under the board */
-  .surf-wake {
-    position: absolute;
-    left: 50%; bottom: -3%;
-    width: 130%;
-    height: 14%;
-    transform: translateX(-50%);
-    background: radial-gradient(ellipse, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0) 65%);
-    filter: blur(2.5px);
-    pointer-events: none;
-    z-index: 0;
-    animation: wake-flicker 1.9s ease-in-out infinite;
-  }
-  @keyframes wake-flicker {
-    0%, 100% { opacity: 0.55; transform: translateX(-50%) scaleX(1); }
-    50%      { opacity: 0.85; transform: translateX(-50%) scaleX(1.08); }
+  @keyframes board-rock {
+    0%, 100% { transform: translateX(-50%) rotate(-6deg) translateY(0); }
+    50%      { transform: translateX(-50%) rotate(2deg)  translateY(-4px); }
   }
 
-  /* ─── BUNNY — now sits on the board inside .surfer (rocks while surfing) ─── */
+  /* ─── BUNNY — stands ON the board, feet planted ─── */
   .rabbit {
     position: absolute;
     left: 50%;
-    bottom: 14%;                                  /* feet just above board top */
-    width: 70%;
+    bottom: 32%;                                  /* feet sit on the board top */
+    width: 38%;
     aspect-ratio: 200/250;
-    z-index: 2;
-    transform-origin: 50% 95%;                    /* pivot near feet for the rocking */
+    z-index: 3;
+    transform-origin: 50% 92%;                    /* pivot at the feet */
     transform: translateX(-50%);
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.32));
-    animation: surf-stance 1.9s ease-in-out infinite;
+    filter: drop-shadow(0 5px 8px rgba(0,0,0,0.35));
+    animation: surf-stance 3.4s ease-in-out infinite;
   }
   @keyframes surf-stance {
-    0%, 100% { transform: translateX(-50%) rotate(-3.5deg); }
-    50%      { transform: translateX(-50%) rotate(3.5deg); }
+    0%, 100% { transform: translateX(-50%) rotate(-7deg); }
+    50%      { transform: translateX(-50%) rotate(7deg); }
   }
 
   /* ─── Inner-SVG groups: per-part transform-origins (viewBox 200×250 coords) ─── */
@@ -1685,9 +1694,67 @@
     </svg>
   </div>
 
-  <!-- ───────────  BUNNY SURFER (background, full-length) ─────────── -->
+  <!-- ───────────  BUNNY SURFER (fixed center-stage, full-length) ─────────── -->
   <div class="surfer" aria-hidden="true">
-    <div class="surf-wake"></div>
+    <!-- WAVE — cartoon wave with foam crest, water layers and spray droplets -->
+    <div class="wave-svg">
+      <svg viewBox="0 0 300 180" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="waterTop" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#b8e6f5"/>
+            <stop offset="35%"  stop-color="#5bb9d8"/>
+            <stop offset="75%"  stop-color="#2c6f99"/>
+            <stop offset="100%" stop-color="#0e3a5a"/>
+          </linearGradient>
+          <linearGradient id="foamGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#ffffff"/>
+            <stop offset="55%"  stop-color="#f0fafe"/>
+            <stop offset="100%" stop-color="#c5e2ed"/>
+          </linearGradient>
+        </defs>
+        <!-- Back wave (smaller, behind, less saturated) -->
+        <path d="M 0 180 L 0 130 Q 60 115, 110 110 Q 170 105, 230 115 Q 270 122, 300 125 L 300 180 Z"
+              fill="url(#waterTop)" opacity="0.55"/>
+        <!-- Main front wave with peak in center-left -->
+        <path d="M 0 180 L 0 110
+                 C 25 100, 60 90, 100 78
+                 C 130 70, 158 62, 185 68
+                 C 215 75, 245 90, 275 103
+                 C 290 108, 300 113, 300 118
+                 L 300 180 Z"
+              fill="url(#waterTop)" stroke="#072a45" stroke-width="1.4" stroke-linejoin="round"/>
+        <!-- Water surface highlight lines -->
+        <path d="M 22 118 Q 80 96, 140 88 Q 200 82, 260 96"
+              stroke="rgba(255,255,255,0.55)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        <path d="M 40 138 Q 100 116, 160 110 Q 220 110, 270 122"
+              stroke="rgba(255,255,255,0.28)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        <!-- Foam crest on the peak -->
+        <path d="M 70 80
+                 C 92 60, 128 50, 165 56
+                 C 195 60, 218 70, 235 82
+                 C 200 72, 165 67, 130 72
+                 C 105 75, 85 78, 70 80 Z"
+              fill="url(#foamGrad)" stroke="#a5c8d8" stroke-width="0.6"/>
+        <!-- Inner foam highlight on top of crest -->
+        <ellipse cx="135" cy="64" rx="36" ry="6" fill="rgba(255,255,255,0.92)"/>
+        <!-- Foam ribbon below crest (where board glides) -->
+        <ellipse cx="150" cy="84" rx="46" ry="5" fill="rgba(255,255,255,0.7)"/>
+        <!-- Splash droplets above the crest -->
+        <circle class="splash" cx="95"  cy="46" r="3.6" fill="white" opacity="0.92"/>
+        <circle class="splash" cx="130" cy="40" r="2.9" fill="white" opacity="0.88"/>
+        <circle class="splash" cx="160" cy="38" r="3.2" fill="white" opacity="0.9"/>
+        <circle class="splash" cx="183" cy="46" r="2.3" fill="white" opacity="0.82"/>
+        <circle class="splash" cx="115" cy="50" r="1.9" fill="white" opacity="0.78"/>
+        <circle class="splash" cx="202" cy="55" r="1.6" fill="white" opacity="0.72"/>
+        <circle class="splash" cx="78"  cy="62" r="2.0" fill="white" opacity="0.78"/>
+        <!-- Side spray plumes -->
+        <ellipse class="splash" cx="30"  cy="100" rx="4"   ry="11" fill="rgba(255,255,255,0.55)" transform="rotate(-22 30 100)"/>
+        <ellipse class="splash" cx="55"  cy="88"  rx="3"   ry="8"  fill="rgba(255,255,255,0.5)"  transform="rotate(-14 55 88)"/>
+        <ellipse class="splash" cx="260" cy="108" rx="3.5" ry="9"  fill="rgba(255,255,255,0.5)"  transform="rotate(18 260 108)"/>
+        <ellipse class="splash" cx="285" cy="120" rx="2.5" ry="7"  fill="rgba(255,255,255,0.45)" transform="rotate(24 285 120)"/>
+      </svg>
+    </div>
+
     <div class="surfboard">
       <svg viewBox="0 0 200 32" xmlns="http://www.w3.org/2000/svg">
         <defs>
