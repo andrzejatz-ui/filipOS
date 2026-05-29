@@ -368,6 +368,14 @@
   .reel-4 { animation: reel-spin 12.5s linear forwards; }   /* stops at +12.5s */
   .reel-5 { animation: reel-spin 13s   linear forwards; }   /* stops at +13.0s = 03:20 */
 
+  /* Reels are anchored to the MUSIC clock, not the tap. They stay paused until
+     JS adds body.spinning — the instant the song is actually playing from
+     ~03:07 — so reel 5 always lands exactly when the song reaches 03:20,
+     regardless of how long YouTube takes to buffer/seek after the tap. */
+  body:not(.spinning) .reel-1, body:not(.spinning) .reel-2,
+  body:not(.spinning) .reel-3, body:not(.spinning) .reel-4,
+  body:not(.spinning) .reel-5 { animation-play-state: paused; }
+
   /* Single shared keyframe — strip is 11 cells (1100px), cell 10 duplicates
      cell 0 so the -1000px cycle wraps seamlessly. Final -905px = ❤️ at cell 9.
      8 quick cycles (0–68%, same brisk per-cycle pace as before), then a long
@@ -1839,10 +1847,12 @@
   // Bad Bunny — DtMF (Official Audio)
   // ╔═══════════════════════════════════════════════════════════════════╗
   // ║  🔒 LOCKED TIMING — DO NOT CHANGE WITHOUT EXPLICIT USER REQUEST 🔒 ║
-  // ║  Music START = 03:12 (192s) — plays the moment the slot is tapped  ║
-  // ║  JACKPOT reveal = 03:20 (200s) — ~8s after start                   ║
-  // ║  Watcher fires `.jackpot` class when ytPlayer.getCurrentTime() ≥ 200║
-  // ║  Reels spin ~8s (reel 5 = 8s) and land exactly at 03:20            ║
+  // ║  Music START    = 03:07 (187s) — begins right after the SPIN tap   ║
+  // ║  JACKPOT reveal = 03:20 (200s) — the 5th ❤️ lands at THIS instant  ║
+  // ║  Reels are anchored to the MUSIC clock (body.spinning): they only  ║
+  // ║  start once the song is truly playing from 03:07, and their length ║
+  // ║  is scaled so reel 5 lands EXACTLY at 03:20 — independent of how    ║
+  // ║  long YouTube takes to buffer/seek. The watcher then fires .jackpot.║
   // ╚═══════════════════════════════════════════════════════════════════╝
   const YT_VIDEO_ID = "rMcvHSaQISU";
   const START_SECONDS = 187;          // 🔒 03:07 (≈13s before the 03:20 reveal)
@@ -1852,6 +1862,7 @@
   let ytReady = false;
   let experienceStarted = false;
   let pendingAutoStart = false;        // user tapped play before YT was ready
+  let spinArmed = false;               // reels started (anchored to the music clock)
 
   const soundBtn    = document.getElementById('soundToggle');
   const soundHint   = document.getElementById('soundHint');
@@ -1934,33 +1945,64 @@
     if (ytReady) playMusic();
     else pendingAutoStart = true;
 
-    // Volume ramp over the ~13s build-up: starts strong, hits max just before the jackpot
+    // Volume ramp over the build-up: starts strong, hits max just before the jackpot
     setTimeout(() => { try { ytPlayer.setVolume(82);  } catch(e){} }, 3000);
     setTimeout(() => { try { ytPlayer.setVolume(90);  } catch(e){} }, 7000);
     setTimeout(() => { try { ytPlayer.setVolume(100); } catch(e){} }, 11000);
 
-    // Lever yanks IMMEDIATELY when user taps the machine — all 5 reels start
-    // spinning right away (CSS unfreezes with body.started). Reel 5 lands on the
-    // 5th ❤️ at +13s, which lines up with song time 03:20 → jackpot.
-    setTimeout(() => stageInner.classList.add('pulling'), 200);
+    // ── SYNC: anchor the reel spin to the MUSIC clock, not the tap ──
+    // Reels stay paused (body:not(.spinning)) until the song is actually playing
+    // from ~03:07. The instant it is, start them and scale the durations so reel 5
+    // lands EXACTLY when the song reaches 03:20 — no matter how long YouTube took
+    // to buffer/seek after the tap.
+    const armWatcher = setInterval(() => {
+      if (spinArmed) { clearInterval(armWatcher); return; }
+      try {
+        const playing = ytPlayer && ytPlayer.getPlayerState && ytPlayer.getPlayerState() === 1;
+        const t = (ytPlayer && ytPlayer.getCurrentTime) ? ytPlayer.getCurrentTime() : 0;
+        if (playing && t >= START_SECONDS) {
+          clearInterval(armWatcher);
+          armReels(JACKPOT_AT_SONG_TIME - t);    // lead = seconds left until 03:20
+        }
+      } catch(e) {}
+    }, 50);
+    // Fallback: if the music never reports playing (autoplay blocked / YT error),
+    // run the reels anyway ~2.5s after the tap so the surprise still happens.
+    setTimeout(() => { if (!spinArmed) armReels(13); }, 2500);
 
-    // Watch the song clock and fire the reveal at song time 03:20 (200s).
+    // Watch the song clock and fire the reveal exactly at song time 03:20 (200s) —
+    // this coincides with reel 5 landing, because the reels were timed to it.
     const songWatcher = setInterval(() => {
       if (revealFired) { clearInterval(songWatcher); return; }
       if (ytPlayer && ytPlayer.getCurrentTime) {
         try {
-          const t = ytPlayer.getCurrentTime();
-          if (t >= JACKPOT_AT_SONG_TIME) {
+          if (ytPlayer.getCurrentTime() >= JACKPOT_AT_SONG_TIME) {
             fireJackpot();
             clearInterval(songWatcher);
           }
         } catch(e) {}
       }
     }, 100);
+  }
 
-    // Hard fallback if YT never reaches 03:20 (e.g. video failed to play) —
-    // ~1.5s after reel 5 should have landed.
-    setTimeout(fireJackpot, 14500);
+  // Start the 5 reels, timed so the 5th ❤️ lands exactly when the song hits 03:20.
+  // `lead` = seconds from now until 03:20; reel 5 (base 13s) is scaled to `lead`s
+  // and the others keep their 0.5s stagger ratio. Adds body.spinning to unpause.
+  const REEL_BASE = [11, 11.5, 12, 12.5, 13];
+  function armReels(lead) {
+    if (spinArmed) return;
+    spinArmed = true;
+    lead = Math.max(5, Math.min(lead, 16));        // sane clamp
+    const k = lead / 13;
+    for (let i = 1; i <= 5; i++) {
+      const el = document.querySelector('.reel-' + i);
+      if (el) el.style.animationDuration = (REEL_BASE[i - 1] * k).toFixed(3) + 's';
+    }
+    document.body.classList.add('spinning');       // unpause → reels spin now
+    stageInner.classList.add('pulling');           // lever yank, in sync with the spin
+    // Backstop reveal ~1.2s after reel 5 should land, in case the song clock never
+    // reaches 03:20 (e.g. autoplay blocked so the watcher never fires).
+    setTimeout(fireJackpot, lead * 1000 + 1200);
   }
 
   // ───── Jackpot trigger (called by the song watcher or the fallback timer) ─────
