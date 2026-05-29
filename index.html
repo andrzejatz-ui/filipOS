@@ -1094,7 +1094,8 @@
     color: rgba(255,245,225,0.78);
     display: flex; align-items: center; justify-content: center;
     gap: clamp(8px, 2vw, 16px);
-    flex-wrap: wrap;
+    flex-wrap: nowrap;       /* keep the whole line on ONE row */
+    white-space: nowrap;
     line-height: 1.4;
   }
   .footer .brand {
@@ -1123,6 +1124,14 @@
     .poster { top: 2.5%; }
     .tickets-out { width: 86vw; top: 64%; }
     .palm { left: 1%; bottom: 20%; }
+    /* Footer stays on ONE line on phones — tighten spacing + scale with width */
+    .footer { padding: 4px 6px 6px; }
+    .footer .row {
+      letter-spacing: 0.06em;
+      gap: clamp(4px, 1.4vw, 8px);
+      font-size: clamp(0.4rem, 2.2vw, 0.56rem);
+    }
+    .footer .brand { font-size: clamp(0.5rem, 2.8vw, 0.66rem); }
   }
   /* Tablet — large slot, still left-positioned */
   @media (min-width: 768px) and (orientation: portrait) {
