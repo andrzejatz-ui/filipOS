@@ -601,7 +601,7 @@
     width: 20%;
     aspect-ratio: 1;
     transform: translate(-50%, -50%) scale(0);
-    z-index: 23;
+    z-index: 24;
     opacity: 0;
     filter: drop-shadow(0 4px 12px rgba(180,20,40,0.6));
     pointer-events: none;
@@ -732,7 +732,7 @@
     width: 36%;            /* long enough to pierce clean THROUGH the heart */
     aspect-ratio: 200/30;
     transform: translate(-50%, -50%) scale(0);
-    z-index: 26;
+    z-index: 22;            /* BEHIND the heart → only tip + feathers show, middle hidden */
     opacity: 0;
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.42));
     pointer-events: none;
@@ -759,7 +759,7 @@
     position: absolute;
     left: 50%; top: 62%;
     width: 0; height: 0;
-    z-index: 24;
+    z-index: 26;
     pointer-events: none;
   }
   .impact-ring {
@@ -1629,13 +1629,13 @@
       <rect x="229" y="130" width="48" height="46" rx="3" fill="url(#glassReflect)" opacity="0.4" pointer-events="none"/>
       <rect x="282" y="130" width="48" height="46" rx="3" fill="url(#glassReflect)" opacity="0.4" pointer-events="none"/>
 
-      <!-- ── LED DISPLAY ── single-line romantic message (small but readable) -->
+      <!-- ── LED DISPLAY ── neon "LOVE MACHINE" sign -->
       <rect x="62" y="252" width="276" height="42" rx="4" fill="url(#ledBgG)" stroke="#000" stroke-width="1.5"/>
       <rect x="65" y="255" width="270" height="36" rx="3" fill="none" stroke="rgba(255,42,90,0.35)" stroke-width="0.6"/>
-      <text x="200" y="277" text-anchor="middle"
-            font-family="DM Mono, monospace" font-size="10.5" font-weight="600"
-            fill="#ffd86a" letter-spacing="0.8"
-            filter="url(#neonGlow)">Kolejny rozdział Waszej historii</text>
+      <text x="200" y="280" text-anchor="middle"
+            font-family="DM Mono, monospace" font-size="18" font-weight="700"
+            fill="#ff8aa6" letter-spacing="4"
+            filter="url(#neonGlow)">LOVE MACHINE</text>
 
       <!-- ── SPIN BUTTON ── premium 3D crimson dome on a chrome ring (the ONLY clickable part) -->
       <!-- Pink halo shadow underneath -->
