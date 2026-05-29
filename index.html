@@ -693,9 +693,9 @@
   }
   @keyframes arrow-fly {
     0%   { opacity: 0; left: 14%; transform: translate(-50%, -50%) scale(0.85); }
-    22%  { opacity: 1; left: 20%; transform: translate(-50%, -50%) scale(1.0); }
-    82%  { opacity: 1; left: 38%; transform: translate(-50%, -50%) scale(1.0); }
-    100% { opacity: 0; left: 41%; transform: translate(-50%, -50%) scale(0.95); }  /* tip reaches the centre heart */
+    22%  { opacity: 1; left: 22%; transform: translate(-50%, -50%) scale(1.0); }
+    82%  { opacity: 1; left: 46%; transform: translate(-50%, -50%) scale(1.0); }
+    100% { opacity: 0; left: 50%; transform: translate(-50%, -50%) scale(0.95); }  /* drives through the heart → stuck arrow takes over */
   }
   @keyframes trail-fade {
     0%   { opacity: 0; }
@@ -728,8 +728,8 @@
   /* ─── Stuck arrow on Justyna ticket (lodged in the heart) ─── */
   .love-arrow-stuck {
     position: absolute;
-    left: 40%; top: 62%;
-    width: 24%;
+    left: 48%; top: 62%;
+    width: 36%;            /* long enough to pierce clean THROUGH the heart */
     aspect-ratio: 200/30;
     transform: translate(-50%, -50%) scale(0);
     z-index: 26;
