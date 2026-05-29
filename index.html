@@ -582,38 +582,41 @@
   }
 
   /* ════════════════════════════════════════════════════════════════════
-     CUPID — Filip's arrow pierces Justyna's heart after the ticket reveal.
+     CUPID — the heart rises to the CENTRE (between the two tickets) and
+     Filip's arrow flies in from the left; they MEET in the middle, in sync.
      Timing (offset from .stage-inner.jackpot class trigger):
-       t=2.40s  heart pops up on Justyna ticket
        t=2.55s  static arrow appears on Filip + draws back (~0.5s tension)
-       t=2.95s  release → flying arrow streaks across with light/heart trail
-       t=3.30s  impact: heart pulses, particles burst, ring expands, tickets bump
-       t=3.30s  stuck arrow lands embedded in heart
-       t=3.80s+ stuck arrow wiggles, heart settles into gentle glow loop
+       t=2.90s  heart rises from below toward dead-centre and blooms
+       t=2.95s  release → arrow streaks from the left with a light/heart trail
+       t=3.30s  MEET in the middle: arrow tip reaches the centred heart →
+                impact burst, heart pulses, particles + ring, tickets bump,
+                stuck arrow lands lodged in the heart
+       t=3.80s+ stuck arrow wiggles, heart settles into a gentle glow loop
      ════════════════════════════════════════════════════════════════════ */
 
-  /* ─── Heart on Justyna ticket ─── */
+  /* ─── Heart rises to the CENTRE (between the two tickets) ─── */
   .love-heart {
     position: absolute;
-    left: 50%; top: 40%;
-    width: 38%;
+    left: 50%; top: 62%;
+    width: 20%;
     aspect-ratio: 1;
     transform: translate(-50%, -50%) scale(0);
-    z-index: 5;
+    z-index: 23;
     opacity: 0;
-    filter: drop-shadow(0 4px 10px rgba(180,20,40,0.55));
+    filter: drop-shadow(0 4px 12px rgba(180,20,40,0.6));
     pointer-events: none;
   }
   .love-heart svg { width: 100%; height: 100%; display: block; overflow: visible; }
   .stage-inner.jackpot .love-heart {
     animation:
-      heart-pop    0.4s  cubic-bezier(.34,1.7,.4,1) 2.4s forwards,
+      heart-rise   0.42s cubic-bezier(.34,1.6,.4,1) 2.9s forwards,
       heart-impact 0.45s cubic-bezier(.4,1.6,.4,1)  3.3s,
       heart-glow   2.6s  ease-in-out                3.85s infinite;
   }
-  @keyframes heart-pop {
-    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0)   rotate(-15deg); }
-    60%  { opacity: 1; transform: translate(-50%, -50%) scale(1.22) rotate(6deg); }
+  /* rises up from below and blooms, arriving dead-centre as the arrow strikes */
+  @keyframes heart-rise {
+    0%   { opacity: 0; transform: translate(-50%, 12%)  scale(0)    rotate(-12deg); }
+    60%  { opacity: 1; transform: translate(-50%, -56%) scale(1.18) rotate(5deg); }
     100% { opacity: 1; transform: translate(-50%, -50%) scale(1)    rotate(0deg); }
   }
   @keyframes heart-impact {
@@ -622,9 +625,9 @@
     60%      { transform: translate(-50%, -50%) scale(0.92); }
   }
   @keyframes heart-glow {
-    0%, 100% { filter: drop-shadow(0 4px 10px rgba(180,20,40,0.55)); }
-    50%      { filter: drop-shadow(0 4px 18px rgba(255,90,122,0.85))
-                       drop-shadow(0 0 10px rgba(255,200,90,0.55)); }
+    0%, 100% { filter: drop-shadow(0 4px 12px rgba(180,20,40,0.6)); }
+    50%      { filter: drop-shadow(0 4px 20px rgba(255,90,122,0.85))
+                       drop-shadow(0 0 12px rgba(255,200,90,0.55)); }
   }
 
   /* ─── Static arrow on Filip ticket (draws back, releases) ─── */
@@ -654,7 +657,7 @@
   /* ─── Flying arrow (in tickets-out wrapper, streaks from Filip to Justyna) ─── */
   .love-arrow-flight {
     position: absolute;
-    left: 26%; top: 67%;
+    left: 16%; top: 62%;
     width: 22%;
     aspect-ratio: 200/30;
     transform: translate(-50%, -50%) scale(0);
@@ -689,10 +692,10 @@
     animation: trail-fade 0.36s ease 2.95s forwards;
   }
   @keyframes arrow-fly {
-    0%   { opacity: 0; left: 26%; transform: translate(-50%, -50%) scale(0.85); }
-    18%  { opacity: 1; left: 30%; transform: translate(-50%, -50%) scale(1.0); }
-    78%  { opacity: 1; left: 70%; transform: translate(-50%, -50%) scale(1.0); }
-    100% { opacity: 0; left: 74%; transform: translate(-50%, -50%) scale(0.92); }
+    0%   { opacity: 0; left: 14%; transform: translate(-50%, -50%) scale(0.85); }
+    22%  { opacity: 1; left: 20%; transform: translate(-50%, -50%) scale(1.0); }
+    82%  { opacity: 1; left: 38%; transform: translate(-50%, -50%) scale(1.0); }
+    100% { opacity: 0; left: 41%; transform: translate(-50%, -50%) scale(0.95); }  /* tip reaches the centre heart */
   }
   @keyframes trail-fade {
     0%   { opacity: 0; }
@@ -725,11 +728,11 @@
   /* ─── Stuck arrow on Justyna ticket (lodged in the heart) ─── */
   .love-arrow-stuck {
     position: absolute;
-    left: 50%; top: 40%;
-    width: 86%;
+    left: 40%; top: 62%;
+    width: 24%;
     aspect-ratio: 200/30;
     transform: translate(-50%, -50%) scale(0);
-    z-index: 6;
+    z-index: 26;
     opacity: 0;
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.42));
     pointer-events: none;
@@ -741,10 +744,9 @@
       arrow-wiggle 0.55s ease-in-out                3.8s 3;
   }
   @keyframes arrow-land {
-    /* counters Justyna ticket's +14deg rotation at start (arrow appears horizontal in viewer frame),
-       then relaxes to inherit ticket angle (slight lodged-at-angle look) */
-    0%   { opacity: 0; transform: translate(-50%, -50%) scale(1.15) rotate(-14deg); }
-    50%  { opacity: 1; transform: translate(-50%, -50%) scale(1.04) rotate(-8deg); }
+    /* lodged horizontally through the centre heart (no ticket rotation to counter now) */
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(1.12) rotate(-6deg); }
+    50%  { opacity: 1; transform: translate(-50%, -50%) scale(1.04) rotate(3deg); }
     100% { opacity: 1; transform: translate(-50%, -50%) scale(1)    rotate(0deg); }
   }
   @keyframes arrow-wiggle {
@@ -755,7 +757,7 @@
   /* ─── Impact effects (positioned over Justyna's heart in wrapper coords) ─── */
   .love-impact {
     position: absolute;
-    left: 74%; top: 67%;
+    left: 50%; top: 62%;
     width: 0; height: 0;
     z-index: 24;
     pointer-events: none;
@@ -1740,16 +1742,17 @@
       <div class="for-label">For</div>
       <div class="name">Justyna</div>
       <div class="seat">Stadion Narodowy</div>
-      <!-- Justyna's heart + the arrow that pierces it after impact -->
-      <div class="love-heart" aria-hidden="true">
-        <svg viewBox="0 0 100 100"><use href="#cupidHeart"/></svg>
-      </div>
-      <div class="love-arrow-stuck" aria-hidden="true">
-        <svg viewBox="0 0 200 30"><use href="#cupidArrow"/></svg>
-      </div>
     </div>
 
-    <!-- Flying arrow streaks from Filip to Justyna with a glowing love trail -->
+    <!-- The heart rises to the CENTRE; the arrow lodges in it once they meet -->
+    <div class="love-heart" aria-hidden="true">
+      <svg viewBox="0 0 100 100"><use href="#cupidHeart"/></svg>
+    </div>
+    <div class="love-arrow-stuck" aria-hidden="true">
+      <svg viewBox="0 0 200 30"><use href="#cupidArrow"/></svg>
+    </div>
+
+    <!-- Flying arrow streaks from Filip's side into the centre heart with a glowing love trail -->
     <div class="love-arrow-flight" aria-hidden="true">
       <span class="trail-spark s1">♥</span>
       <span class="trail-spark s2">♥</span>
