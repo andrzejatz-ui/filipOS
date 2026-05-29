@@ -358,37 +358,33 @@
     transform: translateY(0);
   }
   /* 5 reels. They start spinning IMMEDIATELY on tap (animations paused until
-     body.started, then unfreeze from time 0 = no delay). Each reel does 10
-     fast strip cycles, then decelerates onto the ❤️ at cell 9 (translateY
-     -905px). Staggered durations → reels stop one-by-one; reel 5 lands at
-     +40s = song time 03:20 jackpot. All 5 land on ❤️ = the win. */
-  .reel-1 { animation: reel-spin 32s linear forwards; }   /* stops at +32s */
-  .reel-2 { animation: reel-spin 34s linear forwards; }   /* stops at +34s */
-  .reel-3 { animation: reel-spin 36s linear forwards; }   /* stops at +36s */
-  .reel-4 { animation: reel-spin 38s linear forwards; }   /* stops at +38s */
-  .reel-5 { animation: reel-spin 40s linear forwards; }   /* stops at +40s = 03:20 */
+     body.started, then unfreeze from time 0 = no delay). SHORT ~8s spin:
+     a few quick cycles then a long graceful deceleration onto the ❤️ at cell 9
+     (translateY -905px). Staggered → reels stop one-by-one; reel 5 lands at
+     +8s = song time 03:20 jackpot (music starts at 03:12). All 5 land on ❤️. */
+  .reel-1 { animation: reel-spin 6s   linear forwards; }   /* stops at +6.0s */
+  .reel-2 { animation: reel-spin 6.5s linear forwards; }   /* stops at +6.5s */
+  .reel-3 { animation: reel-spin 7s   linear forwards; }   /* stops at +7.0s */
+  .reel-4 { animation: reel-spin 7.5s linear forwards; }   /* stops at +7.5s */
+  .reel-5 { animation: reel-spin 8s   linear forwards; }   /* stops at +8.0s = 03:20 */
 
   /* Single shared keyframe — strip is 11 cells (1100px), cell 10 duplicates
      cell 0 so the -1000px cycle wraps seamlessly. Final -905px = ❤️ at cell 9.
-     6 steady cycles that progressively lengthen (the reel gently winds down,
-     ~2 symbols/sec — readable, like a real slot, not a blur), then a smooth
-     3-stage deceleration that eases onto the winning heart. */
+     4 quick cycles (0–52%), then a long 48% deceleration that visibly slows
+     and eases onto the winning heart — snappy but not a blur, lands cleanly. */
   @keyframes reel-spin {
     0%      { transform: translateY(0); }
-    11%     { transform: translateY(-1000px); }
-    11.01%  { transform: translateY(0); }
-    22%     { transform: translateY(-1000px); }
-    22.01%  { transform: translateY(0); }
-    34%     { transform: translateY(-1000px); }
-    34.01%  { transform: translateY(0); }
-    46%     { transform: translateY(-1000px); }
-    46.01%  { transform: translateY(0); }
-    59%     { transform: translateY(-1000px); }
-    59.01%  { transform: translateY(0); }
-    72%     { transform: translateY(-1000px); }
-    72.01%  { transform: translateY(0); }
-    86%     { transform: translateY(-560px); }    /* deceleration begins */
-    95%     { transform: translateY(-850px); }
+    13%     { transform: translateY(-1000px); }
+    13.01%  { transform: translateY(0); }
+    26%     { transform: translateY(-1000px); }
+    26.01%  { transform: translateY(0); }
+    39%     { transform: translateY(-1000px); }
+    39.01%  { transform: translateY(0); }
+    52%     { transform: translateY(-1000px); }
+    52.01%  { transform: translateY(0); }
+    70%     { transform: translateY(-480px); }    /* deceleration begins */
+    86%     { transform: translateY(-790px); }
+    95%     { transform: translateY(-880px); }
     100%    { transform: translateY(-905px); }     /* eases onto ❤️ (cell 9) */
   }
 
@@ -1825,13 +1821,13 @@
   // Bad Bunny — DtMF (Official Audio)
   // ╔═══════════════════════════════════════════════════════════════════╗
   // ║  🔒 LOCKED TIMING — DO NOT CHANGE WITHOUT EXPLICIT USER REQUEST 🔒 ║
-  // ║  Music START = 02:40 (160s)                                       ║
-  // ║  JACKPOT reveal = 03:20 (200s)                                    ║
+  // ║  Music START = 03:12 (192s) — plays the moment the slot is tapped  ║
+  // ║  JACKPOT reveal = 03:20 (200s) — ~8s after start                   ║
   // ║  Watcher fires `.jackpot` class when ytPlayer.getCurrentTime() ≥ 200║
-  // ║  Reel 3 stops at animation t=40s (19s delay + 21s spin) = 03:20    ║
+  // ║  Reels spin ~8s (reel 5 = 8s) and land exactly at 03:20            ║
   // ╚═══════════════════════════════════════════════════════════════════╝
   const YT_VIDEO_ID = "rMcvHSaQISU";
-  const START_SECONDS = 160;          // 🔒 02:40
+  const START_SECONDS = 192;          // 🔒 03:12 (≈8s before the 03:20 reveal)
   const JACKPOT_AT_SONG_TIME = 200;   // 🔒 03:20
 
   let ytPlayer = null;
@@ -1920,17 +1916,14 @@
     if (ytReady) playMusic();
     else pendingAutoStart = true;
 
-    // Volume ramp over the 41s build-up: quiet → max at jackpot
-    setTimeout(() => { try { ytPlayer.setVolume(75);  } catch(e){} },  4000);
-    setTimeout(() => { try { ytPlayer.setVolume(80);  } catch(e){} }, 12000);
-    setTimeout(() => { try { ytPlayer.setVolume(85);  } catch(e){} }, 19000);
-    setTimeout(() => { try { ytPlayer.setVolume(90);  } catch(e){} }, 26000);
-    setTimeout(() => { try { ytPlayer.setVolume(95);  } catch(e){} }, 33000);
-    setTimeout(() => { try { ytPlayer.setVolume(100); } catch(e){} }, 41000);
+    // Quick volume ramp over the short ~8s build-up: starts strong, hits max at jackpot
+    setTimeout(() => { try { ytPlayer.setVolume(82);  } catch(e){} }, 2000);
+    setTimeout(() => { try { ytPlayer.setVolume(90);  } catch(e){} }, 4500);
+    setTimeout(() => { try { ytPlayer.setVolume(100); } catch(e){} }, 7000);
 
-    // Lever yanks IMMEDIATELY when user taps the machine — reels start spinning
-    // right away (their CSS animations unfreeze with body.started). Reel 3 lands
-    // on the third ❤️ at +40s, which lines up with song time 03:20 → jackpot.
+    // Lever yanks IMMEDIATELY when user taps the machine — all 5 reels start
+    // spinning right away (CSS unfreezes with body.started). Reel 5 lands on the
+    // 5th ❤️ at +8s, which lines up with song time 03:20 → jackpot.
     setTimeout(() => stageInner.classList.add('pulling'), 200);
 
     // Watch the song clock and fire the reveal at song time 03:20 (200s).
@@ -1945,10 +1938,11 @@
           }
         } catch(e) {}
       }
-    }, 120);
+    }, 100);
 
-    // Hard fallback if YT never reaches 03:20 (e.g. video failed to play)
-    setTimeout(fireJackpot, 50000);
+    // Hard fallback if YT never reaches 03:20 (e.g. video failed to play) —
+    // ~1.5s after reel 5 should have landed.
+    setTimeout(fireJackpot, 9500);
   }
 
   // ───── Jackpot trigger (called by the song watcher or the fallback timer) ─────
