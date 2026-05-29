@@ -419,20 +419,6 @@
     50%      { transform: scale(1.08); }
   }
 
-  /* Lever animation */
-  .slot-lever {
-    transform-box: view-box;
-    transform-origin: 350px 220px;
-  }
-  .stage-inner.pulling .slot-lever {
-    animation: pull-lever 0.6s cubic-bezier(.4,1.4,.4,1) forwards;
-  }
-  @keyframes pull-lever {
-    0%   { transform: rotate(0deg); }
-    50%  { transform: rotate(80deg); }
-    100% { transform: rotate(15deg); }
-  }
-
   /* Jackpot flash (full-screen white pulse) */
   .jackpot-flash {
     position: fixed; inset: 0;
@@ -1458,12 +1444,6 @@
           <stop offset="35%"  stop-color="#dc1a3a"/>
           <stop offset="100%" stop-color="#3a040e"/>
         </radialGradient>
-        <!-- Lever crystal ball -->
-        <radialGradient id="leverBall" cx="35%" cy="25%" r="80%">
-          <stop offset="0%"   stop-color="#ffd0d9"/>
-          <stop offset="45%"  stop-color="#ff4a72"/>
-          <stop offset="100%" stop-color="#3a081c"/>
-        </radialGradient>
         <!-- Warm cream symbol panel inside each reel window -->
         <linearGradient id="reelPanelG" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%"   stop-color="#fff8e8"/>
@@ -1679,23 +1659,6 @@
               font-family="Syne, sans-serif" font-weight="800" font-size="14"
               fill="#fff" letter-spacing="2.5"
               style="paint-order: stroke; stroke: #3a040e; stroke-width: 1;">SPIN</text>
-      </g>
-
-      <!-- ── LEVER ── chrome shaft + crystal ball -->
-      <g class="slot-lever">
-        <!-- Base mount -->
-        <rect x="338" y="278" width="16" height="14" rx="2" fill="url(#chromeG)" stroke="#1c2028" stroke-width="1.5"/>
-        <!-- Chrome shaft -->
-        <line x1="346" y1="208" x2="346" y2="280" stroke="url(#chromeG)" stroke-width="6" stroke-linecap="round"/>
-        <!-- White highlight stripe on the shaft -->
-        <line x1="343.5" y1="212" x2="343.5" y2="276" stroke="rgba(255,255,255,0.7)" stroke-width="1.3" stroke-linecap="round"/>
-        <!-- Pink halo around the ball -->
-        <circle cx="346" cy="200" r="17" fill="none" stroke="rgba(255,42,90,0.4)" stroke-width="3" filter="url(#softGlow)"/>
-        <!-- Crystal ball -->
-        <circle cx="346" cy="200" r="13" fill="url(#leverBall)" stroke="#3a081c" stroke-width="1.5"/>
-        <!-- Specular -->
-        <ellipse cx="342" cy="196" rx="4.5" ry="2.8" fill="rgba(255,255,255,0.9)"/>
-        <circle cx="344" cy="198" r="1.2" fill="white"/>
       </g>
 
       <!-- Jackpot flash overlay (kept, slimmer corners) -->
@@ -1999,7 +1962,6 @@
       if (el) el.style.animationDuration = (REEL_BASE[i - 1] * k).toFixed(3) + 's';
     }
     document.body.classList.add('spinning');       // unpause → reels spin now
-    stageInner.classList.add('pulling');           // lever yank, in sync with the spin
     // Backstop reveal ~1.2s after reel 5 should land, in case the song clock never
     // reaches 03:20 (e.g. autoplay blocked so the watcher never fires).
     setTimeout(fireJackpot, lead * 1000 + 1200);
